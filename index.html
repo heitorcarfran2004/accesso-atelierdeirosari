@@ -1,0 +1,1728 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>L’Atelier del Rosario</title>
+<meta name="description" content="I tuoi 100 modelli di rosari fatti a mano">
+<meta name="theme-color" content="#3F5A3A">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/assets/icon-ar-192.png">
+<link rel="apple-touch-icon" href="/assets/icon-ar-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="L’Atelier">
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-latin.woff2" crossorigin>
+
+<!-- ============================================================
+     APP DE MEMBROS — L'Atelier del Rosario (100 modelos de terços, apostila de 203 páginas, venda na Itália)
+     Gerado por scripts/ros-app-montar.cjs a partir do app das Guias de Contas (que vem do app das Carteiras).
+     Uma página só com cara de aplicativo: login por e-mail (QUALQUER e-mail válido entra) e 4 abas
+     (Home, Assistenza, App, Profilo). Paleta verde-sálvia, dourado e creme das páginas; títulos em Playfair Display.
+     Perfil, favoritos e progresso ficam no aparelho (localStorage), por e-mail.
+     ============================================================ -->
+
+<style>
+  /* Nunito: arredondada e casual, boa de ler no celular (títulos 800, texto 400–600) */
+  @font-face{font-family:'Nunito';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/nunito-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+  @font-face{font-family:'Nunito';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/nunito-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+  /* Playfair Display: a serifa da apostila e da página de vendas, só nos títulos */
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/playfair-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/playfair-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+  @font-face{font-family:'Nunito Fallback';src:local('Arial');size-adjust:101%;ascent-override:99%;descent-override:35%;line-gap-override:0%}
+
+  :root{
+    /* paleta das páginas (template V3): verde-sálvia #5D734F dos selos, verde profundo #173F2E dos títulos,
+       dourado #C99A3E e creme #FBF6EA (os nomes --roxo* vêm do app de origem; aqui são o verde) */
+    --fundo:#FBF6EA;
+    --branco:#FFFFFF;
+    --linha:#E9E2CF;
+    --linha-2:#DAD1B8;
+    --tinta:#1B2A21;
+    --texto-2:#4E5B4F;
+    --texto-3:#878C7E;
+    --roxo:#4E6B47;
+    --roxo-esc:#173F2E;
+    --roxo-nevoa:#EEF2E6;
+    --roxo-claro:#D3DDC8;
+    --ouro:#C99A3E; --ouro-esc:#8C6A2E; --ouro-nevoa:#F7EEDA;
+    --verde:#3E7A4C; --verde-nevoa:#E6F1E6;
+    --degrade:linear-gradient(135deg,#6A8560,#4E6B47);
+    --compra:linear-gradient(135deg,#2E8B57,#21704A);
+    --sombra-1:0 1px 2px rgba(21,34,27,.05),0 1px 1px rgba(21,34,27,.03);
+    --sombra-2:0 14px 34px -14px rgba(78,107,71,.20),0 2px 6px -2px rgba(21,34,27,.06);
+    --sans:"Nunito","Nunito Fallback",system-ui,sans-serif;
+    --titulo:"Playfair Display",Georgia,"Times New Roman",serif;
+    --raio:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--fundo);color:var(--tinta);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+  img{display:block;max-width:100%;height:auto}
+  button{font-family:inherit;color:inherit}
+  [hidden]{display:none!important}
+  ::selection{background:var(--roxo-claro)}
+  .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 18px}
+  h1,h2,h3,h4{font-weight:400}
+
+  /* ---------- botões ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--degrade);color:#fff;
+    font-weight:700;font-size:14.5px;letter-spacing:.1px;text-decoration:none;border:0;border-radius:12px;
+    padding:12px 18px;cursor:pointer;line-height:1.15;white-space:nowrap;
+    box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 8px 18px -8px rgba(78,107,71,.55);transition:filter .15s,transform .15s,box-shadow .15s}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn:focus-visible{outline:3px solid rgba(78,107,71,.35);outline-offset:2px}
+  .btn svg{width:17px;height:17px;flex:none}
+  /* compra: verde, igual aos botões de compra do funil */
+  .btn.compra{background:var(--compra);box-shadow:0 4px 0 #157A42,0 10px 20px -8px rgba(31,154,85,.5)}
+  .btn.compra:active{transform:translateY(2px);box-shadow:0 2px 0 #157A42}
+  .btn.claro{background:var(--branco);color:var(--roxo-esc);border:1.5px solid var(--linha-2);box-shadow:var(--sombra-1)}
+  .btn.claro:hover{border-color:var(--roxo);filter:none}
+  .btn.parado{background:#F1EEE4;color:var(--texto-3);box-shadow:none;cursor:default}
+  .btn.parado:hover{transform:none;filter:none}
+  .btn.full{width:100%}
+
+  /* ---------- carregando ---------- */
+  .carregando{min-height:100vh;display:grid;place-items:center}
+  .carregando img{width:96px;border-radius:26%;animation:pulsa 1.4s ease-in-out infinite}
+  @keyframes pulsa{50%{opacity:.45;transform:scale(.96)}}
+
+  /* ═════════════ LOGIN ═════════════ */
+  .login{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:1fr 1fr;background:var(--branco)}
+  .login-lado{position:relative;background:var(--roxo-nevoa);display:flex;align-items:center;justify-content:center;padding:48px;overflow:hidden}
+  .colagem{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:520px}
+  .colagem img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;box-shadow:var(--sombra-2);animation:aparece .8s cubic-bezier(.2,.8,.2,1) both}
+  .colagem img:nth-child(3n+2){transform:translateY(28px)}
+  .colagem img:nth-child(2){animation-delay:.08s}.colagem img:nth-child(3){animation-delay:.16s}.colagem img:nth-child(4){animation-delay:.24s}
+  .colagem img:nth-child(5){animation-delay:.32s}.colagem img:nth-child(6){animation-delay:.4s}
+  .login-lado .frase{position:absolute;left:48px;right:48px;bottom:36px;font-family:var(--titulo);font-weight:700;font-size:19px;color:var(--roxo-esc);display:flex;align-items:center;gap:10px}
+  .login-lado .frase::before{content:"";width:24px;height:2px;background:var(--roxo);border-radius:2px}
+  .login-form{display:flex;align-items:center;justify-content:center;padding:40px 24px}
+  .login-caixa{width:100%;max-width:380px;animation:aparece .6s cubic-bezier(.2,.8,.2,1) both}
+  .marca{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+  .marca img{width:40px;height:40px;border-radius:26%}
+  .marca span{font-family:var(--titulo);font-weight:700;font-size:20px;line-height:1;color:var(--roxo-esc);white-space:nowrap}
+  .login-caixa .marca{margin-bottom:26px}
+  .login-caixa .marca img{width:52px;height:52px}
+  .login-caixa .marca span{font-size:24px}
+  .login-caixa h1{font-family:var(--titulo);font-weight:700;font-size:36px;line-height:1.05;letter-spacing:-.015em}
+  .login-caixa h1 em{color:var(--roxo);font-style:normal}
+  .login-caixa .sub{color:var(--texto-2);margin:10px 0 26px;font-size:15.5px}
+  label.rotulo{display:block;font-size:13.5px;font-weight:700;margin-bottom:7px}
+  .campo{display:flex;align-items:center;gap:10px;background:var(--branco);border:1.5px solid var(--linha-2);border-radius:13px;padding:0 14px;transition:border-color .15s,box-shadow .15s}
+  .campo:focus-within{border-color:var(--roxo);box-shadow:0 0 0 4px rgba(78,107,71,.12)}
+  .campo svg{width:19px;height:19px;color:var(--texto-3);flex:none}
+  .campo input{flex:1;border:0;outline:0;background:transparent;font:inherit;font-size:16px;padding:15px 0;color:var(--tinta);min-width:0}
+  .campo input::placeholder{color:var(--texto-3)}
+  .login-caixa .btn{margin-top:14px;padding:16px;font-size:15.5px}
+  .aviso{border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.5;margin-top:14px;background:#FEF2F2;border:1px solid #FBD5D5;color:#991B1B}
+  .aviso b{display:block;margin-bottom:1px}
+  .garantias{display:flex;gap:18px;margin-top:22px;flex-wrap:wrap;font-size:13px;color:var(--texto-2)}
+  .garantias span{display:inline-flex;align-items:center;gap:7px}
+  .garantias svg{width:16px;height:16px;color:var(--verde)}
+  .nota-login{margin-top:22px;padding-top:18px;border-top:1px solid var(--linha);font-size:13px;color:var(--texto-3);line-height:1.6}
+  @media(max-width:860px){
+    /* celular: leque de 3 guias em cima, marca, título e formulário no eixo */
+    .login{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+    .login-lado{padding:30px 18px 6px;background:linear-gradient(180deg,var(--roxo-nevoa),var(--branco))}
+    .colagem{display:flex;justify-content:center;align-items:center;gap:0;max-width:none;height:146px}
+    .colagem img{width:108px;height:auto;aspect-ratio:4/5;border-radius:18px;border:4px solid #fff;flex:none}
+    .colagem img:nth-child(n+4){display:none}
+    .colagem img:nth-child(1){transform:rotate(-8deg) translateX(18px)}
+    .colagem img:nth-child(2){transform:translateY(-6px) scale(1.12);position:relative;z-index:2}
+    .colagem img:nth-child(3){transform:rotate(8deg) translateX(-18px)}
+    .login-lado .frase{display:none}
+    .login-form{padding:18px 22px calc(34px + env(safe-area-inset-bottom));align-items:flex-start}
+    .login-caixa{text-align:center;max-width:400px}
+    .login-caixa .marca{justify-content:center;margin-bottom:16px}
+    .login-caixa h1{font-size:30px}
+    .login-caixa .sub{margin:8px auto 22px;max-width:320px}
+    label.rotulo{text-align:left}
+    .garantias{justify-content:center}
+    .nota-login{text-align:center}
+  }
+  @media(max-width:360px){
+    .colagem{height:126px}
+    .colagem img{width:90px}
+    .login-caixa h1{font-size:26px}
+  }
+
+  /* ═════════════ APLICATIVO ═════════════
+     Casca de app: barra de cima (marca, sino, foto), navegação de 5 abas (embaixo no celular, na lateral no computador)
+     e uma tela por aba. Contorno tracejado nos destaques (veio do app de origem). */
+  .app{min-height:100vh;min-height:100dvh}
+  .app-topo{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:0 16px;padding-top:env(safe-area-inset-top);
+    height:calc(60px + env(safe-area-inset-top));background:rgba(251,249,243,.92);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--linha)}
+  .app-topo .marca img{width:34px;height:34px}
+  .app-topo .marca span{font-size:18.5px}
+  .app-topo .titulo-tela{display:none;font-family:var(--titulo);font-weight:700;font-size:22px;line-height:1}
+  .topo-dir{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .ico-btn{position:relative;width:40px;height:40px;border-radius:50%;background:var(--branco);border:1px solid var(--linha-2);display:grid;place-items:center;cursor:pointer;transition:border-color .15s;-webkit-tap-highlight-color:transparent}
+  .ico-btn:hover{border-color:var(--texto-3)}
+  .ico-btn svg{width:19px;height:19px;color:var(--tinta)}
+  .ico-btn .bolinha{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#E5484D;color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+  .ico-btn.toca svg{animation:sino .9s ease}
+  @keyframes sino{20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+  .av{width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--degrade);color:#fff;font-weight:800;font-size:14.5px;display:grid;place-items:center;flex:none;
+    border:2px solid #fff;box-shadow:0 0 0 1px var(--linha-2);text-decoration:none;font-family:var(--sans)}
+  .av img{width:100%;height:100%;object-fit:cover}
+
+  .conteudo{width:100%;max-width:1040px;margin:0 auto;padding:18px 16px calc(100px + env(safe-area-inset-bottom))}
+  .tela{animation:aparece .35s cubic-bezier(.2,.8,.2,1) both}
+  .tela-cab{margin:6px 0 20px}
+  .tela-cab h1{font-family:var(--titulo);font-weight:700;font-size:clamp(28px,4.4vw,38px);line-height:1.04;letter-spacing:-.015em}
+  .tela-cab p{color:var(--texto-2);font-size:14.5px;margin-top:5px}
+
+  /* navegação */
+  .nav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:repeat(4,1fr);
+    background:rgba(255,255,255,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--linha);
+    padding:6px 2px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px -18px rgba(21,34,27,.25)}
+  .nav .nav-marca,.nav .nav-rodape{display:none}
+  .nav a{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--texto-3);font-size:11.5px;font-weight:700;
+    padding:3px 0;-webkit-tap-highlight-color:transparent;min-width:0}
+  .nav a .ic{width:54px;height:30px;border-radius:99px;display:grid;place-items:center;transition:background .2s,color .2s}
+  .nav a svg{width:22px;height:22px}
+  .nav a.on{color:var(--roxo-esc)}
+  .nav a.on .ic{background:var(--roxo-nevoa);box-shadow:inset 0 0 0 1.5px var(--roxo-claro)}
+  .nav a.on .ic{background-image:linear-gradient(var(--roxo-nevoa),var(--roxo-nevoa));outline:1.5px dashed rgba(78,107,71,.35);outline-offset:2px}
+  .nav a .ponto{position:absolute;top:1px;left:calc(50% + 9px);width:10px;height:10px;border-radius:50%;background:#E5484D;border:2px solid #fff}
+  @media(min-width:980px){
+    .nav{top:0;right:auto;width:244px;display:flex;flex-direction:column;gap:4px;padding:18px 14px;border-top:0;border-right:1px solid var(--linha);background:var(--branco);box-shadow:none}
+    .nav .nav-marca{display:flex;margin:6px 8px 26px}
+    .nav .nav-marca img{width:40px;height:40px}
+    .nav .nav-marca span{font-size:18px}
+    .nav a{flex-direction:row;gap:12px;font-size:14.5px;padding:11px 12px;border-radius:13px;color:var(--texto-2)}
+    .nav a .ic{width:auto;height:auto;background:none!important;outline:0!important;box-shadow:none!important}
+    .nav a:hover{background:var(--fundo)}
+    .nav a.on{background:var(--roxo-nevoa);color:var(--roxo-esc);box-shadow:inset 0 0 0 1.5px var(--roxo-claro)}
+    .nav a .ponto{left:auto;right:14px;top:50%;margin-top:-5px}
+    .nav .nav-rodape{display:block;margin-top:auto;padding:14px 12px 4px;border-top:1px dashed var(--linha-2);font-size:12px;color:var(--texto-3);line-height:1.5}
+    .app-topo,.conteudo-caixa{margin-left:244px}
+    .app-topo .marca{display:none}
+    .app-topo .titulo-tela{display:block}
+    .conteudo{padding:26px 32px 60px}
+  }
+
+  /* ---------- INÍCIO ---------- */
+  .ola{display:flex;align-items:center;gap:14px;margin:4px 0 18px}
+  .ola .av{width:54px;height:54px;font-size:21px}
+  .ola small{display:block;font-size:13.5px;color:var(--texto-2);font-weight:600}
+  .ola h1{font-family:var(--titulo);font-weight:700;font-size:clamp(26px,4vw,34px);line-height:1.05;letter-spacing:-.015em}
+  .ola .editar{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--roxo);text-decoration:none;background:var(--roxo-nevoa);padding:7px 11px;border-radius:99px;white-space:nowrap}
+
+  .busca{position:relative;margin-bottom:20px}
+  .busca .campo{border-radius:15px;box-shadow:var(--sombra-1)}
+  .busca .campo input{padding:13px 0;font-size:15.5px}
+  .busca .limpar{background:none;border:0;font-size:20px;line-height:1;color:var(--texto-3);cursor:pointer;padding:4px}
+  .resultados{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--branco);border:1px solid var(--linha);border-radius:16px;
+    box-shadow:0 22px 50px -14px rgba(21,34,27,.28);z-index:25;padding:6px;max-height:min(420px,60vh);overflow:auto;animation:abre .14s ease both}
+  @keyframes abre{from{opacity:0;transform:translateY(-4px)}}
+  .res{display:flex;align-items:center;gap:12px;padding:8px;border-radius:11px;text-decoration:none;color:inherit}
+  .res:hover,.res.sel{background:var(--fundo)}
+  .res .nn{width:38px;height:38px;border-radius:11px;background:var(--roxo-nevoa);color:var(--roxo-esc);font-weight:800;font-size:13px;display:grid;place-items:center;flex:none}
+  .res b{display:block;font-size:14.5px;line-height:1.25}
+  .res span{font-size:12.5px;color:var(--texto-3)}
+  .res .ir{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--roxo);white-space:nowrap}
+
+  .seguir{position:relative;display:flex;align-items:center;gap:14px;background:var(--degrade);color:#fff;border-radius:22px;padding:14px;text-decoration:none;
+    box-shadow:0 18px 36px -18px rgba(78,107,71,.75);overflow:hidden;margin-bottom:6px}
+  .seguir::after{content:"";position:absolute;inset:6px;border:1.5px dashed rgba(255,255,255,.32);border-radius:16px;pointer-events:none}
+  .seguir img{width:86px;height:86px;border-radius:14px;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.55)}
+  .seguir .t{min-width:0;flex:1}
+  .seguir small{display:block;font-size:11px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;opacity:.85}
+  .seguir b{display:block;font-family:var(--titulo);font-weight:700;font-size:21px;line-height:1.1;margin:3px 0 2px}
+  .seguir span{font-size:13px;opacity:.9}
+  .seguir .prog{height:5px;border-radius:99px;background:rgba(255,255,255,.25);margin-top:9px;overflow:hidden}
+  .seguir .prog i{display:block;height:100%;background:#fff;border-radius:99px}
+  .seguir .play{width:46px;height:46px;border-radius:50%;background:#fff;color:var(--roxo);display:grid;place-items:center;flex:none;position:relative;z-index:1}
+  .seguir .play svg{width:20px;height:20px;margin-left:2px}
+
+  .sec{margin-top:30px}
+  .sec-tit{display:flex;align-items:baseline;gap:10px;margin-bottom:13px}
+  .sec-tit h2{font-family:var(--titulo);font-weight:700;font-size:23px;line-height:1.1}
+  .sec-tit .cont{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--texto-3);white-space:nowrap}
+  .sec-tit .cont a{color:var(--roxo);text-decoration:none}
+  .sec-sub{font-size:13.5px;color:var(--texto-2);margin:-8px 0 13px}
+  /* produto principal (destaque da coleção) */
+  .principal{display:grid;grid-template-columns:1.1fr 1fr;background:var(--branco);border:1px solid var(--linha);border-radius:24px;overflow:hidden;box-shadow:var(--sombra-2)}
+  .principal .foto{position:relative;overflow:hidden;min-height:300px;background:var(--roxo-nevoa)}
+  .principal .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .selo{position:absolute;top:14px;left:14px;background:var(--degrade);color:#fff;font-size:11px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;padding:6px 10px;border-radius:8px;box-shadow:0 6px 14px -6px rgba(78,107,71,.6)}
+  .principal .corpo{padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;justify-content:center;gap:11px}
+  .principal h3{font-family:var(--titulo);font-weight:700;font-size:clamp(26px,3.2vw,34px);line-height:1.03;letter-spacing:-.015em}
+  .principal p{color:var(--texto-2);font-size:14.5px}
+  .etiquetas{display:flex;flex-wrap:wrap;gap:6px}
+  .etiquetas span{font-size:12.5px;font-weight:600;color:var(--roxo-esc);background:var(--roxo-nevoa);border:1px dashed var(--roxo-claro);padding:4px 10px;border-radius:99px}
+  .principal .acoes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .principal .acoes .btn:first-child{grid-column:1/-1;padding:14px}
+  @media(max-width:640px){
+    .principal{grid-template-columns:1fr;border-radius:20px}
+    .principal .foto{min-height:0;aspect-ratio:16/10}
+  }
+
+  /* status */
+  .status{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700}
+  .status.ok{color:var(--verde)}
+  .status.ok::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 3px var(--verde-nevoa)}
+  .status.breve{color:var(--roxo)}
+  .status svg{width:13px;height:13px}
+
+  /* meus produtos (lista) */
+  .meus{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+  .meu{display:flex;gap:13px;background:var(--branco);border:1px solid var(--linha);border-radius:18px;padding:10px;box-shadow:var(--sombra-1);align-items:center}
+  .meu .capa{width:112px;flex:none;border-radius:13px;overflow:hidden;background:var(--roxo-nevoa);position:relative}
+  .meu .capa img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .meu .t{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}
+  .meu h3{font-family:var(--titulo);font-weight:700;font-size:18.5px;line-height:1.12}
+  .meu .meta{font-size:12.5px;color:var(--texto-3)}
+  .meu .bts{display:flex;gap:6px;margin-top:4px}
+  .meu .bts .btn{padding:9px 12px;font-size:13px;border-radius:10px}
+  .meu .bts .btn.claro{padding:9px 10px}
+  .mini-prog{height:4px;border-radius:99px;background:#EEF2E6;overflow:hidden;margin-top:2px}
+  .mini-prog i{display:block;height:100%;background:var(--degrade);border-radius:99px}
+  @media(max-width:760px){.meus{grid-template-columns:1fr}}
+  @media(max-width:380px){.meu .capa{width:92px}.meu h3{font-size:17px}}
+
+  /* prateleiras (bônus e desbloqueios) */
+  .prateleira{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(178px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+    margin:0 -16px;padding:2px 16px 12px;scrollbar-width:none}
+  .prateleira::-webkit-scrollbar{display:none}
+  .prateleira.cinco{grid-auto-columns:minmax(168px,1fr)}
+  @media(min-width:980px){.prateleira{margin:0;padding:2px 0 12px}}
+  @media(max-width:560px){.prateleira{grid-auto-columns:46%}.prateleira.cinco{grid-auto-columns:44%}}
+  .card{position:relative;display:flex;flex-direction:column;background:var(--branco);border:1px solid var(--linha);border-radius:18px;overflow:hidden;
+    box-shadow:var(--sombra-1);scroll-snap-align:start;text-decoration:none;color:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s;-webkit-tap-highlight-color:transparent;text-align:left;font:inherit;padding:0}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--sombra-2)}
+  .card .foto{position:relative;background:var(--roxo-nevoa)}
+  .card .foto img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .card .corpo{padding:11px 12px 13px;display:flex;flex-direction:column;gap:5px;flex:1}
+  .card h3{font-family:var(--sans);font-size:14.5px;font-weight:700;line-height:1.25}
+  .card .sub{font-size:12.5px;color:var(--texto-3);line-height:1.35}
+  .card .pe{margin-top:auto;padding-top:6px;display:flex;align-items:center;gap:8px}
+  .card .pe b{font-size:15.5px;font-weight:800;letter-spacing:-.015em}
+  .card .pe .acao{margin-left:auto;font-size:12.5px;font-weight:800;color:var(--roxo)}
+  .card .pe .acao.verde{color:var(--verde)}
+  .card .tranca{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.94);color:var(--roxo);display:grid;place-items:center;box-shadow:var(--sombra-1)}
+  .card .tranca svg{width:15px;height:15px}
+  .card .fita{position:absolute;left:8px;top:8px;background:var(--degrade);color:#fff;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:5px 8px;border-radius:7px}
+  .card .fita.verde{background:var(--compra)}
+  .card.bloq .foto img{filter:saturate(.75)}
+  .card.feito .foto::after{content:"";position:absolute;inset:6px;border:1.5px dashed rgba(255,255,255,.75);border-radius:12px;pointer-events:none}
+
+  /* "em breve no clube" (materiais em produção) */
+  .breve-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+  .breve-item{display:flex;align-items:center;gap:12px;background:var(--branco);border:1px dashed var(--linha-2);border-radius:16px;padding:9px;font:inherit;text-align:left;color:inherit}
+  button.breve-item{cursor:pointer}
+  .breve-item img{width:60px;height:45px;border-radius:10px;object-fit:cover;flex:none}
+  .breve-item b{display:block;font-size:13.5px;line-height:1.25}
+  .breve-item span{font-size:12px;color:var(--texto-3)}
+  .breve-item .seta{margin-left:auto;width:18px;height:18px;color:var(--texto-3);transform:rotate(-90deg);flex:none}
+
+  /* ---------- FICHA DE PRODUTO (folha que sobe) ---------- */
+  .folha-fundo{position:fixed;inset:0;z-index:100;background:rgba(21,34,27,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px;animation:esmaece .2s ease both}
+  .folha{position:relative;width:100%;max-width:520px;max-height:calc(100dvh - 32px);overflow:auto;background:var(--branco);border-radius:24px;box-shadow:0 30px 70px -20px rgba(0,0,0,.4);animation:sobe .35s cubic-bezier(.2,.8,.2,1) both}
+  .folha .x{position:absolute;right:12px;top:12px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.94);font-size:21px;line-height:1;cursor:pointer;color:var(--tinta);box-shadow:var(--sombra-1)}
+  .folha .alca{display:none}
+  .folha .foto{position:relative}
+  .folha .foto img{width:100%;aspect-ratio:16/10;object-fit:cover}
+  .folha .foto .fita{position:absolute;left:14px;bottom:14px;background:var(--degrade);color:#fff;font-size:11px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;padding:6px 10px;border-radius:8px}
+  .folha .corpo{padding:18px 20px calc(20px + env(safe-area-inset-bottom))}
+  .folha h3{font-family:var(--titulo);font-weight:700;font-size:27px;line-height:1.06}
+  .folha .desc{font-size:14.5px;color:var(--texto-2);margin:7px 0 12px}
+  .inclui{list-style:none;display:flex;flex-direction:column;gap:8px;margin:4px 0 16px}
+  .inclui li{display:flex;gap:10px;font-size:14px;line-height:1.4}
+  .inclui li::before{content:"";flex:none;width:20px;height:20px;border-radius:50%;margin-top:-1px;background:var(--verde-nevoa) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 12.5 4 4 8-9' fill='none' stroke='%231F9A55' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/13px no-repeat}
+  .compra-linha{display:flex;align-items:center;gap:14px;border-top:1px dashed var(--linha-2);padding-top:14px}
+  .compra-linha .valor small{display:block;font-size:11.5px;color:var(--texto-3)}
+  .compra-linha .valor s{font-size:13px;color:var(--texto-3)}
+  .compra-linha .valor b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  .compra-linha .btn{flex:1;padding:15px}
+  .seguro{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12.5px;color:var(--texto-3);margin-top:12px;text-align:center}
+  .seguro svg{width:15px;height:15px;color:var(--verde);flex:none}
+  @media(max-width:600px){
+    .folha-fundo{align-items:flex-end;padding:0}
+    .folha{max-width:none;border-radius:24px 24px 0 0;max-height:92dvh}
+    .folha .alca{display:block;position:absolute;left:50%;top:8px;width:42px;height:5px;margin-left:-21px;border-radius:99px;background:rgba(255,255,255,.85);z-index:2}
+  }
+
+  /* ---------- PÁGINA DA AULA ---------- */
+  .aula-pg{position:fixed;inset:0;z-index:90;background:var(--fundo);display:flex;flex-direction:column}
+  .a-rolagem{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .a-grade{max-width:1240px;margin:0 auto;padding:18px 18px calc(36px + env(safe-area-inset-bottom));display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;align-items:start}
+  .a-player{border-radius:18px;overflow:hidden;box-shadow:var(--sombra-2)}
+  .a-info{margin-top:16px}
+  .a-mod{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--roxo);background:var(--roxo-nevoa);border-radius:8px;padding:5px 9px}
+  .a-info h1{font-family:var(--titulo);font-weight:700;font-size:clamp(23px,2.6vw,30px);line-height:1.1;margin:9px 0 6px}
+  .a-info p{font-size:14.5px;color:var(--texto-2)}
+  .a-info .dur{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--texto-3);margin-top:8px}
+  .a-info .dur svg{width:15px;height:15px}
+  .a-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .a-passo{display:flex;align-items:center;gap:12px;width:100%;min-width:0;text-align:left;background:var(--branco);border:1.5px solid var(--linha-2);border-radius:16px;padding:13px 14px;cursor:pointer;font:inherit;color:inherit;box-shadow:var(--sombra-1)}
+  .a-passo:hover{border-color:var(--roxo)}
+  .a-passo .seta{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--roxo-nevoa);color:var(--roxo)}
+  .a-passo .seta svg{width:18px;height:18px;transform:rotate(90deg)}
+  .a-passo.prox{flex-direction:row-reverse;text-align:right;background:var(--degrade);border-color:transparent;color:#fff}
+  .a-passo.prox .seta{background:rgba(255,255,255,.18);color:#fff}
+  .a-passo.prox .seta svg{transform:rotate(-90deg)}
+  .a-passo .txt{min-width:0;flex:1}
+  .a-passo small{display:block;font-size:11.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;opacity:.75}
+  .a-passo b{display:block;font-size:14px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .a-passo[disabled]{cursor:default;opacity:.45;box-shadow:none}
+  .a-passo.prox[disabled]{background:var(--verde-nevoa);color:var(--verde);opacity:1}
+  .a-passo.prox[disabled] .seta{background:#fff;color:var(--verde)}
+  .a-lado{position:sticky;top:0;background:var(--branco);border:1px solid var(--linha);border-radius:20px;box-shadow:var(--sombra-1);display:flex;flex-direction:column;max-height:calc(100dvh - 110px);overflow:hidden}
+  .a-lado-cab{padding:16px 16px 12px;border-bottom:1px solid var(--linha)}
+  .a-lado-cab b{font-family:var(--titulo);font-weight:700;font-size:18px}
+  .a-lado-cab span{display:block;font-size:12.5px;color:var(--texto-3);font-weight:600;margin:2px 0 8px}
+  .a-lado-cab .mini-prog{height:6px}
+  .a-lista{overflow-y:auto;padding:6px 10px 12px;overscroll-behavior:contain}
+  .a-lista h4{font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--texto-3);margin:12px 6px 6px}
+  .a-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:12px;padding:8px;cursor:pointer;font:inherit;color:inherit}
+  .a-item:hover{background:var(--fundo)}
+  .a-item .num{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--fundo);border:1.5px solid var(--linha-2);color:var(--roxo-esc)}
+  .a-item.vista .num{background:var(--verde);border-color:var(--verde);color:#fff}
+  .a-item .tt{min-width:0;flex:1}
+  .a-item b{display:block;font-size:13.5px;font-weight:700;line-height:1.3}
+  .a-item small{font-size:12px;color:var(--texto-3)}
+  .a-item.atual{background:var(--roxo-nevoa)}
+  .a-item.atual .num{background:var(--degrade);border-color:transparent;color:#fff}
+  .a-item.atual b{color:var(--roxo-esc)}
+  @media(max-width:900px){
+    .a-grade{grid-template-columns:1fr;padding:0 0 calc(30px + env(safe-area-inset-bottom));gap:14px}
+    .a-player{border-radius:0;box-shadow:none}
+    .a-info,.a-nav{margin-left:16px;margin-right:16px}
+    .a-lado{position:static;max-height:none;margin:4px 16px 0}
+    .a-lista{overflow:visible}
+  }
+  @media(max-width:480px){.a-nav{grid-template-columns:1fr}.a-passo b{white-space:normal}}
+  /* ---------- AULAS ---------- */
+  .aulas-hero{position:relative;border-radius:24px;overflow:hidden;background:var(--tinta);color:#fff;box-shadow:var(--sombra-2)}
+  .aulas-hero img{width:100%;aspect-ratio:16/8;object-fit:cover;opacity:.55}
+  .aulas-hero .sobre{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,3vw,30px);
+    background:linear-gradient(180deg,rgba(21,34,27,0) 20%,rgba(21,34,27,.88))}
+  .aulas-hero small{font-size:11.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;opacity:.85}
+  .aulas-hero h2{font-family:var(--titulo);font-weight:700;font-size:clamp(28px,4.2vw,40px);line-height:1.02;margin:4px 0 6px}
+  .aulas-hero p{font-size:14.5px;opacity:.9;max-width:520px}
+  .aulas-hero .play-g{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;background:rgba(255,255,255,.95);color:var(--roxo);display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(0,0,0,.5)}
+  .aulas-hero .play-g svg{width:28px;height:28px;margin-left:4px}
+  @media(max-width:600px){.aulas-hero img{aspect-ratio:4/3.4}}
+  .oferta-aulas{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-top:16px;align-items:start}
+  @media(max-width:820px){.oferta-aulas{grid-template-columns:1fr}}
+  .bloco{background:var(--branco);border:1px solid var(--linha);border-radius:20px;padding:18px;box-shadow:var(--sombra-1)}
+  .bloco h3{font-family:var(--titulo);font-weight:700;font-size:23px;line-height:1.1}
+  .bloco .sub{font-size:13.5px;color:var(--texto-2);margin:4px 0 12px}
+  .preco-aulas{text-align:center}
+  .preco-aulas s{font-size:14px;color:var(--texto-3)}
+  .preco-aulas .grande{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;margin:2px 0}
+  .preco-aulas .grande small{font-size:18px;font-weight:700;margin-right:3px}
+  .preco-aulas .btn{width:100%;padding:16px;margin-top:12px;font-size:15.5px}
+  .garantia{display:flex;gap:12px;align-items:center;margin-top:14px;padding:12px;border-radius:14px;background:var(--verde-nevoa);text-align:left}
+  .garantia b{display:block;font-size:13.5px}
+  .garantia span{font-size:12.5px;color:var(--texto-2)}
+  .garantia .sete{width:46px;height:46px;border-radius:50%;background:#fff;color:var(--verde);font-weight:800;display:grid;place-items:center;line-height:1;font-size:18px;flex:none;border:1.5px dashed rgba(31,154,85,.5)}
+  .garantia .sete small{display:block;font-size:9px;letter-spacing:.5px}
+  .modulo{margin-top:14px}
+  .modulo:first-child{margin-top:0}
+  .modulo h4{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--texto-3);margin-bottom:8px;display:flex;gap:8px}
+  .aula{display:flex;align-items:center;gap:12px;width:100%;background:var(--fundo);border:1px solid var(--linha);border-radius:14px;padding:10px 12px;margin-bottom:8px;font:inherit;color:inherit;text-align:left;cursor:default}
+  .aula.pode{cursor:pointer;background:var(--branco)}
+  .aula.pode:hover{border-color:var(--roxo-claro)}
+  .aula .num{width:34px;height:34px;border-radius:50%;background:var(--branco);border:1.5px dashed var(--linha-2);color:var(--roxo-esc);font-weight:800;font-size:13px;display:grid;place-items:center;flex:none}
+  .aula.pode .num{background:var(--degrade);color:#fff;border:0}
+  .aula.vista .num{background:var(--verde);color:#fff;border:0}
+  .aula b{display:block;font-size:14px;line-height:1.3}
+  .aula span{font-size:12px;color:var(--texto-3)}
+  .aula .dir{margin-left:auto;color:var(--texto-3);flex:none;display:grid;place-items:center}
+  .aula .dir svg{width:16px;height:16px}
+  .aviso-aulas{display:flex;gap:12px;align-items:center;background:var(--roxo-nevoa);border:1.5px dashed var(--roxo-claro);border-radius:16px;padding:14px;margin:16px 0}
+  .aviso-aulas .ic{width:42px;height:42px;border-radius:12px;background:#fff;color:var(--roxo);display:grid;place-items:center;flex:none}
+  .aviso-aulas .ic svg{width:21px;height:21px}
+  .aviso-aulas b{display:block;font-size:14.5px}
+  .aviso-aulas span{font-size:13px;color:var(--texto-2)}
+  .barra-aulas{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--texto-2);margin:4px 0 14px}
+  .barra-aulas .mini-prog{flex:1;height:6px}
+  .guia{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .dica{background:var(--branco);border:1px solid var(--linha);border-radius:16px;padding:15px;box-shadow:var(--sombra-1)}
+  .dica .n{width:28px;height:28px;border-radius:9px;background:var(--degrade);color:#fff;font-weight:800;font-size:13.5px;display:grid;place-items:center}
+  .dica h3{font-family:var(--sans);font-size:15px;font-weight:700;margin:11px 0 4px}
+  .dica p{font-size:13.5px;color:var(--texto-2);line-height:1.45}
+  @media(max-width:960px){
+    .guia{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:min(72%,250px);overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 16px 10px;margin:0 -16px;scrollbar-width:none}
+    .guia::-webkit-scrollbar{display:none}
+    .dica{scroll-snap-align:start;scroll-margin-left:16px}
+  }
+  .player{position:relative;background:#000;aspect-ratio:16/9}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  /* ---------- SUPORTE ---------- */
+  .temas{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:700px){.temas{grid-template-columns:repeat(2,1fr)}}
+  .tema{display:flex;flex-direction:column;align-items:flex-start;gap:8px;background:var(--branco);border:1px solid var(--linha);border-radius:16px;padding:14px;cursor:pointer;font:inherit;color:inherit;text-align:left;
+    box-shadow:var(--sombra-1);transition:border-color .15s,transform .15s;-webkit-tap-highlight-color:transparent}
+  .tema:hover{border-color:var(--roxo-claro);transform:translateY(-2px)}
+  .tema .e{width:38px;height:38px;border-radius:12px;background:var(--roxo-nevoa);display:grid;place-items:center;font-size:19px}
+  .tema b{font-size:14px;line-height:1.25}
+  .form-sup{margin-top:4px}
+  .form-sup .voltar-tema{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--roxo-esc);font-weight:700;font-size:13.5px;cursor:pointer;padding:4px 0;margin-bottom:8px}
+  .form-sup .voltar-tema svg{width:16px;height:16px;transform:rotate(90deg)}
+  .form-sup .cab-tema{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .form-sup .cab-tema .e{width:44px;height:44px;border-radius:13px;background:var(--roxo-nevoa);display:grid;place-items:center;font-size:22px;flex:none}
+  .form-sup .cab-tema h3{font-family:var(--titulo);font-weight:700;font-size:23px;line-height:1.1}
+  .resposta-rapida{background:var(--fundo);border:1.5px dashed var(--linha-2);border-radius:14px;padding:12px 14px;font-size:13.5px;color:var(--texto-2);line-height:1.55;margin-bottom:12px}
+  .resposta-rapida b{display:block;color:var(--tinta);font-size:13px;margin-bottom:2px}
+  .resposta-rapida .btn{margin-top:10px;padding:10px 14px;font-size:13.5px}
+  .form-sup label{display:block;font-size:13.5px;font-weight:700;margin:12px 0 7px}
+  .form-sup .btn.enviar{margin-top:14px;padding:15px;width:100%}
+  .form-sup .prazo{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--texto-3);margin-top:10px}
+  .form-sup .prazo svg{width:15px;height:15px;flex:none}
+  textarea,.sel{width:100%;border:1.5px solid var(--linha-2);border-radius:13px;padding:12px 14px;font:inherit;font-size:15px;color:var(--tinta);background-color:var(--branco);outline:0;transition:border-color .15s,box-shadow .15s}
+  textarea{min-height:110px;resize:vertical}
+  textarea:focus,.sel:focus{border-color:var(--roxo);box-shadow:0 0 0 4px rgba(78,107,71,.12)}
+  .sel{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='%239A8CA5' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:18px;padding-right:40px}
+  .chamados{display:flex;flex-direction:column;gap:10px}
+  .chamado{border:1px solid var(--linha);border-radius:16px;padding:12px 14px;background:var(--branco);box-shadow:var(--sombra-1)}
+  .chamado .l1{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--texto-3);flex-wrap:wrap}
+  .chamado .l1 b{color:var(--tinta);font-size:13.5px}
+  .chamado .est{margin-left:auto;font-weight:800;font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:4px 8px;border-radius:99px;background:#FEF3C7;color:#92400E}
+  .chamado .est.respondido,.chamado .est.resolvido{background:var(--verde-nevoa);color:var(--verde)}
+  .chamado .msg{font-size:13.5px;color:var(--texto-2);margin-top:6px;white-space:pre-wrap;word-break:break-word}
+  .chamado .resp{margin-top:10px;background:var(--roxo-nevoa);border-left:3px solid var(--roxo);border-radius:10px;padding:10px 12px;font-size:13.5px;white-space:pre-wrap;word-break:break-word}
+  .chamado .resp small{display:block;font-weight:800;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--roxo);margin-bottom:3px}
+  .vazio{padding:22px 16px;text-align:center;font-size:13.5px;color:var(--texto-3);border:1.5px dashed var(--linha-2);border-radius:16px}
+  .faq{background:var(--branco);border:1px solid var(--linha);border-radius:20px;padding:6px 18px;box-shadow:var(--sombra-1)}
+  .faq details{border-bottom:1px dashed var(--linha-2);padding:2px 0}
+  .faq details:last-child{border-bottom:0}
+  .faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 2px;font-weight:700;font-size:14.5px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";margin-left:auto;width:24px;height:24px;border-radius:8px;background:var(--roxo-nevoa);color:var(--roxo);display:grid;place-items:center;font-weight:800;flex:none}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{font-size:14px;color:var(--texto-2);padding:0 2px 14px;line-height:1.55}
+
+  /* ---------- APP (instalar e notificações) ---------- */
+  .app-hero{display:flex;align-items:center;gap:16px;background:var(--branco);border:1px solid var(--linha);border-radius:24px;padding:18px;box-shadow:var(--sombra-2)}
+  .app-hero .icone{width:84px;height:84px;border-radius:22px;box-shadow:0 12px 26px -10px rgba(78,107,71,.55);flex:none}
+  .app-hero h2{font-family:var(--titulo);font-weight:700;font-size:25px;line-height:1.08}
+  .app-hero p{font-size:13.5px;color:var(--texto-2);margin-top:4px}
+  .vantagens{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  @media(max-width:700px){.vantagens{grid-template-columns:1fr}}
+  .vantagem{display:flex;gap:10px;align-items:center;background:var(--branco);border:1px dashed var(--linha-2);border-radius:14px;padding:11px 12px;font-size:13.5px;color:var(--texto-2)}
+  .vantagem .e{font-size:20px;flex:none}
+  .vantagem b{color:var(--tinta)}
+  .passos{list-style:none;counter-reset:p;display:flex;flex-direction:column;gap:10px;margin:6px 0 4px}
+  .passos li{counter-increment:p;display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.45}
+  .passos li::before{content:counter(p);width:26px;height:26px;border-radius:50%;background:var(--degrade);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;flex:none;margin-top:-1px}
+  .passos .chip{display:inline-flex;align-items:center;gap:5px;background:var(--roxo-nevoa);border-radius:8px;padding:1px 7px;font-weight:700;color:var(--roxo-esc);white-space:nowrap}
+  .passos .chip svg{width:14px;height:14px}
+  .estado{display:flex;align-items:center;gap:10px;border-radius:14px;padding:12px 14px;font-size:14px;margin-top:4px}
+  .estado.ok{background:var(--verde-nevoa);color:#14532D}
+  .estado.neutro{background:var(--fundo);color:var(--texto-2);border:1px dashed var(--linha-2)}
+  .estado.erro{background:#FEF2F2;color:#991B1B}
+  .estado .e{font-size:20px;flex:none}
+  .linha-bts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .linha-bts .btn{flex:1 1 auto}
+  .grade-app{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;align-items:start}
+  @media(max-width:820px){.grade-app{grid-template-columns:1fr}}
+  .interruptor{position:relative;width:48px;height:28px;border-radius:99px;background:#D3DDC8;border:0;cursor:pointer;flex:none;transition:background .2s}
+  .interruptor::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+  .interruptor.on{background:var(--verde)}
+  .interruptor.on::after{transform:translateX(20px)}
+
+  /* ---------- PERFIL ---------- */
+  .perfil-cartao{display:flex;flex-direction:column;align-items:center;text-align:center;background:var(--branco);border:1px solid var(--linha);border-radius:24px;padding:24px 18px 20px;box-shadow:var(--sombra-2);position:relative;overflow:hidden}
+  .perfil-cartao::before{content:"";position:absolute;left:0;right:0;top:0;height:82px;background:var(--degrade)}
+  .perfil-cartao::after{content:"";position:absolute;left:8px;right:8px;top:8px;height:66px;border:1.5px dashed rgba(255,255,255,.3);border-radius:16px}
+  .foto-perfil{position:relative;z-index:1;margin-top:18px}
+  .foto-perfil .av{width:104px;height:104px;font-size:38px;border:4px solid #fff;box-shadow:0 12px 26px -12px rgba(21,34,27,.45)}
+  .foto-perfil label{position:absolute;right:0;bottom:2px;width:36px;height:36px;border-radius:50%;background:var(--tinta);color:#fff;display:grid;place-items:center;cursor:pointer;border:3px solid #fff}
+  .foto-perfil label svg{width:16px;height:16px}
+  .perfil-cartao h2{font-family:var(--titulo);font-weight:700;font-size:25px;line-height:1.1;margin-top:10px}
+  .perfil-cartao .mail{font-size:13px;color:var(--texto-3);word-break:break-all}
+  .perfil-cartao .tira-foto{background:none;border:0;color:var(--texto-3);font-size:12.5px;font-weight:600;cursor:pointer;margin-top:4px;text-decoration:underline}
+  .grade-perfil{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;align-items:start}
+  @media(max-width:820px){.grade-perfil{grid-template-columns:1fr}}
+  .campo-p{margin-top:12px}
+  .campo-p:first-of-type{margin-top:0}
+  .campo-p label{display:block;font-size:13.5px;font-weight:700;margin-bottom:7px}
+  .campo-p input{width:100%;border:1.5px solid var(--linha-2);border-radius:13px;padding:12px 14px;font:inherit;font-size:16px;color:var(--tinta);outline:0;background:#fff}
+  .campo-p input:focus{border-color:var(--roxo);box-shadow:0 0 0 4px rgba(78,107,71,.12)}
+  .campo-p input[readonly]{background:var(--fundo);color:var(--texto-2)}
+  .niveis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .niveis button{border:1.5px solid var(--linha-2);background:var(--branco);border-radius:12px;padding:10px 6px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--texto-2)}
+  .niveis button.on{background:var(--roxo-nevoa);border-color:var(--roxo);color:var(--roxo-esc)}
+  .bloco .btn.salvar{width:100%;margin-top:16px;padding:14px}
+  .colecao{display:flex;align-items:center;gap:14px}
+  .colecao .num{font-family:var(--titulo);font-weight:700;font-size:40px;line-height:1;color:var(--roxo-esc)}
+  .colecao .num small{font-size:18px;color:var(--texto-3)}
+  .colecao .t{flex:1}
+  .colecao .t span{font-size:13px;color:var(--texto-2)}
+  .colecao .mini-prog{height:7px;margin-top:6px}
+  .menu-lista{display:flex;flex-direction:column;margin-top:4px}
+  .menu-lista button,.menu-lista a{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px dashed var(--linha);padding:13px 2px;font:inherit;font-size:14.5px;font-weight:600;color:var(--tinta);cursor:pointer;text-decoration:none;text-align:left}
+  .menu-lista button:last-child,.menu-lista a:last-child{border-bottom:0}
+  .menu-lista .ic{width:36px;height:36px;border-radius:11px;background:var(--roxo-nevoa);color:var(--roxo);display:grid;place-items:center;flex:none}
+  .menu-lista .ic svg{width:18px;height:18px}
+  .menu-lista .seta{margin-left:auto;width:18px;height:18px;color:var(--texto-3);transform:rotate(-90deg)}
+  .menu-lista .sair{color:#B42318}
+  .menu-lista .sair .ic{background:#FEF2F2;color:#B42318}
+
+  footer{text-align:center;padding:30px 0 6px;font-size:12px;color:var(--texto-3);line-height:1.7}
+
+  /* ---------- NOTIFICAÇÕES ---------- */
+  .painel-notif{position:fixed;right:16px;top:calc(68px + env(safe-area-inset-top));width:390px;max-height:min(600px,calc(100dvh - 100px));display:flex;flex-direction:column;background:var(--branco);border:1px solid var(--linha);border-radius:20px;
+    box-shadow:0 22px 50px -14px rgba(21,34,27,.3);transform-origin:top right;animation:abre .16s ease both;overflow:hidden;z-index:60}
+  .painel-notif .cab{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--linha)}
+  .painel-notif .cab b{font-family:var(--titulo);font-weight:700;font-size:21px}
+  .painel-notif .cab button{margin-left:auto;background:none;border:0;color:var(--roxo);font-weight:700;font-size:12.5px;cursor:pointer}
+  .painel-notif .cab .fechar-n{margin-left:6px;width:32px;height:32px;border-radius:50%;border:1px solid var(--linha);font-size:19px;color:var(--texto-2);display:none}
+  .painel-notif .lista-n{overflow:auto;padding:6px}
+  .convite-push{margin:6px 6px 2px;display:flex;align-items:center;gap:10px;background:var(--roxo-nevoa);border:1.5px dashed var(--roxo-claro);border-radius:14px;padding:10px 12px;font-size:13px;color:var(--texto-2)}
+  .convite-push b{display:block;color:var(--tinta);font-size:13.5px}
+  .convite-push .btn{padding:8px 11px;font-size:12.5px;margin-left:auto;flex:none}
+  .notif{display:flex;gap:12px;padding:11px 10px;border-radius:12px;cursor:pointer;position:relative;text-decoration:none;color:inherit}
+  .notif:hover{background:var(--fundo)}
+  .notif.nova{background:#F6F8EF}
+  .notif.nova::after{content:"";position:absolute;right:10px;top:16px;width:8px;height:8px;border-radius:50%;background:var(--roxo)}
+  .notif .mini{width:48px;height:48px;border-radius:12px;flex:none;object-fit:cover;background:var(--roxo-nevoa);display:grid;place-items:center;font-size:21px}
+  .notif .txt{min-width:0;padding-right:12px}
+  .notif .tag{font-size:10.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--roxo)}
+  .notif .tag.verde{color:var(--verde)}
+  .notif b{display:block;font-size:14px;line-height:1.3;margin:1px 0 2px}
+  .notif p{font-size:12.5px;color:var(--texto-2);line-height:1.4}
+  .notif time{font-size:11.5px;color:var(--texto-3)}
+  .painel-notif .vazio{border:0}
+  @media(max-width:560px){
+    .painel-notif{left:0;right:0;top:auto;bottom:0;width:auto;max-height:86dvh;border-radius:24px 24px 0 0;animation:sobe .3s cubic-bezier(.2,.8,.2,1) both;padding-bottom:env(safe-area-inset-bottom)}
+    .painel-notif .cab .fechar-n{display:grid;place-items:center;background:#fff;cursor:pointer}
+  }
+  .fundo-notif{position:fixed;inset:0;z-index:59;background:rgba(21,34,27,.35);animation:esmaece .2s ease both}
+  @media(min-width:561px){.fundo-notif{background:transparent}}
+
+  /* oferta que aparece sozinha: cartão discreto acima da barra de navegação */
+  .oferta-pop{position:fixed;right:20px;bottom:24px;z-index:55;width:360px;background:var(--branco);border:1px solid var(--linha-2);border-radius:20px;
+    box-shadow:0 26px 60px -18px rgba(21,34,27,.35);overflow:hidden;animation:sobe .45s cubic-bezier(.2,.8,.2,1) both;display:flex;gap:12px;padding:12px;align-items:center}
+  @keyframes sobe{from{opacity:0;transform:translateY(30px) scale(.97)}}
+  .oferta-pop img{width:76px;height:76px;border-radius:14px;object-fit:cover;flex:none}
+  .oferta-pop .t{min-width:0;flex:1}
+  .oferta-pop small{font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--roxo)}
+  .oferta-pop b{display:block;font-size:14.5px;line-height:1.25;margin:1px 0 6px}
+  .oferta-pop .bts{display:flex;gap:6px;align-items:center}
+  .oferta-pop .btn{padding:8px 12px;font-size:13px;border-radius:10px}
+  .oferta-pop .depois{background:none;border:0;font-size:12.5px;color:var(--texto-3);cursor:pointer;padding:6px}
+  .oferta-pop .x{position:absolute;right:6px;top:6px;width:26px;height:26px;border-radius:50%;border:0;background:none;font-size:18px;line-height:1;cursor:pointer;color:var(--texto-3)}
+  @media(max-width:979px){.oferta-pop{left:10px;right:10px;width:auto;bottom:calc(84px + env(safe-area-inset-bottom))}}
+
+  .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(16px);opacity:0;pointer-events:none;
+    background:var(--tinta);color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 14px 30px -10px rgba(0,0,0,.35);
+    transition:opacity .2s,transform .2s;z-index:120;max-width:calc(100% - 32px);text-align:center}
+  .toast.on{opacity:1;transform:translateX(-50%)}
+  @media(min-width:980px){.toast{bottom:28px;margin-left:122px}}
+  @keyframes aparece{from{opacity:0;transform:translateY(12px)}}
+  .entra{animation:aparece .6s cubic-bezier(.2,.8,.2,1) both}
+
+  .fundo-modal{position:fixed;inset:0;z-index:100;background:rgba(21,34,27,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:grid;place-items:center;padding:16px;animation:esmaece .2s ease both}
+  @keyframes esmaece{from{opacity:0}}
+  .modal{width:100%;max-width:520px;max-height:calc(100dvh - 32px);overflow:auto;background:var(--branco);border-radius:22px;padding:26px 24px 22px;box-shadow:0 30px 70px -20px rgba(0,0,0,.4);animation:sobe .35s cubic-bezier(.2,.8,.2,1) both;position:relative}
+  .modal .x{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--linha);background:var(--branco);font-size:20px;line-height:1;cursor:pointer;color:var(--texto-2)}
+  .modal h3{font-family:var(--titulo);font-weight:700;font-size:27px;line-height:1.08;padding-right:36px}
+  .modal .sub{font-size:14px;color:var(--texto-2);margin:6px 0 18px}
+  .modal .pergunta{font-size:14px;font-weight:700;margin:16px 0 9px}
+  .nps{display:grid;grid-template-columns:repeat(11,1fr);gap:5px}
+  .nps button{aspect-ratio:1;border-radius:10px;border:1.5px solid var(--linha-2);background:var(--branco);font-weight:800;font-size:14px;cursor:pointer;transition:all .12s}
+  .nps button:hover{border-color:var(--roxo)}
+  .nps button.on{background:var(--degrade);color:#fff;border-color:transparent}
+  .nps-leg{display:flex;justify-content:space-between;font-size:11.5px;color:var(--texto-3);margin-top:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chips button{border:1.5px solid var(--linha-2);background:var(--branco);border-radius:99px;padding:8px 13px;font-size:13px;font-weight:600;cursor:pointer;color:var(--texto-2)}
+  .chips button.on{background:var(--roxo-nevoa);border-color:var(--roxo-claro);color:var(--roxo-esc)}
+  textarea,.sel{width:100%;border:1.5px solid var(--linha-2);border-radius:13px;padding:12px 14px;font:inherit;font-size:15px;color:var(--tinta);background-color:var(--branco);outline:0;transition:border-color .15s,box-shadow .15s}
+  textarea{min-height:96px;resize:vertical}
+  textarea:focus,.sel:focus{border-color:var(--roxo);box-shadow:0 0 0 4px rgba(78,107,71,.12)}
+  .modal .btn{margin-top:18px;padding:15px}
+  .obrigado{text-align:center;padding:12px 4px}
+  .obrigado .ok{width:64px;height:64px;border-radius:50%;background:var(--verde-nevoa);color:var(--verde);display:grid;place-items:center;margin:0 auto 14px;font-size:30px}
+  @media(max-width:420px){.nps{grid-template-columns:repeat(6,1fr)}.modal{padding:22px 18px 18px}}
+  .pdfs{display:flex;flex-direction:column;gap:10px}
+  .pdf{display:flex;align-items:center;gap:12px;border:1px solid var(--linha);border-radius:14px;padding:12px 14px;text-decoration:none;color:inherit;transition:border-color .15s,background .15s}
+  .pdf:hover{border-color:var(--roxo-claro);background:var(--fundo)}
+  .pdf .ic{width:40px;height:40px;border-radius:11px;background:var(--roxo-nevoa);color:var(--roxo);display:grid;place-items:center;flex:none}
+  .pdf .ic svg{width:20px;height:20px}
+  .pdf b{display:block;font-size:14.5px}
+  .pdf span{font-size:12.5px;color:var(--texto-3)}
+  .pdf .baixar{margin-left:auto;font-size:13px;font-weight:700;color:var(--roxo);white-space:nowrap}
+  .dica-pdf{font-size:12.5px;color:var(--texto-3);margin-top:14px;line-height:1.5}
+
+  /* ═══════════ LEITOR (as páginas do material, uma embaixo da outra) ═══════════ */
+  .leitor{position:fixed;inset:0;z-index:90;background:#EFEBDD;display:flex;flex-direction:column}
+  .l-topo{flex:none;display:flex;align-items:center;gap:8px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));background:rgba(255,255,255,.96);border-bottom:1px solid var(--linha);backdrop-filter:blur(10px)}
+  .l-voltar{display:inline-flex;align-items:center;gap:6px;background:none;border:0;font-weight:700;font-size:14px;color:var(--roxo-esc);cursor:pointer;padding:8px 8px 8px 2px;border-radius:10px;white-space:nowrap}
+  .l-voltar svg{width:18px;height:18px;transform:rotate(90deg)}
+  .l-tit{min-width:0;flex:1;line-height:1.2}
+  .l-tit b{display:block;font-family:var(--titulo);font-weight:700;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .l-tit span{font-size:12.5px;color:var(--texto-3);font-weight:600}
+  .l-btn{display:inline-flex;align-items:center;gap:6px;background:var(--branco);border:1.5px solid var(--linha-2);border-radius:11px;padding:9px 12px;font-weight:700;font-size:13.5px;cursor:pointer;color:var(--roxo-esc);white-space:nowrap}
+  .l-btn:hover{border-color:var(--roxo)}
+  .l-btn svg{width:16px;height:16px}
+  .l-rolagem{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .l-paginas{max-width:860px;margin:0 auto;padding:16px 12px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+  .pg{position:relative;background:#fff;border-radius:6px;box-shadow:0 10px 30px -14px rgba(21,34,27,.35);overflow:hidden;scroll-margin-top:10px}
+  .pg img{width:100%;height:100%;object-fit:contain}
+  .l-fim{text-align:center;padding:10px 0 4px;color:var(--texto-3);font-size:13.5px}
+  .l-fim .btn{margin-top:12px}
+  @media(max-width:560px){
+    .l-topo{padding-left:8px;padding-right:8px;gap:6px}
+    .l-voltar span{display:none}
+    .l-btn{padding:9px 10px}
+    .l-btn .t{display:none}
+    .l-paginas{padding:8px 0 calc(40px + env(safe-area-inset-bottom));gap:8px}
+    .pg{border-radius:0}
+  }
+  /* gaveta do índice de modelos */
+  .gaveta{position:fixed;inset:0;z-index:95;background:rgba(21,34,27,.4);display:flex;justify-content:flex-end;animation:esmaece .2s ease both}
+  .gaveta .caixa{width:min(400px,100%);height:100%;background:var(--branco);display:flex;flex-direction:column;animation:entraLado .3s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes entraLado{from{transform:translateX(30px);opacity:0}}
+  .gaveta .cab{display:flex;align-items:center;gap:10px;padding:16px 16px 12px;padding-top:calc(16px + env(safe-area-inset-top))}
+  .gaveta .cab b{font-family:var(--titulo);font-weight:700;font-size:24px}
+  .gaveta .cab button{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--linha);background:var(--branco);font-size:20px;line-height:1;cursor:pointer;color:var(--texto-2)}
+  .gaveta .busca{margin:0 16px 10px}
+  .gaveta .busca input{width:100%;border:1.5px solid var(--linha-2);border-radius:12px;padding:11px 13px;font:inherit;font-size:15px;outline:0}
+  .gaveta .busca input:focus{border-color:var(--roxo)}
+  .gaveta ol{list-style:none;overflow:auto;padding:0 8px calc(16px + env(safe-area-inset-bottom));flex:1}
+  .gaveta li button{width:100%;display:flex;align-items:center;gap:12px;background:none;border:0;border-radius:12px;padding:10px 10px;cursor:pointer;text-align:left;font-size:14.5px}
+  .gaveta li button:hover{background:var(--fundo)}
+  .gaveta li button.atual{background:var(--roxo-nevoa)}
+  .gaveta li .nn{width:34px;height:34px;border-radius:10px;background:var(--roxo-nevoa);color:var(--roxo-esc);font-weight:800;font-size:13px;display:grid;place-items:center;flex:none}
+  .gaveta li button.atual .nn{background:var(--degrade);color:#fff}
+  .gaveta li small{margin-left:auto;font-size:12px;color:var(--texto-3);white-space:nowrap}
+  @media(max-width:560px){.gaveta{align-items:flex-end}.gaveta .caixa{height:82dvh;border-radius:22px 22px 0 0;animation:sobe .3s cubic-bezier(.2,.8,.2,1) both}}
+
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+  .texto-bonus .tag-bonus{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--roxo);background:var(--roxo-nevoa);border-radius:99px;padding:4px 10px;margin-bottom:8px}
+  .texto-bonus details{border-top:1px solid var(--linha);padding:12px 0}
+  .texto-bonus summary{font-weight:800;font-size:17px;cursor:pointer;list-style:none}
+  .texto-bonus summary::-webkit-details-marker{display:none}
+  .texto-bonus .sec-texto{padding-top:8px;color:var(--texto-2);font-size:15px;line-height:1.55}
+  .texto-bonus .sec-texto h4{color:var(--tinta);font-size:15.5px;margin:12px 0 4px}
+  .texto-bonus .sec-texto ul{margin:4px 0 8px 18px}
+  .texto-bonus .sec-texto p{margin:6px 0}
+  .pre-push{text-align:center}
+  .pre-push .pp-ico{font-size:44px;line-height:1;margin:4px 0 10px}
+  .pre-push h3{font-family:var(--titulo);font-weight:700;font-size:22px;line-height:1.2;margin-bottom:8px}
+  .pre-push .sub{color:var(--texto-2);margin-bottom:18px}
+  /* identidade das guias: dourado nos selos e números, serifa nos títulos */
+  body{font-variant-numeric:lining-nums}  /* a Playfair desenha "100" com algarismos baixos sem isto */
+  .selo,.card .fita,.folha .foto .fita{background:var(--ouro);color:#1F2A20}
+  .dica .n{background:var(--ouro-nevoa);color:var(--ouro-esc);box-shadow:inset 0 0 0 1.5px var(--ouro)}
+  .gaveta .cab b{font-weight:700}
+  .gaveta li.grupo{font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ouro-esc);padding:16px 12px 6px;border-top:1px solid var(--linha)}
+  .gaveta li.grupo:first-child{border-top:0;padding-top:4px}
+  .nota-fe{margin-top:12px;font-size:13.5px;color:var(--texto-2);background:var(--ouro-nevoa);border:1px solid #EADBB8;border-radius:14px;padding:12px 14px}
+  .breve-tx{color:var(--ouro-esc);font-size:13px}
+  .sem-venda{display:flex;gap:12px;align-items:center;background:var(--fundo);border:1.5px dashed var(--linha-2);border-radius:16px;padding:14px;margin-top:16px;font-size:14px;color:var(--texto-2)}
+  .sem-venda svg{width:22px;height:22px;flex:none;color:var(--roxo)}
+  .sem-venda b{display:block;color:var(--tinta)}
+  /* ── L’Atelier del Rosario ── */
+  .sec-tit h2,.principal h3,.tela-cab h1,.login-caixa h1,.bloco h3,.modal h3,.gaveta .cab b,.l-tit b,.perfil-cartao h2,.ola h1,.app-hero h2{color:var(--roxo-esc)}
+  .grade-app{grid-template-columns:1fr;max-width:680px}
+  .nav .nav-marca span{font-size:16px;white-space:normal;line-height:1.15}  /* o nome é mais comprido que o das Guias */
+  /* estrela dos preferiti */
+  .stella{width:36px;height:36px;flex:none;display:grid;place-items:center;border:0;background:none;border-radius:10px;cursor:pointer;color:var(--texto-3)}
+  .stella:hover{background:var(--ouro-nevoa);color:var(--ouro-esc)}
+  .stella svg{width:20px;height:20px}
+  .stella.on{color:var(--ouro)}
+  .l-btn.l-fav.on{color:var(--ouro);border-color:var(--ouro)}
+  .fav-lista{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  @media(max-width:700px){.fav-lista{grid-template-columns:1fr}}
+  .fav-item{display:flex;align-items:center;gap:6px;background:var(--branco);border:1px solid var(--linha);border-radius:16px;padding:6px 6px 6px 8px;box-shadow:var(--sombra-1)}
+  .fav-item a{display:flex;align-items:center;gap:12px;flex:1;min-width:0;text-decoration:none;color:inherit;padding:2px}
+  .fav-item .nn{width:40px;height:40px;border-radius:11px;background:var(--roxo-nevoa);color:var(--roxo-esc);font-weight:800;font-size:13.5px;display:grid;place-items:center;flex:none}
+  .fav-item .t{min-width:0}
+  .fav-item b{display:block;font-size:15px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fav-item small{font-size:12.5px;color:var(--texto-3)}
+  .vazio-fav{display:flex;gap:12px;align-items:center;background:var(--branco);border:1.5px dashed var(--linha-2);border-radius:16px;padding:14px;font-size:14px;color:var(--texto-2)}
+  .vazio-fav svg{width:24px;height:24px;flex:none;color:var(--ouro)}
+  .vazio-fav b{display:block;color:var(--tinta)}
+  /* categorias */
+  .cat-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip-cat{display:inline-flex;align-items:center;gap:8px;background:var(--branco);border:1px solid var(--linha-2);border-radius:99px;padding:8px 8px 8px 14px;text-decoration:none;color:var(--tinta);font-size:14px;font-weight:600;box-shadow:var(--sombra-1)}
+  .chip-cat:hover{border-color:var(--roxo)}
+  .chip-cat b{min-width:26px;height:26px;border-radius:99px;background:var(--roxo-nevoa);color:var(--roxo-esc);font-size:12px;display:grid;place-items:center;padding:0 6px}
+  /* gaveta: filtro Tutti / Preferiti e a estrela em cada modelo */
+  .gaveta .filtro{display:flex;gap:6px;margin:0 16px 10px}
+  .gaveta .filtro button{flex:1;border:1.5px solid var(--linha-2);background:var(--branco);border-radius:11px;padding:9px 10px;font:inherit;font-size:13.5px;font-weight:700;color:var(--texto-2);cursor:pointer}
+  .gaveta .filtro button.on{background:var(--roxo-nevoa);border-color:var(--roxo);color:var(--roxo-esc)}
+  .gaveta li[data-busca]{display:flex;align-items:center;gap:2px}
+  .gaveta li[data-busca] > button:first-child{flex:1;min-width:0;width:auto}
+  .gaveta li button.stella{width:36px;height:36px;flex:none;padding:0;justify-content:center;border-radius:10px}
+  .gaveta li .nome{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .gaveta .vazio-g{margin:6px 16px;font-size:14px;color:var(--texto-2);background:var(--fundo);border:1.5px dashed var(--linha-2);border-radius:14px;padding:14px}
+  /* zoom do leitor: botão "Zoom" ou toque duplo na página (centraliza no ponto tocado) */
+  .l-rolagem.z{overflow-x:auto}
+  .l-paginas.z2{width:220%;max-width:1700px}
+  .l-btn#l-zoom.on{background:var(--roxo-nevoa);border-color:var(--roxo)}
+  .pg{cursor:zoom-in;touch-action:manipulation}
+  .l-paginas.z2 .pg{cursor:zoom-out}
+  .campo-nome{width:100%;border:1.5px solid var(--linha-2);border-radius:12px;padding:12px 14px;font:inherit;font-size:16px;outline:0;text-align:center}
+  .campo-nome:focus{border-color:var(--roxo)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></g></symbol>
+  <symbol id="i-livro" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></g></symbol>
+  <symbol id="i-cadeado" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></g></symbol>
+  <symbol id="i-relogio" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
+  <symbol id="i-atualizar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></g></symbol>
+  <symbol id="i-baixar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></g></symbol>
+  <symbol id="i-sair" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l-4-4 4-4M6 12h10"/></g></symbol>
+  <symbol id="i-baixo" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-escudo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/></g></symbol>
+  <symbol id="i-infinito" viewBox="0 0 24 24"><path d="M7 8c-2.2 0-4 1.8-4 4s1.8 4 4 4c3.5 0 6.5-8 10-8 2.2 0 4 1.8 4 4s-1.8 4-4 4c-3.5 0-6.5-8-10-8Z" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+  <symbol id="i-sino" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z"/><path d="M10 20a2 2 0 0 0 4 0"/></g></symbol>
+  <symbol id="i-boia" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.6"/><path d="m5.6 5.6 3.9 3.9m5 5 3.9 3.9m0-12.8-3.9 3.9m-5 5-3.9 3.9"/></g></symbol>
+  <symbol id="i-estrela" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-lista" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2" fill="currentColor"/><circle cx="4.5" cy="12" r="1.2" fill="currentColor"/><circle cx="4.5" cy="18" r="1.2" fill="currentColor"/></g></symbol>
+  <symbol id="i-pdf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M12 11v6m0 0-2.5-2.5M12 17l2.5-2.5"/></g></symbol>
+  <symbol id="i-casa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5 12 4l8.5 6.5"/><path d="M5.5 9v10a1 1 0 0 0 1 1H10v-5.5h4V20h3.5a1 1 0 0 0 1-1V9"/></g></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4A8 8 0 1 1 20 12Z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01" stroke-width="2.8"/></g></symbol>
+  <symbol id="i-cel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></g></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.2-3.6 4.2-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></g></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5Z"/><circle cx="12" cy="12.5" r="3.3"/></g></symbol>
+  <symbol id="i-busca" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></g></symbol>
+  <symbol id="i-compartilhar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L8 7m4-4 4 4"/><path d="M8 10H6.5A1.5 1.5 0 0 0 5 11.5v8A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-8a1.5 1.5 0 0 0-1.5-1.5H16"/></g></symbol>
+  <symbol id="i-estrela-piena" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mais" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/></g></symbol>
+</svg>
+
+<div class="carregando" id="v-carregando"><img src="/assets/logo-ar-192.webp" alt="Caricamento" width="192" height="192"></div>
+
+<!-- ═════════════ LOGIN ═════════════ -->
+<main class="login" id="v-login" hidden>
+  <section class="login-lado" aria-hidden="true">
+    <div class="colagem">
+      <img src="/assets/login/r155.webp" alt="" width="416" height="520">
+      <img src="/assets/login/r021.webp" alt="" width="416" height="520">
+      <img src="/assets/login/r185.webp" alt="" width="416" height="520">
+      <img src="/assets/login/r001.webp" alt="" width="416" height="520">
+      <img src="/assets/login/r187.webp" alt="" width="416" height="520">
+      <img src="/assets/login/r005.webp" alt="" width="416" height="520">
+    </div>
+    <p class="frase">100 rosari fatti a mano, dalla scheda al montaggio</p>
+  </section>
+  <section class="login-form">
+    <div class="login-caixa">
+      <div class="marca"><img src="/assets/logo-ar-192.webp" alt="" width="192" height="192"><span>L’Atelier del Rosario</span></div>
+      <h1>Entra nella tua <em>area riservata</em></h1>
+      <p class="sub">Inserisci l’e-mail che hai usato per l’acquisto e apri subito i tuoi 100 modelli.</p>
+      <form id="form-login" novalidate>
+        <label class="rotulo" for="email">La tua e-mail</label>
+        <div class="campo">
+          <svg aria-hidden="true"><use href="#i-mail"/></svg>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="nome@esempio.it" required>
+        </div>
+        <button class="btn full" type="submit" id="btn-entrar">Entra</button>
+        <div class="aviso" id="erro-login" role="alert" hidden></div>
+      </form>
+      <div class="garantias"><span><svg aria-hidden="true"><use href="#i-escudo"/></svg>Accesso sicuro</span><span><svg aria-hidden="true"><use href="#i-cel"/></svg>Telefono, tablet e computer</span></div>
+      <p class="nota-login">Con la stessa e-mail ritrovi i tuoi preferiti e la pagina dove eri rimasta su questo dispositivo.</p>
+    </div>
+  </section>
+</main>
+
+<!-- ═════════════ APLICATIVO ═════════════ -->
+<div class="app" id="v-area" hidden>
+  <nav class="nav" aria-label="Navigazione">
+    <a class="marca nav-marca" href="#home"><img src="/assets/logo-ar-192.webp" alt="" width="192" height="192"><span>L’Atelier del Rosario</span></a>
+    <a href="#home" data-tela="home"><span class="ic"><svg aria-hidden="true"><use href="#i-casa"/></svg></span>Home</a>
+    <a href="#assistenza" data-tela="assistenza"><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span>Assistenza</a>
+    <a href="#app" data-tela="app"><span class="ic"><svg aria-hidden="true"><use href="#i-cel"/></svg></span>App</a>
+    <a href="#profilo" data-tela="profilo"><span class="ic"><svg aria-hidden="true"><use href="#i-user"/></svg></span>Profilo</a>
+    <div class="nav-rodape">Materiale digitale per uso personale.<br>Fatto a mano, pregato con amore 📿</div>
+  </nav>
+
+  <header class="app-topo">
+    <a class="marca" href="#home"><img src="/assets/logo-ar-192.webp" alt="" width="192" height="192"><span>L’Atelier del Rosario</span></a>
+    <span class="titulo-tela" id="titulo-tela">Home</span>
+    <div class="topo-dir">
+      <button class="ico-btn" id="sino" aria-label="Notifiche" aria-haspopup="dialog" aria-expanded="false"><svg aria-hidden="true"><use href="#i-sino"/></svg><span class="bolinha" id="bolinha" hidden>0</span></button>
+      <a class="av" id="av-topo" href="#profilo" aria-label="Il mio profilo">E</a>
+    </div>
+  </header>
+
+  <div class="conteudo-caixa"><main class="conteudo">
+
+    <!-- HOME -->
+    <section class="tela" id="t-home" data-titulo="Home">
+      <div class="ola">
+        <a class="av" id="av-ola" href="#profilo" aria-label="Il mio profilo">E</a>
+        <div><small id="ola-sauda">Ciao!</small><h1 id="ola-nome">I tuoi rosari</h1></div>
+        <a class="editar" id="ola-editar" href="#profilo" hidden>Aggiungi il tuo nome</a>
+      </div>
+      <div id="seguir"></div>
+      <div class="busca" id="busca">
+        <div class="campo"><svg aria-hidden="true"><use href="#i-busca"/></svg>
+          <input id="busca-in" type="search" autocomplete="off" placeholder="Cerca un modello: Santa Rita, perle, auto…" aria-label="Cerca un modello">
+          <button class="limpar" id="busca-limpar" type="button" aria-label="Cancella" hidden>×</button></div>
+        <div class="resultados" id="busca-res" role="listbox" hidden></div>
+      </div>
+      <section class="sec" id="s-colecao" style="margin-top:22px">
+        <div class="sec-tit"><h2>Il tuo manuale</h2></div>
+        <div id="principal"></div>
+      </section>
+      <section class="sec" id="s-fav">
+        <div class="sec-tit"><h2>I tuoi preferiti</h2><span class="cont" id="c-fav"></span></div>
+        <div id="preferiti"></div>
+      </section>
+      <section class="sec" id="s-cat">
+        <div class="sec-tit"><h2>Sfoglia per categoria</h2><span class="cont">11 categorie</span></div>
+        <div class="cat-chips" id="categorie"></div>
+      </section>
+      <section class="sec" id="guida">
+        <div class="sec-tit"><h2>Prima di iniziare</h2></div>
+        <div class="guia">
+          <article class="dica"><span class="n">1</span><h3>Leggi la scheda</h3><p>Ogni modello ha 2 pagine: la scheda con materiali, livello, tempo e misura, e il montaggio in 6 fasi con le foto. Prepara tutto prima di iniziare.</p></article>
+          <article class="dica"><span class="n">2</span><h3>Conta i grani</h3><p>Il rosario completo ha 53 Ave Maria e 6 Padre Nostro; decina e bracciale ne hanno 10 + 1. Dividi i grani in mucchietti da 10 prima di infilarli.</p></article>
+          <article class="dica"><span class="n">3</span><h3>Segui il cammino</h3><p>Lo schema “Il cammino del rosario”, in fondo alla scheda, mostra l’ordine esatto dei grani, dal crocifisso fino all’ultima decina.</p></article>
+          <article class="dica"><span class="n">4</span><h3>Filo e schiaccini</h3><p>Nei rosari su nylon il filo si fissa con gli schiaccini, stretti con la pinza a becchi piatti. Le misure del filo sono nella lista dei materiali.</p></article>
+          <article class="dica"><span class="n">5</span><h3>Elastico ben teso</h3><p>Nei bracciali, tendi l’elastico 3 o 4 volte prima di usarlo e chiudi con il nodo chirurgico e una goccia di colla: così non si allenta.</p></article>
+        </div>
+      </section>
+      <footer>L’Atelier del Rosario · 100 modelli illustrati<br>Materiale digitale per uso personale. Non è consentita la riproduzione o la rivendita dei file.</footer>
+    </section>
+
+    <!-- ASSISTENZA -->
+    <section class="tela" id="t-assistenza" data-titulo="Assistenza" hidden>
+      <div class="tela-cab"><h1>Come possiamo aiutarti?</h1><p>Scegli l’argomento: spesso la risposta è già qui.</p></div>
+      <div id="sup-passo1">
+        <div class="temas" id="temas"></div>
+      </div>
+      <div class="bloco form-sup" id="sup-passo2" hidden>
+        <button class="voltar-tema" type="button" id="sup-voltar"><svg aria-hidden="true"><use href="#i-baixo"/></svg>Altro argomento</button>
+        <div class="cab-tema"><span class="e" id="sup-e"></span><h3 id="sup-tit"></h3></div>
+        <div class="resposta-rapida" id="sup-rapida" hidden></div>
+        <div id="sup-contatto"></div>
+      </div>
+      <section class="sec">
+        <div class="sec-tit"><h2>Domande frequenti</h2></div>
+        <div class="faq">
+          <details><summary>Come apro i modelli?</summary><p>Nella Home tocca “Apri i modelli”. Le pagine si aprono qui nell’app, una sotto l’altra. Con il pulsante “Modelli” vai dritta al rosario che vuoi fare, diviso per categoria. L’app ricorda dove eri rimasta.</p></details>
+          <details><summary>Come trovo un modello per nome?</summary><p>Usa la ricerca in cima alla Home: scrivi “Santa Rita”, “perle”, “auto”, “bambini”… e tocca il risultato per aprire subito la pagina del modello.</p></details>
+          <details><summary>Come salvo i miei preferiti?</summary><p>Tocca la stellina ☆ accanto al modello, nell’indice o mentre lo leggi. I preferiti compaiono nella Home e restano salvati su questo dispositivo.</p></details>
+          <details><summary>Come scarico il PDF da stampare?</summary><p>Tocca “PDF” nel manuale. È diviso in 2 parti (circa 20 MB ciascuna): sul telefono è meglio scaricarlo con il Wi-Fi. Per stampare usa carta A4 e scala 100%.</p></details>
+          <details><summary>Quanti grani ha un rosario?</summary><p>Il rosario completo ha 53 Ave Maria e 6 Padre Nostro. La decina (come quelle per l’auto, il cellulare e le bomboniere) e il bracciale-rosario ne hanno 10 + 1. Il numero di ogni modello è nella casella GRANI della scheda.</p></details>
+          <details><summary>Posso usare l’app su più dispositivi?</summary><p>Sì: entra con la stessa e-mail su telefono, tablet e computer. I preferiti e la pagina dove eri rimasta sono salvati su ogni dispositivo.</p></details>
+          <details><summary>Ho cambiato telefono e non vedo i miei preferiti</summary><p>I preferiti e i progressi restano sul dispositivo dove li hai salvati. Sul nuovo telefono entra con la stessa e-mail e segna di nuovo i tuoi modelli con la stellina.</p></details>
+          <details><summary>Come installo l’app sul telefono?</summary><p>Nella scheda App trovi il passo a passo per il tuo dispositivo. Una volta installata, L’Atelier del Rosario si apre dalla schermata Home, a schermo intero.</p></details>
+        </div>
+      </section>
+    </section>
+
+    <!-- APP: installare -->
+    <section class="tela" id="t-app" data-titulo="App" hidden>
+      <div class="tela-cab"><h1>L’Atelier del Rosario sul tuo telefono</h1><p>Installala in 30 secondi e aprila con un tocco.</p></div>
+      <div class="app-hero">
+        <img class="icone" src="/assets/icon-ar-192.png" alt="Icona dell’app L’Atelier del Rosario" width="192" height="192">
+        <div><h2>L’Atelier del Rosario</h2><p>I tuoi 100 modelli a portata di tocco, direttamente dalla schermata Home. Non occupa spazio come un’app dello store.</p></div>
+      </div>
+      <div class="vantagens">
+        <div class="vantagem"><span class="e">📲</span><span><b>Si apre subito</b> dall’icona, senza cercare il link</span></div>
+        <div class="vantagem"><span class="e">🖼️</span><span><b>Schermo intero</b>, senza la barra del browser</span></div>
+        <div class="vantagem"><span class="e">⭐</span><span><b>I tuoi preferiti</b> sempre a portata di mano</span></div>
+      </div>
+      <div class="grade-app">
+        <div class="bloco" id="bloco-instalar"></div>
+      </div>
+    </section>
+
+    <!-- PROFILO -->
+    <section class="tela" id="t-profilo" data-titulo="Profilo" hidden>
+      <div class="perfil-cartao">
+        <div class="foto-perfil">
+          <span class="av" id="av-perfil">E</span>
+          <label for="foto-in" aria-label="Cambia foto"><svg aria-hidden="true"><use href="#i-camera"/></svg></label>
+          <input type="file" id="foto-in" accept="image/*" hidden>
+        </div>
+        <h2 id="perfil-nome">Il tuo nome</h2>
+        <span class="mail" id="perfil-mail"></span>
+        <button class="tira-foto" id="tira-foto" type="button" hidden>Rimuovi foto</button>
+      </div>
+      <div class="grade-perfil">
+        <form class="bloco" id="form-perfil" novalidate>
+          <h3>I tuoi dati</h3><p class="sub">Come vuoi comparire nell’app.</p>
+          <div class="campo-p"><label for="p-nome">Nome</label><input id="p-nome" maxlength="40" autocomplete="given-name" placeholder="Come ti chiami?"></div>
+          <div class="campo-p"><label>La tua esperienza con i rosari</label>
+            <div class="niveis" id="p-nivel"><button type="button" data-n="principiante">Principiante</button><button type="button" data-n="intermedia">Intermedia</button><button type="button" data-n="esperta">Esperta</button></div></div>
+          <div class="campo-p"><label for="p-mail">E-mail di accesso</label><input id="p-mail" readonly></div>
+          <button class="btn salvar" type="submit" id="p-salvar">Salva</button>
+        </form>
+        <div>
+          <div class="bloco">
+            <div class="colecao"><span class="num" id="p-prog">0<small>%</small></span><div class="t"><b>Il tuo percorso</b><br><span id="p-prog-txt">Apri il manuale per iniziare</span><div class="mini-prog"><i id="p-barra" style="width:0"></i></div></div></div>
+          </div>
+          <div class="bloco" style="margin-top:12px;padding:6px 16px">
+            <div class="menu-lista">
+              <a href="#preferiti"><span class="ic"><svg aria-hidden="true"><use href="#i-estrela"/></svg></span><span id="m-fav-t">I miei preferiti</span><svg class="seta" aria-hidden="true"><use href="#i-baixo"/></svg></a>
+              <a href="#app"><span class="ic"><svg aria-hidden="true"><use href="#i-cel"/></svg></span>Installa l’app<svg class="seta" aria-hidden="true"><use href="#i-baixo"/></svg></a>
+              <a href="#assistenza"><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span>Assistenza<svg class="seta" aria-hidden="true"><use href="#i-baixo"/></svg></a>
+              <button type="button" class="sair" id="m-sair"><span class="ic"><svg aria-hidden="true"><use href="#i-sair"/></svg></span>Esci</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>L’Atelier del Rosario · Fatto a mano, pregato con amore</footer>
+    </section>
+
+  </main></div>
+</div>
+
+<!-- ═════════════ LEITOR ═════════════ -->
+<div class="leitor" id="v-leitor" role="dialog" aria-modal="true" aria-labelledby="l-titulo" hidden>
+  <header class="l-topo">
+    <button class="l-voltar" id="l-voltar"><svg aria-hidden="true"><use href="#i-baixo"/></svg><span>Indietro</span></button>
+    <div class="l-tit"><b id="l-titulo"></b><span id="l-pag"></span></div>
+    <button class="l-btn l-fav" id="l-fav" type="button" aria-pressed="false" aria-label="Aggiungi ai preferiti" hidden><svg aria-hidden="true"><use href="#i-estrela"/></svg></button>
+    <button class="l-btn" id="l-zoom" type="button" aria-pressed="false" aria-label="Ingrandisci la pagina"><svg aria-hidden="true"><use href="#i-busca"/></svg><span class="t">Zoom</span></button>
+    <button class="l-btn" id="l-indice"><svg aria-hidden="true"><use href="#i-lista"/></svg><span class="t" id="l-indice-t">Modelli</span></button>
+    <button class="l-btn" id="l-pdf"><svg aria-hidden="true"><use href="#i-pdf"/></svg><span class="t">PDF</span></button>
+  </header>
+  <div class="l-rolagem" id="l-rolagem"><div class="l-paginas" id="l-paginas"></div></div>
+</div>
+<div class="gaveta" id="gaveta" hidden></div>
+<div class="fundo-notif" id="fundo-notif" hidden></div>
+<div class="painel-notif" id="painel-notif" role="dialog" aria-label="Notifiche" hidden>
+  <div class="cab"><b>Notifiche</b><button id="ler-todas" type="button">Segna come lette</button><button class="fechar-n" id="fechar-notif" type="button" aria-label="Chiudi">×</button></div>
+  <div class="lista-n" id="lista-notif"></div>
+</div>
+<div class="fundo-modal" id="modale" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ═══════════ ACESSO (no lugar do backend /api) ═══════════
+   Pedido do Heitor (01/11/2026): QUALQUER e-mail com formato válido entra, sem consultar o Supabase e sem
+   webhook. Tudo liberado para todos. Perfil (nome, nível, foto), favoritos e progresso ficam no aparelho
+   (localStorage), separados por e-mail. Suporte e push não usam as Edge Functions (elas só aceitam e-mail
+   com compra paga): veja CONTATTO no catálogo. Para voltar a exigir compra, siga o app das Guias. */
+(function () {
+  var ACEITA_QUALQUER_EMAIL = true;
+  var CHAVE_EMAIL = 'ar:email', CHAVE_PERFIL = 'ar:perfil:';
+  function g(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function s(k, v) { try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} }
+  function perfil(email) { try { return JSON.parse(g(CHAVE_PERFIL + email) || '{}'); } catch (e) { return {}; } }
+  function json(o, st) { return Promise.resolve(new Response(JSON.stringify(o), { status: st || 200, headers: { 'Content-Type': 'application/json' } })); }
+  function emailValido(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e); }
+
+  function montarMe() {
+    var email = g(CHAVE_EMAIL);
+    if (!email) return json({ erro: 'deslogado' }, 401);
+    var prod = {};
+    (window.CATALOGO || []).forEach(function (p) { var k = p.dono || p.id; prod[k] = { liberado: true, pasta: '/assets/livros/' + k + '/' }; });
+    var pf = perfil(email);
+    return json({ ok: true, email: email, produtos: prod, perfil: { nome: pf.nome || '', foto: pf.foto || '', nivel: pf.nivel || '' } });
+  }
+
+  var puro = window.fetch.bind(window);
+  window.fetch = function (url, opt) {
+    var u = String(url || '');
+    if (u.indexOf('/api/') !== 0) return puro(url, opt);
+    opt = opt || {};
+    var corpo = {};
+    try { corpo = opt.body ? JSON.parse(opt.body) : {}; } catch (e) {}
+    if (u.indexOf('/api/login') === 0) {
+      var email = String(corpo.email || '').trim().toLowerCase();
+      if (!ACEITA_QUALQUER_EMAIL || !emailValido(email)) return json({ ok: false, erro: 'email' });
+      s(CHAVE_EMAIL, email);
+      return json({ ok: true });
+    }
+    if (u.indexOf('/api/me') === 0) return montarMe();
+    if (u.indexOf('/api/sair') === 0) { s(CHAVE_EMAIL, null); return json({ ok: true }); }
+    if (u.indexOf('/api/perfil') === 0) {
+      var em = g(CHAVE_EMAIL);
+      if (!em) return json({ ok: false, erro: 'deslogado' }, 401);
+      var pf = perfil(em);
+      Object.keys(corpo).forEach(function (k) { pf[k] = corpo[k]; });
+      try { localStorage.setItem(CHAVE_PERFIL + em, JSON.stringify(pf)); } catch (e) { return json({ ok: false, erro: 'spazio' }); }
+      return json({ ok: true, perfil: pf });
+    }
+    return json({ ok: false }, 404);
+  };
+})();
+
+/* ═══════════ CATÁLOGO ═══════════
+   Só a apostila: sem bônus, sem upsell e sem order bumps (não existem neste produto).
+   CONTATTO: canal do suporte. Vazio = a aba Assistenza mostra só as respostas rápidas e um aviso
+   "il contatto diretto sarà disponibile qui a breve". Preencha UM dos dois antes de publicar:
+     email: 'assistenza@...'        (o botão abre o app de e-mail com a mensagem pronta)
+     whatsapp: '39XXXXXXXXXX'       (só números, com o DDI; abre o WhatsApp com a mensagem pronta) */
+var CONTATTO = { email: '', whatsapp: '' };
+
+// livro: páginas pag-001.webp… na pasta; w/h = tamanho das páginas (o leitor reserva o espaço certo)
+// offset: as 3 primeiras são copertina e indice; a numeração impressa nas páginas é (página do app − 3)
+var LIVROS = {
+  principal: { titulo: 'L’Atelier del Rosario', paginas: 203, w: 1055, h: 1491, rotulo: 'Modelli', offset: 3,
+    iniziali: ['Copertina', 'Indice', 'Indice'],
+    // modelo N = págs. 2N+2 (scheda) e 2N+3 (montaggio); "col" = a categoria (índice agrupado); "k" = palavras da busca
+    colecoes: ["Bracciali-rosario","Rosari per bambini","Bomboniere","Rosari per l’auto","Rosari per il cellulare","Rosari con nome","Rosari da uomo","Devozione brasiliana","Rosari dei santi di devozione","Spose e matrimonio","Lusso e premium"],
+    indice: [{"n":1,"nome":"Classico in Legno","pag":4,"col":1,"k":"il primo bracciale-rosario bracciale-rosario in legno principiante bracciale"},{"n":2,"nome":"Colorato per Bambini","pag":6,"col":1,"k":"per il polsino dei bambini bracciale-rosario di perline principiante bracciale"},{"n":3,"nome":"Perla Femminile","pag":8,"col":1,"k":"delicato per ogni giorno bracciale-rosario di perle principiante bracciale"},{"n":4,"nome":"Missionario in Paracord","pag":10,"col":1,"k":"per chi parte in missione bracciale-rosario in paracord principiante bracciale"},{"n":5,"nome":"Pietre Naturali","pag":12,"col":1,"k":"pietre della natura al polso bracciale-rosario in pietra principiante bracciale"},{"n":6,"nome":"Minimalista Argento","pag":14,"col":1,"k":"quasi invisibile al polso bracciale-rosario in acciaio principiante bracciale"},{"n":7,"nome":"Cuoio e Acciaio","pag":16,"col":1,"k":"per il polso di lui bracciale-rosario da uomo in cuoio intermedio bracciale"},{"n":8,"nome":"Con Nome Inciso","pag":18,"col":1,"k":"il nome di chi ami bracciale-rosario di perle e nome intermedio bracciale"},{"n":9,"nome":"Infinito in Legno","pag":20,"col":1,"k":"il legame che non ha fine bracciale-rosario in legno intermedio bracciale"},{"n":10,"nome":"Per la Coppia","pag":22,"col":1,"k":"uno per lui, uno per lei coppia di bracciali-rosario intermedio bracciale"},{"n":11,"nome":"Rosario Arcobaleno","pag":24,"col":2,"k":"i colori dell’alleanza rosario per bambini in acrilico principiante rosario"},{"n":12,"nome":"Rosario dell’Angelo","pag":26,"col":2,"k":"protezione dell’angelo custode rosario di perle e cristallo principiante rosario"},{"n":13,"nome":"Rosario delle Stelline","pag":28,"col":2,"k":"per brillare nella preghiera rosario per bambini a stelline principiante rosario"},{"n":14,"nome":"In Gomma Resistente","pag":30,"col":2,"k":"fatto per manine rosario per bambini in gomma principiante rosario"},{"n":15,"nome":"Cuori Rosa","pag":32,"col":2,"k":"l’amore di maria in ogni grano rosario per bambini a cuoricini principiante rosario"},{"n":16,"nome":"Blu Marino per Maschietti","pag":34,"col":2,"k":"per il bambino che prega rosario per bambini blu e bianco principiante rosario"},{"n":17,"nome":"Rosario del Girasole","pag":36,"col":2,"k":"un fiore che guarda il cielo rosario per bambini a fiorellini principiante rosario"},{"n":18,"nome":"Luna e Stelle","pag":38,"col":2,"k":"per la preghiera della sera rosario blu notte e argento principiante rosario"},{"n":19,"nome":"Silicone Floreale","pag":40,"col":2,"k":"morbido, lavabile e fiorito rosario per bambini in silicone principiante rosario"},{"n":20,"nome":"Arcobaleno Pastello","pag":42,"col":2,"k":"una decina per ogni colore rosario per bambini color pastello principiante rosario"},{"n":21,"nome":"Bomboniera del Battesimo","pag":44,"col":3,"k":"per ogni invitato decina di perle bianche principiante decina"},{"n":22,"nome":"Bomboniera della Cresima","pag":46,"col":3,"k":"il dono dello spirito santo decina bordeaux e oro principiante decina"},{"n":23,"nome":"Ritiro Giovani","pag":48,"col":3,"k":"montata dai giovani al ritiro decina rossa e oro principiante decina"},{"n":24,"nome":"Messa del Trigesimo","pag":50,"col":3,"k":"lutto e speranza insieme decina nera e bianca principiante decina"},{"n":25,"nome":"Convegno Cattolico","pag":52,"col":3,"k":"nei colori del tuo evento decina blu, oro e bianca principiante decina"},{"n":26,"nome":"Bomboniera Baby Shower","pag":54,"col":3,"k":"per il baby shower decina in toni pastello neutri principiante decina"},{"n":27,"nome":"Fine del Catechismo","pag":56,"col":3,"k":"per il gruppo del catechismo decina di cristallo azzurro cielo principiante decina"},{"n":28,"nome":"Anniversari in Parrocchia","pag":58,"col":3,"k":"per la festa degli anniversari decina argento con perla principiante decina"},{"n":29,"nome":"Ricordo con Foto","pag":60,"col":3,"k":"il ricordo con la foto decina rosa con cartoncino e foto principiante decina"},{"n":30,"nome":"Classico per l’Auto","pag":62,"col":4,"k":"protezione in ogni viaggio decina di legno sul filo cerato principiante decina"},{"n":31,"nome":"San Cristoforo","pag":64,"col":4,"k":"patrono degli automobilisti decina blu e bianca per l’auto principiante decina"},{"n":32,"nome":"Nero Opaco","pag":66,"col":4,"k":"discreto nell’auto scura decina di legno nero sul cuoio principiante decina"},{"n":33,"nome":"Blu Royal","pag":68,"col":4,"k":"il blu che si vede da lontano decina blu royal e argento principiante decina"},{"n":34,"nome":"Legno Scuro","pag":70,"col":4,"k":"elegante e maschile decina di ebano sul cuoio nero intermedio decina"},{"n":35,"nome":"Rosé e Oro","pag":72,"col":4,"k":"per l’auto di lei decina di cristallo rosé intermedio decina"},{"n":36,"nome":"Camionista Resistente","pag":74,"col":4,"k":"per le lunghe strade decina di legno 12 mm sul sisal intermedio decina"},{"n":37,"nome":"Nero e Rosso","pag":76,"col":4,"k":"look sportivo decina bicolore sul filo cerato intermedio decina"},{"n":38,"nome":"Con Profumatore","pag":78,"col":4,"k":"fede e profumo in auto decina di legno con portaprofumo intermedio decina"},{"n":39,"nome":"Nero e Oro","pag":80,"col":5,"k":"la fede nel palmo della mano laccetto per cellulare a decina principiante decina"},{"n":40,"nome":"Minimal Trasparente","pag":82,"col":5,"k":"quasi invisibile laccetto di cristallo trasparente principiante decina"},{"n":41,"nome":"Colorato Giovane","pag":84,"col":5,"k":"per i giovani laccetto di grani acrilici principiante decina"},{"n":42,"nome":"Verde Militare","pag":86,"col":5,"k":"resistente per il trekking laccetto di nodi sul paracord principiante decina"},{"n":43,"nome":"Blu Navy e Argento","pag":88,"col":5,"k":"sobrio ed elegante laccetto per cellulare a decina principiante decina"},{"n":44,"nome":"Laccetto con Iniziali","pag":90,"col":5,"k":"le tue iniziali sul cellulare decina verde acqua con 2 lettere principiante decina"},{"n":45,"nome":"Cristallo Rosé","pag":92,"col":5,"k":"delicato e femminile quarzo rosa sul filo di seta intermedio decina"},{"n":46,"nome":"Legno e Metallo","pag":94,"col":5,"k":"robusto e di carattere laccetto di legno scuro sul cuoio intermedio decina"},{"n":47,"nome":"Perla Bianca","pag":96,"col":5,"k":"per spose e testimoni laccetto di perle sul filo di seta intermedio decina"},{"n":48,"nome":"Nome per il Battesimo","pag":98,"col":6,"k":"il primo nome nella fede rosario di perle con lettere-cubo principiante rosario"},{"n":49,"nome":"Portachiavi con Nome","pag":100,"col":6,"k":"il nome sempre a portata di mano decina di perle con lettere-cubo principiante decina"},{"n":50,"nome":"Bracciale con Nome","pag":102,"col":6,"k":"il nome al polso bracciale-rosario di perle principiante bracciale"},{"n":51,"nome":"Lettere d’Argento","pag":104,"col":6,"k":"il regalo col nome di chi ami cristallo blu e lettere argentate intermedio rosario"},{"n":52,"nome":"Nome per la Cresima","pag":106,"col":6,"k":"per il giorno della cresima grani bordeaux e colomba dorata intermedio rosario"},{"n":53,"nome":"Nome per il Compleanno","pag":108,"col":6,"k":"per il giorno del compleanno cristallo rosa, perla e nome intermedio rosario"},{"n":54,"nome":"Nome in Oro Premium","pag":110,"col":6,"k":"la versione più raffinata cristallo blu e lettere dorate intermedio rosario"},{"n":55,"nome":"Nome per la Laurea","pag":112,"col":6,"k":"per la laurea perla, citrino e lettere bianche intermedio rosario"},{"n":56,"nome":"Nome e Data di Nascita","pag":114,"col":6,"k":"per celebrare una vita cordoncino, nodi e croce di legno intermedio rosario"},{"n":57,"nome":"Classico Nero","pag":116,"col":7,"k":"sobrio per tutti i giorni legno nero e cuoio principiante rosario"},{"n":58,"nome":"Maschile Sportivo","pag":118,"col":7,"k":"per chi si allena e gioca silicone nei colori della squadra principiante rosario"},{"n":59,"nome":"Maschile in Ematite","pag":120,"col":7,"k":"peso giusto, luce discreta ematite e metallo grafite intermedio rosario"},{"n":60,"nome":"Paracord Tattico","pag":122,"col":7,"k":"per il sentiero e lo zaino paracord nero, solo nodi intermedio rosario"},{"n":61,"nome":"Uomo d’Affari","pag":124,"col":7,"k":"discreto per il lavoro legno di mogano e filo di seta intermedio rosario"},{"n":62,"nome":"Motociclista in Paracord","pag":126,"col":7,"k":"per chi vive sulla strada paracord, metallo e catena intermedio rosario"},{"n":63,"nome":"Treccia di Cuoio Vintage","pag":128,"col":7,"k":"come un pezzo di famiglia legno anticato e bronzo intermedio rosario"},{"n":64,"nome":"Acciaio Spazzolato","pag":130,"col":7,"k":"fatto per l’uso quotidiano grani di acciaio inox spazzolato intermedio rosario"},{"n":65,"nome":"Bandierine di Giugno","pag":132,"col":8,"k":"festa junina, la festa di giugno cristalli colorati come bandierine principiante rosario"},{"n":66,"nome":"Cuore Eucaristico","pag":134,"col":8,"k":"per chi adora il santissimo perla bianca e filigrana dorata intermedio rosario"},{"n":67,"nome":"Popolo in Processione","pag":136,"col":8,"k":"come le candele in processione sfumato dall’arancio all’avorio intermedio rosario"},{"n":68,"nome":"Benedizione dei Campi","pag":138,"col":8,"k":"dalla terra alla preghiera legno, semi e bambù intermedio rosario"},{"n":69,"nome":"Cuori di Gesù e Maria","pag":140,"col":8,"k":"i due cuori insieme rosso, oro, blu e bianco intermedio rosario"},{"n":70,"nome":"La Patrona in Turchese","pag":142,"col":8,"k":"per la settimana del 12 ottobre turchese, bianco e argento intermedio rosario"},{"n":71,"nome":"Círio de Nazaré","pag":144,"col":8,"k":"la festa di ottobre a belém legno color terra e corda di sisal intermedio rosario"},{"n":72,"nome":"Romaria degli Ex Voto","pag":146,"col":8,"k":"per la grazia ricevuta cristallo trasparente ed ex voto intermedio rosario"},{"n":73,"nome":"Colori Liturgici","pag":148,"col":8,"k":"l’anno della chiesa in 5 colori vetro perlato in 5 colori avanzato rosario"},{"n":74,"nome":"Madonna Aparecida","pag":150,"col":9,"k":"la patrona del brasile grani neri e dorati intermedio rosario"},{"n":75,"nome":"Madonna di Fátima","pag":152,"col":9,"k":"per il 13 maggio perla bianca e cristallo azzurro intermedio rosario"},{"n":76,"nome":"San Giorgio Guerriero","pag":154,"col":9,"k":"il santo guerriero rosario verde e oro con i nodi intermedio rosario"},{"n":77,"nome":"Sant’Antonio di Padova","pag":156,"col":9,"k":"il santo dei fidanzati legno marrone e croce francescana intermedio rosario"},{"n":78,"nome":"Santa Rita da Cascia","pag":158,"col":9,"k":"la santa degli impossibili rosario di cristallo rosa e perla intermedio rosario"},{"n":79,"nome":"San Giuda Taddeo","pag":160,"col":9,"k":"il santo delle cause difficili rosario verde e perla bianca intermedio rosario"},{"n":80,"nome":"Perpetuo Soccorso","pag":162,"col":9,"k":"madre del perpetuo soccorso rosario rosso e blu scuro intermedio rosario"},{"n":81,"nome":"Spirito Santo","pag":164,"col":9,"k":"per la pentecoste rosario rosso e bianco con colomba intermedio rosario"},{"n":82,"nome":"San Michele Arcangelo","pag":166,"col":9,"k":"l’arcangelo protettore rosario di cristallo blu e argento intermedio rosario"},{"n":83,"nome":"Bomboniera degli Sposi","pag":168,"col":10,"k":"per ogni invitato decina di perle bianche principiante decina"},{"n":84,"nome":"Kit dei Testimoni","pag":170,"col":10,"k":"per i testimoni di nozze legno nero e cordoncino marrone principiante rosario"},{"n":85,"nome":"Sposa Classica","pag":172,"col":10,"k":"per il giorno del sì perla bianca e oro intermedio rosario"},{"n":86,"nome":"Nozze d’Argento","pag":174,"col":10,"k":"per i 25 anni rosario tutto argentato intermedio rosario"},{"n":87,"nome":"Sposa Boho","pag":176,"col":10,"k":"per le nozze in campagna legno, quarzo e cordoncino grezzo intermedio rosario"},{"n":88,"nome":"Rosario del Fidanzamento","pag":178,"col":10,"k":"per la proposta di nozze perla rosa cipria e oro intermedio rosario"},{"n":89,"nome":"Nozze di Perle","pag":180,"col":10,"k":"per i 30 anni perla grigia e argento intermedio rosario"},{"n":90,"nome":"Oro e Avorio","pag":182,"col":10,"k":"per una sposa di gala perla avorio e filigrana avanzato rosario"},{"n":91,"nome":"Nozze d’Oro","pag":184,"col":10,"k":"per i 50 anni rosario tutto dorato avanzato rosario"},{"n":92,"nome":"Perle Naturali","pag":186,"col":11,"k":"il gioiello della collezione perla coltivata e nodo di seta avanzato rosario"},{"n":93,"nome":"Rosario di Ametista","pag":188,"col":11,"k":"pietra naturale viola ametista naturale e argento avanzato rosario"},{"n":94,"nome":"Rosario di Turchese","pag":190,"col":11,"k":"pietra naturale azzurra turchese naturale e argento avanzato rosario"},{"n":95,"nome":"Oro e Cristallo","pag":192,"col":11,"k":"il brillio della collezione cristallo trasparente e oro avanzato rosario"},{"n":96,"nome":"Rosario di Giada Verde","pag":194,"col":11,"k":"pietra naturale verde giada naturale e argento anticato avanzato rosario"},{"n":97,"nome":"Quarzo Rosa","pag":196,"col":11,"k":"pietra naturale rosa quarzo rosa naturale e perla avanzato rosario"},{"n":98,"nome":"Onice e Oro","pag":198,"col":11,"k":"nero profondo e oro onice naturale e oro avanzato rosario"},{"n":99,"nome":"Perle Barocche","pag":200,"col":11,"k":"pezzo unico perla barocca e nodo di seta avanzato rosario"},{"n":100,"nome":"Zirconi Brillanti","pag":202,"col":11,"k":"edizione limitata e numerata zircone sfaccettato e oro avanzato rosario"}],
+    pdf: [['/pdf/L-Atelier-del-Rosario-parte-1.pdf', 'Parte 1 · copertina, indice e modelli 1–50', 19.8],
+          ['/pdf/L-Atelier-del-Rosario-parte-2.pdf', 'Parte 2 · modelli 51–100', 19.9]] }
+};
+
+var CATALOGO = [
+  { id: 'principal', tipo: 'principal', titulo: 'L’Atelier del Rosario', meta: '100 modelli · 203 pagine',
+    desc: 'Rosari fatti a mano passo dopo passo, dal primo bracciale al modello di lusso. Ogni modello ha la scheda con i materiali e il cammino del rosario, e il montaggio in 6 fasi con le foto.' }
+];
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function mostrar(v) { ['v-carregando', 'v-login', 'v-area'].forEach(function (x) { $(x).hidden = x !== v; }); window.scrollTo(0, 0); }
+function toast(t) { var el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('on'); }, 2800); }
+function guardar(k, v) { try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} }
+function ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function dois(n) { return (n < 10 ? '0' : '') + n; }
+function norm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’'`]/g, ' '); }
+function capaImg(id, sizes) {
+  return '<img src="/assets/capas/' + id + '-480.webp" srcset="/assets/capas/' + id + '-480.webp 480w, /assets/capas/' + id + '-800.webp 800w" sizes="' + (sizes || '240px') + '" alt="" width="800" height="600" loading="lazy" decoding="async">';
+}
+function ico(n) { return '<svg aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+function produto(id) { return CATALOGO.filter(function (p) { return p.id === id; })[0]; }
+
+var DADOS = null, PERFIL = { nome: '', foto: '', nivel: '' }, TELA = 'home';
+function estado(p) { var prod = (DADOS && DADOS.produtos) || {}; return prod[p.dono || p.id] || {}; }
+function tem(k) { var e = ((DADOS && DADOS.produtos) || {})[k]; return !!(e && e.liberado); }
+function pastaDe(id) {
+  var L = LIVROS[id] || {};
+  if (!tem(L.dono || id)) return null;
+  return '/assets/livros/' + (L.dono || id) + '/' + (L.sub || '');
+}
+function chaveUsuario() { return DADOS ? DADOS.email : ''; }
+function paginaSalva(id) { var n = parseInt(ler('ar:pag:' + chaveUsuario() + ':' + id), 10); return n > 0 ? n : 0; }
+// numeração impressa (a copertina e o indice não contam): págs. 1–3 do app = 0; pág. 4 do app = pagina 1
+function pagStampa(id, p) { var L = LIVROS[id] || {}, o = L.offset || 0; return p > o ? p - o : 0; }
+function pagTxt(id, p) { var L = LIVROS[id] || {}, o = L.offset || 0; return p > o ? 'Pagina ' + (p - o) + ' di ' + (L.paginas - o) : ((L.iniziali || [])[p - 1] || ''); }
+function modeloNa(id, p) { var L = LIVROS[id], m = null; ((L && L.indice) || []).forEach(function (x) { if (x.pag <= p) m = x; }); return m; }
+
+/* ═══════════ PERFIL: foto e nome em todo o app ═══════════ */
+function primeiroNome() { return (PERFIL.nome || '').trim().split(/\s+/)[0] || ''; }
+function inicial() { var b = (PERFIL.nome || (DADOS && DADOS.email) || 'E').trim(); return (b[0] || 'E').toUpperCase(); }
+function pintarAvatares() {
+  ['av-topo', 'av-ola', 'av-perfil'].forEach(function (id) {
+    var el = $(id); if (!el) return;
+    el.innerHTML = PERFIL.foto ? '<img src="' + esc(PERFIL.foto) + '" alt="">' : esc(inicial());
+  });
+}
+
+/* ═══════════ PREFERITI (no aparelho, por e-mail) ═══════════ */
+var FAV = (function () {
+  function chave() { return 'ar:fav:' + chaveUsuario(); }
+  function lista() { try { var l = JSON.parse(ler(chave()) || '[]'); return Array.isArray(l) ? l : []; } catch (e) { return []; } }
+  function tem(n) { return lista().indexOf(+n) >= 0; }
+  function alterna(n) {
+    n = +n; var l = lista(), i = l.indexOf(n);
+    if (i >= 0) l.splice(i, 1); else l.push(n);
+    guardar(chave(), JSON.stringify(l));
+    toast(i >= 0 ? 'Tolto dai preferiti.' : '★ Aggiunto ai preferiti.');
+    return i < 0;
+  }
+  return { lista: lista, tem: tem, alterna: alterna };
+})();
+function modeloN(n) { return (LIVROS.principal.indice || []).filter(function (x) { return x.n === +n; })[0]; }
+function estrela(n) {
+  var on = FAV.tem(n);
+  return '<button class="stella' + (on ? ' on' : '') + '" type="button" data-fav="' + n + '" aria-pressed="' + on + '" aria-label="' + (on ? 'Togli dai preferiti' : 'Aggiungi ai preferiti') + '">' + ico(on ? 'estrela-piena' : 'estrela') + '</button>';
+}
+function pintarEstrela(b, on) {
+  b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+  b.setAttribute('aria-label', on ? 'Togli dai preferiti' : 'Aggiungi ai preferiti');
+  b.innerHTML = ico(on ? 'estrela-piena' : 'estrela');
+}
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('[data-fav]'); if (!b || !DADOS) return;
+  e.preventDefault();
+  var nn = b.getAttribute('data-fav'), on = FAV.alterna(nn);
+  [].forEach.call(document.querySelectorAll('[data-fav="' + nn + '"]'), function (x) { pintarEstrela(x, on); });
+  desenharPreferiti(); desenharPerfil(); LEITOR.atualizarFav();
+});
+
+/* ═══════════ HOME ═══════════ */
+function desenharInicio() {
+  var h = new Date().getHours(), nome = primeiroNome();
+  $('ola-sauda').textContent = (h < 12 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera') + (nome ? ',' : '') + ' 👋';
+  $('ola-nome').textContent = nome || 'I tuoi rosari';
+  $('ola-editar').hidden = !!PERFIL.nome;
+
+  // continua da dove eri rimasta
+  var L = LIVROS.principal, pg = paginaSalva('principal'), m = modeloNa('principal', pg), s;
+  if (pg > 1) {
+    s = '<a class="seguir" href="#leggi/principal"><img src="/assets/capas/principal-480.webp" alt="" width="480" height="360">' +
+      '<div class="t"><small>Continua da dove eri rimasta</small><b>' + esc(m ? dois(m.n) + ' · ' + m.nome : L.titulo) + '</b>' +
+      '<span>' + esc(pagTxt('principal', pg)) + '</span><div class="prog"><i style="width:' + Math.round(100 * pg / L.paginas) + '%"></i></div></div>' +
+      '<span class="play">' + ico('play') + '</span></a>';
+  } else {
+    s = '<a class="seguir" href="#leggi/principal"><img src="/assets/capas/principal-480.webp" alt="" width="480" height="360"><div class="t"><small>Inizia da qui</small><b>Apri i tuoi 100 modelli</b>' +
+      '<span>Scegli il rosario e segui la scheda, grano dopo grano.</span></div><span class="play">' + ico('play') + '</span></a>';
+  }
+  $('seguir').innerHTML = s;
+
+  // il manuale
+  var p0 = produto('principal'), stampa = pagStampa('principal', pg);
+  $('principal').innerHTML = '<article class="principal"><div class="foto">' +
+    '<img src="/assets/capas/principal-800.webp" srcset="/assets/capas/principal-800.webp 800w, /assets/capas/principal-1200.webp 1200w" sizes="(max-width:640px) 100vw, 560px" alt="La copertina di L’Atelier del Rosario" width="1200" height="900">' +
+    '<span class="selo">Manuale</span></div><div class="corpo"><span class="status ok">Sbloccato</span><h3>' + esc(p0.titulo) + '</h3><p>' + esc(p0.desc) + '</p>' +
+    '<div class="etiquetas"><span>100 modelli</span><span>203 pagine</span><span>' + L.colecoes.length + ' categorie</span></div>' +
+    '<div class="acoes"><a class="btn" href="#leggi/principal">' + ico('livro') + (pg > 1 ? (stampa ? 'Continua · pag. ' + stampa : 'Continua') : 'Apri i modelli') + '</a>' +
+    '<button class="btn claro" type="button" data-indice="principal">' + ico('lista') + 'Modelli</button><button class="btn claro" type="button" data-pdf="principal">' + ico('pdf') + 'PDF</button></div></div></article>';
+
+  desenharPreferiti();
+  desenharCategorie();
+}
+function desenharPreferiti() {
+  if (!DADOS) return;
+  var L = LIVROS.principal, l = FAV.lista().map(modeloN).filter(Boolean).sort(function (a, b) { return a.n - b.n; });
+  $('c-fav').textContent = l.length ? l.length + (l.length === 1 ? ' modello' : ' modelli') : '';
+  $('preferiti').innerHTML = l.length ? '<div class="fav-lista">' + l.map(function (x) {
+    return '<div class="fav-item"><a href="#leggi/principal/' + x.pag + '"><span class="nn">' + dois(x.n) + '</span><span class="t"><b>' + esc(x.nome) + '</b>' +
+      '<small>' + esc(L.colecoes[x.col - 1]) + ' · pag. ' + pagStampa('principal', x.pag) + '</small></span></a>' + estrela(x.n) + '</div>';
+  }).join('') + '</div>'
+    : '<div class="vazio-fav">' + ico('estrela') + '<span><b>Ancora nessun preferito</b>Tocca la stellina ☆ accanto a un modello, nell’indice o mentre lo leggi: lo ritrovi qui.</span></div>';
+}
+function desenharCategorie() {
+  var L = LIVROS.principal;
+  $('categorie').innerHTML = L.colecoes.map(function (c, i) {
+    var m = L.indice.filter(function (x) { return x.col === i + 1; });
+    return '<a class="chip-cat" href="#leggi/principal/' + m[0].pag + '"><span>' + esc(c) + '</span><b>' + m.length + '</b></a>';
+  }).join('');
+}
+
+/* busca de modelos (só nos materiais liberados) */
+var BUSCA = (function () {
+  var lista = [], sel = -1;
+  function montar() {
+    lista = [];
+    Object.keys(LIVROS).forEach(function (id) {
+      var L = LIVROS[id]; if (!pastaDe(id)) return;
+      (L.indice || []).forEach(function (x) {
+        if (x.nome === 'Abertura') return;
+        lista.push({ id: id, n: x.n, nome: x.nome, pag: x.pag, livro: x.col && L.colecoes ? L.colecoes[x.col - 1] : L.titulo, chave: norm(x.nome + ' ' + x.n + ' ' + dois(x.n) + ' ' + L.titulo + ' ' + (x.col && L.colecoes ? L.colecoes[x.col - 1] : '') + ' ' + (x.k || '')) });
+      });
+    });
+  }
+  function desenhar() {
+    var q = norm($('busca-in').value.trim()), box = $('busca-res');
+    $('busca-limpar').hidden = !q;
+    if (!q) { box.hidden = true; return; }
+    // aceita variações: "perla" acha "perle", "rosari" acha "rosario"
+    var termos = q.split(/\s+/).map(function (t) { var r = t.length >= 4 ? t.replace(/(inh[ao]s?|[aeiou]+s?)$/, '') : t; return r.length >= 3 ? r : t; });
+    var nota = function (x) { var nm = norm(x.nome); return nm.indexOf(q) >= 0 ? 0 : termos.every(function (t) { return nm.indexOf(t) >= 0; }) ? 1 : 2; };
+    var achou = lista.filter(function (x) { return termos.every(function (t) { return x.chave.indexOf(t) >= 0; }); })
+      .map(function (x, i) { return { x: x, s: nota(x), i: i }; }).sort(function (a, b) { return a.s - b.s || a.i - b.i; }).map(function (o) { return o.x; }).slice(0, 12);
+    sel = -1;
+    box.innerHTML = achou.length ? achou.map(function (x) {
+      return '<a class="res" role="option" href="#leggi/' + x.id + '/' + x.pag + '"><span class="nn">' + dois(x.n) + '</span><div><b>' + esc(x.nome) + '</b><span>' + esc(x.livro) + ' · pag. ' + pagStampa(x.id, x.pag) + '</span></div><span class="ir">Apri</span></a>';
+    }).join('') : '<div class="vazio" style="border:0">Nessun modello con questo nome.</div>';
+    box.hidden = false;
+  }
+  function fechar() { $('busca-res').hidden = true; }
+  $('busca-in').addEventListener('input', desenhar);
+  $('busca-in').addEventListener('focus', function () { if ($('busca-in').value.trim()) desenhar(); });
+  $('busca-in').addEventListener('keydown', function (e) {
+    var itens = $('busca-res').querySelectorAll('.res'); if (!itens.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + itens.length) % itens.length; [].forEach.call(itens, function (a, i) { a.classList.toggle('sel', i === sel); }); itens[sel].scrollIntoView({ block: 'nearest' }); }
+    if (e.key === 'Enter') { e.preventDefault(); (itens[sel] || itens[0]).click(); }
+    if (e.key === 'Escape') fechar();
+  });
+  $('busca-limpar').addEventListener('click', function () { $('busca-in').value = ''; desenhar(); $('busca-in').focus(); });
+  $('busca-res').addEventListener('click', function (e) { if (e.target.closest('.res')) { fechar(); $('busca-in').blur(); } });
+  document.addEventListener('click', function (e) { if (!$('busca').contains(e.target)) fechar(); });
+  return { montar: montar };
+})();
+
+/* botão "Modelli" fora do leitor: abre o leitor já com o índice */
+document.addEventListener('click', function (e) {
+  var ix = e.target.closest('[data-indice]');
+  if (ix) { e.preventDefault(); var id = ix.getAttribute('data-indice'); cliqueNaArea = true; location.hash = '#leggi/' + id; setTimeout(function () { if (LEITOR.aberto()) LEITOR.indice(); }, 60); }
+});
+
+/* ═══════════ ASSISTENZA ═══════════
+   Sem Edge Function: a resposta rápida de cada assunto e, se CONTATTO tiver e-mail ou WhatsApp, a mensagem
+   sai pronta pelo app de e-mail ou pelo WhatsApp. Sem canal, um aviso simples. */
+var TEMAS = [
+  { k: 'accesso', e: '🔓', t: 'Non riesco ad aprire i modelli', r: 'Nella Home tocca “Apri i modelli”. Le pagine si aprono qui nell’app, una sotto l’altra, e si caricano mentre scorri: se una resta bianca, controlla la connessione e scorri di nuovo.' },
+  { k: 'pdf', e: '📄', t: 'Problemi con il PDF', r: 'Il PDF è diviso in 2 parti per scaricarlo più in fretta. Su iPhone va nell’app “File”; su Android nella cartella Download. Se si blocca, riprova con il Wi-Fi.' },
+  { k: 'modello', e: '📿', t: 'Dubbio su un modello', r: 'Ogni modello ha 2 pagine: la scheda (materiali, livello, tempo, misura e il cammino del rosario) e il montaggio in 6 fasi con le foto. Se ti blocchi, indicaci il numero del modello e la fase.', ph: 'Es.: Modello 78, Santa Rita da Cascia, fase 4: il giro non si chiude.' },
+  { k: 'grani', e: '🔢', t: 'Il conto dei grani non torna', r: 'Il rosario completo ha 53 Ave Maria e 6 Padre Nostro; la decina e il bracciale-rosario hanno 10 + 1. Il numero di ogni modello è nella casella GRANI della scheda, e lo schema “Il cammino del rosario” mostra l’ordine.' },
+  { k: 'materiali', e: '🧵', t: 'Materiali e misure', r: 'La scheda di ogni modello elenca i materiali con le quantità (grani, filo, schiaccini, crociera, crocifisso) e la misura finale. Preparali tutti prima di iniziare.' },
+  { k: 'dispositivi', e: '📱', t: 'Usare l’app su più dispositivi', r: 'Entra con la stessa e-mail su telefono, tablet e computer. I preferiti e la pagina dove eri rimasta restano salvati su ogni dispositivo.' },
+  { k: 'suggerimento', e: '💡', t: 'Suggerire un modello', ph: 'Quale rosario vorresti trovare qui?' },
+  { k: 'altro', e: '💬', t: 'Altro argomento', ph: 'Scrivici di cosa hai bisogno.' }
+];
+var SUP = { tema: null };
+function canale() { return CONTATTO.email ? 'email' : CONTATTO.whatsapp ? 'whatsapp' : ''; }
+function desenharTemas() {
+  $('temas').innerHTML = TEMAS.map(function (t) { return '<button class="tema" type="button" data-tema="' + t.k + '"><span class="e">' + t.e + '</span><b>' + esc(t.t) + '</b></button>'; }).join('');
+}
+function desenharContatto(t) {
+  var c = canale(), box = $('sup-contatto');
+  if (!c) {
+    box.innerHTML = '<div class="sem-venda">' + ico('relogio') + '<span><b>Il contatto diretto sarà disponibile qui a breve.</b>Intanto trovi le risposte più comuni qui sotto, nelle domande frequenti.</span></div>';
+    return;
+  }
+  box.innerHTML = '<form id="form-sup" novalidate><label for="sup-msg">Scrivici</label><textarea id="sup-msg" maxlength="2000" placeholder="' + esc(t.ph || 'Scrivi qui il tuo messaggio.') + '"></textarea>' +
+    '<button class="btn enviar" type="submit" id="sup-enviar">' + (c === 'email' ? ico('mail') + 'Invia per e-mail' : ico('chat') + 'Invia su WhatsApp') + '</button>' +
+    '<div class="aviso" id="sup-erro" role="alert" hidden></div>' +
+    '<div class="prazo">' + ico('relogio') + (c === 'email' ? 'Si apre la tua app di posta con il messaggio già pronto.' : 'Si apre WhatsApp con il messaggio già pronto.') + '</div></form>';
+  $('form-sup').onsubmit = function (ev) {
+    ev.preventDefault();
+    var msg = $('sup-msg').value.trim(), e = $('sup-erro');
+    if (msg.length < 10) { e.innerHTML = '<b>Messaggio troppo breve.</b>Aggiungi qualche dettaglio in più, così possiamo aiutarti.'; e.hidden = false; return; }
+    e.hidden = true;
+    var oggetto = 'L’Atelier del Rosario · ' + t.t, testo = msg + '\n\n— ' + t.t + '\nE-mail di accesso: ' + chaveUsuario();
+    var url = c === 'email'
+      ? 'mailto:' + CONTATTO.email + '?subject=' + encodeURIComponent(oggetto) + '&body=' + encodeURIComponent(testo)
+      : 'https://wa.me/' + String(CONTATTO.whatsapp).replace(/\D/g, '') + '?text=' + encodeURIComponent(oggetto + '\n\n' + testo);
+    if (c === 'email') location.href = url; else window.open(url, '_blank', 'noopener');
+    $('sup-msg').value = '';
+    toast('Messaggio pronto: invialo dall’app che si è aperta.');
+  };
+}
+function escolherTema(k) {
+  var t = TEMAS.filter(function (x) { return x.k === k; })[0]; if (!t) return;
+  SUP.tema = t;
+  $('sup-e').textContent = t.e; $('sup-tit').textContent = t.t;
+  var r = $('sup-rapida');
+  r.hidden = !t.r;
+  r.innerHTML = t.r ? '<b>Risposta rapida</b>' + esc(t.r) : '';
+  desenharContatto(t);
+  $('sup-passo1').hidden = true; $('sup-passo2').hidden = false;
+  $('sup-passo2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function voltarTemas() { SUP.tema = null; $('sup-passo2').hidden = true; $('sup-passo1').hidden = false; }
+document.addEventListener('click', function (e) { var b = e.target.closest('[data-tema]'); if (b) escolherTema(b.getAttribute('data-tema')); });
+$('sup-voltar').addEventListener('click', voltarTemas);
+
+/* ═══════════ APP: installare (notificações push desligadas neste app) ═══════════ */
+var UA = navigator.userAgent;
+var AMB = {
+  ios: /iphone|ipad|ipod/i.test(UA) || (/Macintosh/.test(UA) && navigator.maxTouchPoints > 1),
+  android: /android/i.test(UA),
+  dentroDeApp: /FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|WhatsApp/i.test(UA),
+  safari: /Safari/i.test(UA) && !/CriOS|FxiOS|EdgiOS|OPiOS|Chrome|Android/i.test(UA),
+  instalado: function () { return window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches; }
+};
+var pedidoInstalar = null;
+window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); pedidoInstalar = e; if (TELA === 'app') desenharApp(); });
+window.addEventListener('appinstalled', function () { pedidoInstalar = null; toast('App installata! Cerca l’icona nella schermata Home.'); if (TELA === 'app') desenharApp(); });
+
+function desenharApp() {
+  var b = $('bloco-instalar'), h = '<h3>Installa l’app</h3>';
+  if (AMB.instalado()) {
+    h += '<p class="sub">Tutto a posto.</p><div class="estado ok"><span class="e">✅</span><span><b>App installata su questo dispositivo.</b><br>Aprila sempre dall’icona L’Atelier del Rosario.</span></div>';
+  } else if (pedidoInstalar) {
+    h += '<p class="sub">Un tocco e l’icona compare nella schermata Home.</p><button class="btn full" type="button" id="instalar-agora">' + ico('baixar') + 'Installa ora</button>';
+  } else if (AMB.ios && (!AMB.safari || AMB.dentroDeApp)) {
+    h += '<p class="sub">Su iPhone l’installazione si fa da Safari.</p><div class="estado neutro"><span class="e">🧭</span><span>Apri questo indirizzo in <b>Safari</b> e torna su questa scheda: <b>' + esc(location.host) + '</b></span></div>' +
+      '<div class="linha-bts"><button class="btn claro" type="button" id="copiar-link">Copia il link</button></div>';
+  } else if (AMB.ios) {
+    h += '<p class="sub">Ci vogliono 30 secondi, senza scaricare nulla dallo store.</p><ol class="passos"><li>Tocca <span class="chip">' + ico('compartilhar') + 'Condividi</span> nella barra di Safari</li>' +
+      '<li>Scorri e tocca <span class="chip">' + ico('mais') + 'Aggiungi alla schermata Home</span></li><li>Tocca <b>Aggiungi</b>. Fatto: l’icona di L’Atelier del Rosario compare nella schermata Home.</li></ol>';
+  } else if (AMB.dentroDeApp) {
+    h += '<p class="sub">Hai aperto il link dentro un’altra app.</p><div class="estado neutro"><span class="e">🧭</span><span>Tocca i <b>tre puntini</b> e scegli <b>Apri nel browser</b> (Chrome). Poi torna su questa scheda.</span></div>' +
+      '<div class="linha-bts"><button class="btn claro" type="button" id="copiar-link">Copia il link</button></div>';
+  } else if (AMB.android) {
+    h += '<p class="sub">Ci vogliono 30 secondi, senza scaricare nulla dallo store.</p><ol class="passos"><li>In Chrome, tocca i <span class="chip">⋮ tre puntini</span> in alto</li>' +
+      '<li>Tocca <span class="chip">Installa app</span> o <span class="chip">Aggiungi a schermata Home</span></li><li>Conferma. L’icona di L’Atelier del Rosario compare nella schermata Home.</li></ol>';
+  } else {
+    h += '<p class="sub">Puoi installarla anche sul computer.</p><ol class="passos"><li>Usa <b>Chrome</b> o <b>Edge</b></li><li>Clicca sull’icona <span class="chip">' + ico('baixar') + 'installa</span> alla fine della barra degli indirizzi</li><li>Conferma con <b>Installa</b>.</li></ol>';
+  }
+  b.innerHTML = h;
+  var ia = $('instalar-agora');
+  if (ia) ia.onclick = function () { if (!pedidoInstalar) return; pedidoInstalar.prompt(); pedidoInstalar.userChoice.finally(function () { pedidoInstalar = null; desenharApp(); }); };
+  var cl = $('copiar-link');
+  if (cl) cl.onclick = function () { var u = location.origin + '/'; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function () { toast('Link copiato!'); }, function () { prompt('Copia il link:', u); }); };
+}
+
+/* ═══════════ PROFILO ═══════════ */
+var NIVEL_TXT = { principiante: 'Principiante', intermedia: 'Livello intermedio', esperta: 'Esperta' };
+function desenharPerfil() {
+  if (!DADOS) return;
+  $('perfil-nome').textContent = PERFIL.nome || 'Il tuo nome';
+  $('perfil-mail').textContent = (PERFIL.nivel && NIVEL_TXT[PERFIL.nivel] ? NIVEL_TXT[PERFIL.nivel] + ' · ' : '') + DADOS.email;
+  $('p-mail').value = DADOS.email;
+  if (document.activeElement !== $('p-nome')) $('p-nome').value = PERFIL.nome || '';
+  [].forEach.call($('p-nivel').children, function (b) { b.classList.toggle('on', b.getAttribute('data-n') === PERFIL.nivel); });
+  $('tira-foto').hidden = !PERFIL.foto;
+  var L = LIVROS.principal, pg = paginaSalva('principal'), st = pagStampa('principal', pg), pct = Math.round(100 * pg / L.paginas), nf = FAV.lista().length;
+  $('p-prog').innerHTML = pct + '<small>%</small>';
+  $('p-prog-txt').textContent = st ? 'Sei arrivata a pagina ' + st + ' di ' + (L.paginas - L.offset) : 'Apri il manuale per iniziare';
+  $('p-barra').style.width = pct + '%';
+  $('m-fav-t').textContent = 'I miei preferiti' + (nf ? ' (' + nf + ')' : '');
+}
+function salvarPerfil(dados) {
+  return fetch('/api/perfil', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dados) })
+    .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw new Error(j.erro || 'falha'); return j; }); })
+    .then(function (j) { PERFIL = j.perfil; if (DADOS) DADOS.perfil = PERFIL; pintarAvatares(); desenharPerfil(); desenharInicio(); });
+}
+$('p-nivel').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; var on = !b.classList.contains('on'); [].forEach.call(this.children, function (x) { x.classList.remove('on'); }); if (on) b.classList.add('on'); });
+$('form-perfil').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var bt = $('p-salvar'), on = $('p-nivel').querySelector('.on');
+  bt.disabled = true; bt.textContent = 'Salvataggio…';
+  salvarPerfil({ nome: $('p-nome').value.trim(), nivel: on ? on.getAttribute('data-n') : '' })
+    .then(function () { toast('Profilo salvato!'); }, function () { toast('Non è stato possibile salvare. Riprova.'); })
+    .then(function () { bt.disabled = false; bt.textContent = 'Salva'; });
+});
+// foto: ritaglio quadrato al centro da 320 px in JPEG (resta leggera, ~30 KB), salvata sul dispositivo
+$('foto-in').addEventListener('change', function () {
+  var f = this.files && this.files[0]; this.value = '';
+  if (!f || !/^image\//.test(f.type)) return;
+  var url = URL.createObjectURL(f), im = new Image();
+  im.onload = function () {
+    var lado = Math.min(im.naturalWidth, im.naturalHeight), c = document.createElement('canvas'); c.width = c.height = 320;
+    c.getContext('2d').drawImage(im, (im.naturalWidth - lado) / 2, (im.naturalHeight - lado) / 2, lado, lado, 0, 0, 320, 320);
+    URL.revokeObjectURL(url);
+    var q = 0.86, d = c.toDataURL('image/jpeg', q);
+    while (d.length > 140000 && q > 0.4) { q -= 0.12; d = c.toDataURL('image/jpeg', q); }
+    salvarPerfil({ foto: d }).then(function () { toast('Foto aggiornata!'); }, function () { toast('Non è stato possibile salvare la foto.'); });
+  };
+  im.onerror = function () { URL.revokeObjectURL(url); toast('Non riesco ad aprire questa immagine. Provane un’altra.'); };
+  im.src = url;
+});
+$('tira-foto').addEventListener('click', function () { salvarPerfil({ foto: '' }).then(function () { toast('Foto rimossa.'); }); });
+$('m-sair').addEventListener('click', function () {
+  fetch('/api/sair', { method: 'POST', credentials: 'same-origin' }).then(function () { DADOS = null; LEITOR.fechar(true); mostrar('v-login'); var e = ler('email-membro'); if (e) $('email').value = e; });
+});
+
+/* ═══════════ DESENHAR TUDO ═══════════ */
+function desenhar(d) {
+  DADOS = d; PERFIL = d.perfil || PERFIL;
+  pintarAvatares();
+  desenharInicio(); BUSCA.montar(); desenharPerfil(); desenharTemas();
+  if (TELA === 'app') desenharApp();
+  if ($('v-area').hidden) mostrar('v-area');
+  NV.iniciar(d);
+}
+function carregar(aviso) {
+  return fetch('/api/me', { credentials: 'same-origin', cache: 'no-store' }).then(function (r) {
+    if (r.status === 401) { DADOS = null; LEITOR.fechar(true); mostrar('v-login'); var e = ler('email-membro'); if (e) $('email').value = e; return; }
+    if (!r.ok) throw new Error('falha');
+    return r.json().then(function (d) { var primeira = !DADOS; desenhar(d); rota(); if (primeira) setTimeout(chiediNome, 1500); if (aviso) toast(aviso); });
+  }).catch(function () { mostrar('v-login'); erro('<b>Qualcosa non ha funzionato.</b>Ricarica la pagina e riprova.'); });
+}
+function erro(html) { var el = $('erro-login'); el.innerHTML = html; el.hidden = !html; }
+
+// a pergunta do nome: uma vez por e-mail, logo depois do primeiro acesso (pode pular)
+function chiediNome() {
+  if (!DADOS || PERFIL.nome) return;
+  var k = 'ar:nome-chiesto:' + chaveUsuario(); if (ler(k)) return;
+  if (LEITOR.aberto() || !$('modale').hidden) { setTimeout(chiediNome, 20000); return; }
+  guardar(k, '1');
+  var m = $('modale');
+  m.innerHTML = '<div class="modal pre-push" role="dialog" aria-modal="true" aria-labelledby="nm-tit"><button class="x" aria-label="Chiudi">×</button>' +
+    '<div class="pp-ico">📿</div><h3 id="nm-tit">Benvenuta! Come ti chiami?</h3><p class="sub">Così l’app ti saluta per nome.</p>' +
+    '<input class="campo-nome" id="nm-in" maxlength="40" autocomplete="given-name" placeholder="Il tuo nome" aria-label="Il tuo nome">' +
+    '<button class="btn full" id="nm-ok" style="margin-top:14px">Salva</button><button class="btn claro full" id="nm-no" style="margin-top:10px">Più tardi</button></div>';
+  m.hidden = false; document.body.style.overflow = 'hidden';
+  m.querySelector('.x').onclick = fecharModal; $('nm-no').onclick = fecharModal;
+  m.onclick = function (e) { if (e.target === m) fecharModal(); };
+  function ok() {
+    var v = $('nm-in').value.trim(); if (!v) { $('nm-in').focus(); return; }
+    salvarPerfil({ nome: v }).then(function () { fecharModal(); toast('Piacere, ' + primeiroNome() + '!'); }, function () { fecharModal(); });
+  }
+  $('nm-ok').onclick = ok;
+  $('nm-in').addEventListener('keydown', function (e) { if (e.key === 'Enter') ok(); });
+  setTimeout(function () { var i = $('nm-in'); if (i) i.focus(); }, 80);
+}
+
+$('form-login').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  var email = $('email').value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { erro('<b>E-mail non valida.</b>Controlla di averla scritta bene (es.: nome@esempio.it).'); return; }
+  erro(''); var b = $('btn-entrar'); b.disabled = true; b.textContent = 'Accesso in corso…';
+  fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ email: email }) })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (j.ok) { guardar('email-membro', email); history.replaceState(null, '', '#home'); return carregar('Benvenuta! I tuoi 100 modelli sono pronti.'); }
+      erro('<b>E-mail non valida.</b>Controlla di averla scritta bene (es.: nome@esempio.it).');
+    })
+    .catch(function () { erro('<b>Qualcosa non ha funzionato.</b>Ricarica la pagina e riprova.'); })
+    .then(function () { b.disabled = false; b.textContent = 'Entra'; });
+});
+
+/* ═══════════ PDF (finestra con le parti da scaricare) ═══════════ */
+function abrirPdfs(id) {
+  var L = LIVROS[id], pasta = pastaDe(id); if (!L || !pasta) return;
+  var m = $('modale');
+  m.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pdf-tit"><button class="x" aria-label="Chiudi">×</button>' +
+    '<h3 id="pdf-tit">Scarica in PDF</h3><p class="sub">' + esc(L.titulo) + (L.pdf.length > 1 ? ' in ' + L.pdf.length + ' parti, per scaricarlo più in fretta anche dal telefono.' : ': il PDF completo, pronto da stampare.') + '</p><div class="pdfs">' +
+    L.pdf.map(function (f) {
+      return '<a class="pdf" href="' + esc(f[0]) + '" download target="_blank" rel="noopener"><span class="ic"><svg aria-hidden="true"><use href="#i-pdf"/></svg></span>' +
+        '<div><b>' + esc(f[1]) + '</b><span>PDF · ' + String(f[2]).replace('.', ',') + ' MB</span></div><span class="baixar">Scarica</span></a>';
+    }).join('') + '</div><p class="dica-pdf">Per stampare: carta A4, scala 100% (“dimensioni effettive”). Sul telefono il file va nella cartella Download (o nell’app “File”, su iPhone). Meglio scaricarlo con il Wi-Fi.</p></div>';
+  m.hidden = false; document.body.style.overflow = 'hidden';
+  m.querySelector('.x').onclick = fecharModal;
+  m.onclick = function (e) { if (e.target === m) fecharModal(); };
+}
+function fecharModal() { $('modale').hidden = true; if (!LEITOR.aberto()) document.body.style.overflow = ''; }
+document.addEventListener('click', function (e) { var b = e.target.closest('[data-pdf]'); if (b) { e.preventDefault(); abrirPdfs(b.getAttribute('data-pdf')); } });
+
+/* ═══════════ LEITOR ═══════════
+   #leggi/<id>/<página>: todas as páginas uma embaixo da outra (carregam conforme rola).
+   Guarda a página onde a pessoa parou (por e-mail, no aparelho). A estrela marca o modelo da página atual. */
+var LEITOR = (function () {
+  var id = null, atual = 1, obs = null, pelaArea = false, filtro = 'tutti';
+  function aberto() { return !$('v-leitor').hidden; }
+  function chave() { return 'ar:pag:' + (DADOS ? DADOS.email : '') + ':' + id; }
+  function modeloDa(p) { var L = LIVROS[id], m = null; (L.indice || []).forEach(function (x) { if (x.pag <= p) m = x; }); return m; }
+  function mostrarPag() {
+    var L = LIVROS[id]; $('l-pag').textContent = pagTxt(id, atual);
+    var m = atual > (L.offset || 0) ? modeloDa(atual) : null;
+    $('l-indice-t').textContent = m ? m.nome.length > 22 ? L.rotulo : m.nome : L.rotulo;
+    atualizarFav();
+  }
+  function atualizarFav() {
+    if (!id) return;
+    var L = LIVROS[id], b = $('l-fav'), m = atual > (L.offset || 0) ? modeloDa(atual) : null;
+    b.hidden = !m;
+    if (m) { b.setAttribute('data-fav', m.n); pintarEstrela(b, FAV.tem(m.n)); } else b.removeAttribute('data-fav');
+    var g = $('gaveta');
+    if (!g.hidden) { var c = $('g-nfav'); if (c) c.textContent = FAV.lista().length || ''; filtrar(); }
+  }
+  function abrir(novoId, pag, daArea) {
+    var L = LIVROS[novoId], pasta = pastaDe(novoId); if (!L || !pasta) return false;
+    if (id !== novoId) {
+      id = novoId;
+      $('l-titulo').textContent = L.titulo;
+      var h = '';
+      for (var i = 1; i <= L.paginas; i++) {
+        var n3 = (i < 10 ? '00' : i < 100 ? '0' : '') + i;
+        h += '<figure class="pg" id="pg-' + i + '" data-p="' + i + '" style="aspect-ratio:' + L.w + '/' + L.h + '"><img src="' + esc(pasta) + 'pag-' + n3 + '.webp" alt="' + esc(pagTxt(novoId, i)) + '" width="' + L.w + '" height="' + L.h + '"' + (i > 2 ? ' loading="lazy"' : '') + ' decoding="async"></figure>';
+      }
+      h += '<div class="l-fim">Fine del manuale 📿' + (L.pdf && L.pdf.length ? '<br><button class="btn claro" type="button" data-pdf="' + novoId + '"><svg aria-hidden="true"><use href="#i-pdf"/></svg>Scarica il PDF</button>' : '') + '</div>';
+      $('l-pdf').hidden = !(L.pdf && L.pdf.length);
+      $('l-paginas').innerHTML = h;
+      if (obs) obs.disconnect();
+      if ('IntersectionObserver' in window) {
+        obs = new IntersectionObserver(function (ents) {
+          ents.forEach(function (en) { if (en.isIntersecting) { atual = +en.target.getAttribute('data-p'); mostrarPag(); guardar(chave(), String(atual)); } });
+        }, { root: $('l-rolagem'), rootMargin: '-45% 0px -54% 0px' });
+        [].forEach.call($('l-paginas').querySelectorAll('.pg'), function (f) { obs.observe(f); });
+      }
+    }
+    pelaArea = pelaArea || !!daArea;
+    guardar('ar:ultimo:' + chaveUsuario(), novoId);
+    $('v-leitor').hidden = false; document.body.style.overflow = 'hidden';
+    atual = Math.min(Math.max(pag || parseInt(ler(chave()), 10) || 1, 1), L.paginas);
+    mostrarPag();
+    irPara(atual);
+    return true;
+  }
+  function irPara(p) {
+    var el = $('pg-' + p), r = $('l-rolagem'); if (!el) return;
+    // a página p e as vizinhas começam a carregar já (sem esperar a rolagem)
+    for (var i = Math.max(1, p - 1); i <= p + 2; i++) { var im = $('pg-' + i); if (im) im.firstChild.loading = 'eager'; }
+    r.scrollTop = el.offsetTop - 10;
+  }
+  function fechar(semHistorico) {
+    if (!aberto()) return;
+    $('v-leitor').hidden = true; $('gaveta').hidden = true; document.body.style.overflow = '';
+    if (DADOS) desenhar(DADOS); // o "Continua" e a página salva aparecem na hora
+    if (!semHistorico && /^#leggi\//.test(location.hash)) {
+      if (pelaArea && history.length > 1) history.back();
+      else history.replaceState(null, '', '#' + TELA);
+    }
+    pelaArea = false;
+  }
+  function filtrar() {
+    var g = $('gaveta'), inp = g.querySelector('.busca input'); if (!inp) return;
+    var termos = norm(inp.value.trim()).split(/\s+/).filter(Boolean), favs = FAV.lista(), vis = 0;
+    [].forEach.call(g.querySelectorAll('li[data-busca]'), function (li) {
+      var b = li.getAttribute('data-busca');
+      var ok = termos.every(function (t) { return b.indexOf(t) >= 0; }) && (filtro !== 'fav' || favs.indexOf(+li.getAttribute('data-n')) >= 0);
+      li.hidden = !ok; if (ok) vis++;
+    });
+    [].forEach.call(g.querySelectorAll('li.grupo'), function (li) { li.hidden = termos.length > 0 || filtro === 'fav'; });
+    var v = g.querySelector('.vazio-g');
+    v.hidden = vis > 0;
+    v.textContent = filtro === 'fav' && !favs.length ? 'Ancora nessun preferito: tocca la stellina ☆ accanto a un modello.' : 'Nessun modello trovato.';
+  }
+  function indice() {
+    var L = LIVROS[id]; if (!L) return;
+    var g = $('gaveta'), m = modeloDa(atual), nf = FAV.lista().length;
+    filtro = 'tutti';
+    g.innerHTML = '<div class="caixa" role="dialog" aria-modal="true" aria-label="Indice dei modelli"><div class="cab"><b>' + esc(L.rotulo) + '</b><button aria-label="Chiudi">×</button></div>' +
+      '<div class="filtro"><button type="button" class="on" data-filtro="tutti">Tutti · ' + L.indice.length + '</button><button type="button" data-filtro="fav">★ Preferiti <span id="g-nfav">' + (nf || '') + '</span></button></div>' +
+      '<div class="busca"><input type="search" placeholder="Cerca per nome o numero" aria-label="Cerca un modello"></div>' +
+      '<ol>' + L.indice.map(function (x, i) {
+        var cat = L.colecoes && x.col ? L.colecoes[x.col - 1] : '';
+        var cab = cat && (i === 0 || L.indice[i - 1].col !== x.col) ? '<li class="grupo">' + esc(cat) + '</li>' : '';
+        return cab + '<li data-n="' + x.n + '" data-busca="' + esc(norm(x.nome + ' ' + x.n + ' ' + dois(x.n) + ' ' + cat + ' ' + (x.k || ''))) + '"><button type="button" data-ir="' + x.pag + '" class="' + (m && m.pag === x.pag ? 'atual' : '') + '"><span class="nn">' + dois(x.n) + '</span><span class="nome">' + esc(x.nome) + '</span><small>pag. ' + pagStampa(id, x.pag) + '</small></button>' + estrela(x.n) + '</li>';
+      }).join('') + '</ol><div class="vazio-g" hidden></div></div>';
+    g.hidden = false;
+    var at = g.querySelector('button.atual'); if (at) at.scrollIntoView({ block: 'center' });
+    g.querySelector('.cab button').onclick = function () { g.hidden = true; };
+    g.onclick = function (e) {
+      if (e.target === g) { g.hidden = true; return; }
+      var f = e.target.closest('[data-filtro]');
+      if (f) { filtro = f.getAttribute('data-filtro'); [].forEach.call(g.querySelectorAll('[data-filtro]'), function (x) { x.classList.toggle('on', x === f); }); filtrar(); return; }
+      var b = e.target.closest('[data-ir]'); if (!b) return;
+      g.hidden = true; atual = +b.getAttribute('data-ir'); mostrarPag(); irPara(atual);
+    };
+    g.querySelector('.busca input').oninput = filtrar;
+  }
+  // zoom: 1x (página na largura da tela) ou ~2x; mantém no centro o ponto tocado (fx, fy = fração da página)
+  var zoom = 1, ultimoToque = { t: 0, p: 0 };
+  function aplicarZoom(z, fig, fx, fy) {
+    var r = $('l-rolagem'); fig = fig || $('pg-' + atual); if (!fig) return;
+    zoom = z;
+    $('l-paginas').classList.toggle('z2', z > 1); r.classList.toggle('z', z > 1);
+    var b = $('l-zoom'); b.classList.toggle('on', z > 1); b.setAttribute('aria-pressed', String(z > 1));
+    b.setAttribute('aria-label', z > 1 ? 'Riduci la pagina' : 'Ingrandisci la pagina');
+    var a = fig.getBoundingClientRect(), rr = r.getBoundingClientRect();
+    r.scrollTop += (a.top + fy * a.height) - (rr.top + (fy ? rr.height / 2 : 10));
+    r.scrollLeft += (a.left + fx * a.width) - (rr.left + (fx ? rr.width / 2 : 0));
+  }
+  $('l-zoom').addEventListener('click', function () {
+    if (zoom > 1) return aplicarZoom(1, null, 0.5, 0);
+    aplicarZoom(2, null, 0, 0);
+    if (!ler('ar:dica-zoom')) { guardar('ar:dica-zoom', '1'); toast('Suggerimento: tocca due volte la pagina per ingrandire un punto.'); }
+  });
+  $('l-paginas').addEventListener('click', function (e) {
+    var f = e.target.closest('.pg'); if (!f) return;
+    var p = +f.getAttribute('data-p'), t = Date.now();
+    if (t - ultimoToque.t < 350 && ultimoToque.p === p) {
+      var a = f.getBoundingClientRect();
+      aplicarZoom(zoom > 1 ? 1 : 2, f, (e.clientX - a.left) / a.width, (e.clientY - a.top) / a.height);
+      ultimoToque = { t: 0, p: 0 };
+    } else ultimoToque = { t: t, p: p };
+  });
+  $('l-voltar').addEventListener('click', function () { fechar(); });
+  $('l-indice').addEventListener('click', indice);
+  $('l-pdf').addEventListener('click', function () { abrirPdfs(id); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !aberto()) return;
+    if (!$('modale').hidden) return fecharModal();
+    if (!$('gaveta').hidden) { $('gaveta').hidden = true; return; }
+    fechar();
+  });
+  return { abrir: abrir, fechar: fechar, aberto: aberto, indice: indice, atualizarFav: atualizarFav };
+})();
+
+/* ═══════════ NAVEGAÇÃO ═══════════
+   #home #assistenza #app #profilo = abas · #leggi/<id>/<pág> = leitor · #guida e #preferiti = seções da Home */
+var TELAS = { home: 'Home', assistenza: 'Assistenza', app: 'App', profilo: 'Profilo' };
+function irTela(t) {
+  if (!TELAS[t]) t = 'home';
+  var mudou = t !== TELA; TELA = t;
+  Object.keys(TELAS).forEach(function (k) { $('t-' + k).hidden = k !== t; });
+  [].forEach.call(document.querySelectorAll('.nav a[data-tela]'), function (a) { var on = a.getAttribute('data-tela') === t; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('titulo-tela').textContent = TELAS[t];
+  document.title = (t === 'home' ? 'L’Atelier del Rosario' : TELAS[t] + ' · L’Atelier del Rosario');
+  if (t === 'app') desenharApp();
+  if (t !== 'assistenza' && SUP.tema) voltarTemas();
+  if (mudou) window.scrollTo(0, 0);
+}
+var cliqueNaArea = false;
+document.addEventListener('click', function (e) { var a = e.target.closest('a[href^="#leggi/"]'); if (a) cliqueNaArea = true; }, true);
+function rota() {
+  var h = location.hash.replace(/^#/, '');
+  if (!$('painel-notif').hidden) { $('painel-notif').hidden = true; $('fundo-notif').hidden = true; $('sino').setAttribute('aria-expanded', 'false'); }
+  var m = h.match(/^leggi\/([a-z0-9]+)(?:\/(\d+))?$/);
+  if (m) {
+    if (!DADOS) return;
+    if (!LEITOR.abrir(m[1], m[2] ? +m[2] : 0, cliqueNaArea)) { history.replaceState(null, '', '#' + TELA); toast('Questo materiale non è disponibile.'); }
+    cliqueNaArea = false;
+    return;
+  }
+  if (LEITOR.aberto()) LEITOR.fechar(true);
+  if (h === 'guida' || h === 'preferiti') {
+    history.replaceState(null, '', '#home'); irTela('home');
+    setTimeout(function () { $(h === 'guida' ? 'guida' : 's-fav').scrollIntoView({ behavior: 'smooth' }); }, 80); return;
+  }
+  irTela(TELAS[h] ? h : 'home');
+}
+window.addEventListener('hashchange', rota);
+
+/* app instalável (PWA) + toque nas notificações com o app aberto */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  navigator.serviceWorker.addEventListener('message', function (e) {
+    if (e.data && e.data.tipo === 'abrir') { try { var u = new URL(e.data.url); if (u.hash && u.hash !== location.hash) location.hash = u.hash; } catch (x) {} }
+  });
+}
+
+/* ═══════════ NOTIFICHE ═══════════
+   Sininho só com avisos locais: boas-vindas e as dicas de instalar o app e de usar os preferiti.
+   Sem ofertas (não há upsell), sem pesquisa e sem respostas de suporte. Estado por e-mail no aparelho. */
+var NV = (function () {
+  var est = null, chave = '';
+  function agora() { return Date.now(); }
+  function salvar() { guardar(chave, JSON.stringify(est)); }
+  function carregarEst(email) {
+    chave = 'ar:nv:' + email;
+    try { est = JSON.parse(ler(chave) || 'null'); } catch (e) { est = null; }
+    est = est || { primeira: agora() };
+    est.notifs = est.notifs || [];
+  }
+  function quando(t) {
+    var s = Math.round((agora() - t) / 1000);
+    if (s < 60) return 'adesso';
+    if (s < 3600) return Math.floor(s / 60) + ' min fa';
+    if (s < 86400) return Math.floor(s / 3600) + ' h fa';
+    if (s < 172800) return 'ieri';
+    var d = new Date(t); return d.getDate() + '/' + (d.getMonth() + 1);
+  }
+  function addNotif(n) {
+    if (n.id && est.notifs.some(function (x) { return x.id === n.id; })) return;
+    n.t = n.t || agora(); n.lida = false;
+    est.notifs.push(n); est.notifs.sort(function (a, b) { return b.t - a.t; }); est.notifs = est.notifs.slice(0, 30); salvar();
+  }
+  function marcarLida(id) { var mud = false; est && est.notifs.forEach(function (n) { if (n.id === id && !n.lida) { n.lida = true; mud = true; } }); if (mud) { salvar(); desenharSino(false); } }
+  function desenharSino(tocar) {
+    var novas = est.notifs.filter(function (n) { return !n.lida; }).length;
+    var b = $('bolinha'); b.hidden = !novas; b.textContent = novas > 9 ? '9+' : novas;
+    if (tocar && novas) { var s = $('sino'); s.classList.remove('toca'); void s.offsetWidth; s.classList.add('toca'); }
+    var l = $('lista-notif');
+    if (!est.notifs.length) { l.innerHTML = '<div class="vazio">Nessuna notifica per ora.</div>'; return; }
+    l.innerHTML = est.notifs.map(function (n, i) {
+      return '<a class="notif' + (n.lida ? '' : ' nova') + '" data-i="' + i + '" href="' + esc(n.href || '#home') + '"><span class="mini">' + (n.emoji || '🔔') + '</span>' +
+        '<div class="txt"><span class="tag">' + esc(n.tag || '') + '</span><b>' + esc(n.tit) + '</b><p>' + esc(n.txt) + '</p><time>' + quando(n.t) + '</time></div></a>';
+    }).join('');
+  }
+  function abrirPainel(abrir) {
+    var p = $('painel-notif'); p.hidden = !abrir; $('fundo-notif').hidden = !abrir; $('sino').setAttribute('aria-expanded', String(abrir));
+    if (abrir) desenharSino(false);
+  }
+  function iniciar(d) {
+    carregarEst(d.email || 'anon');
+    addNotif({ id: 'benvenuta', tag: 'Benvenuta', emoji: '📿', tit: 'I tuoi 100 modelli sono pronti', txt: 'Prima di iniziare, leggi i 5 consigli nella Home.', href: '#guida', t: est.primeira });
+    addNotif({ id: 'preferiti', tag: 'Consiglio', emoji: '⭐', tit: 'Salva i tuoi modelli preferiti', txt: 'Tocca la stellina ☆ accanto a un modello: lo ritrovi subito nella Home.', href: '#preferiti', t: est.primeira - 30e3 });
+    if (!AMB.instalado()) addNotif({ id: 'installa', tag: 'Consiglio', emoji: '📲', tit: 'Installa L’Atelier del Rosario nella schermata Home', txt: 'Si apre dall’icona, a schermo intero. Ci vogliono 30 secondi.', href: '#app', t: est.primeira - 60e3 });
+    else marcarLida('installa');
+    desenharSino(true);
+  }
+  $('sino').addEventListener('click', function (e) { e.stopPropagation(); abrirPainel($('painel-notif').hidden); });
+  $('fundo-notif').addEventListener('click', function () { abrirPainel(false); });
+  $('fechar-notif').addEventListener('click', function () { abrirPainel(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || LEITOR.aberto()) return;
+    if (!$('painel-notif').hidden) return abrirPainel(false);
+    if (!$('modale').hidden) return fecharModal();
+  });
+  $('ler-todas').addEventListener('click', function () { est.notifs.forEach(function (n) { n.lida = true; }); salvar(); desenharSino(false); });
+  $('lista-notif').addEventListener('click', function (e) {
+    var a = e.target.closest('.notif'); if (!a) return;
+    var n = est.notifs[+a.dataset.i]; if (n) { n.lida = true; salvar(); }
+    abrirPainel(false); desenharSino(false);
+  });
+  return { iniciar: iniciar, marcarLida: marcarLida };
+})();
+
+carregar();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,2065 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Guias de Contas</title>
+<meta name="description" content="Acesse seus 100 modelos de guias de contas">
+<meta name="theme-color" content="#1F3A2C">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/assets/icon-gc-192.png">
+<link rel="apple-touch-icon" href="/assets/icon-gc-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Guias de Contas">
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/playfair-latin.woff2" crossorigin>
+
+<!-- ============================================================
+     APP DE MEMBROS — Guias de Contas (100 Projetos de Guias de Contas)
+     Uma página só com cara de aplicativo: login pelo e-mail da compra e 4 abas (Início, Suporte, App, Perfil).
+     Visual da apostila: creme, verde-escuro e dourado, títulos em serifa (Playfair Display).
+     O servidor (api/) confere a compra: /api/me devolve a PASTA do material SÓ do que o e-mail comprou.
+     As pastas (c/<código>/) não estão neste arquivo. O leitor de páginas abre aqui mesmo (#ler/<id>/<pág>).
+     ============================================================ -->
+
+<style>
+  /* Nunito: arredondada e casual, boa de ler no celular (títulos 800, texto 400–600) */
+  @font-face{font-family:'Nunito';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/nunito-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+  @font-face{font-family:'Nunito';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/nunito-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+  /* Playfair Display: a serifa da apostila e da página de vendas, só nos títulos */
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/playfair-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+  @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/playfair-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+  @font-face{font-family:'Nunito Fallback';src:local('Arial');size-adjust:101%;ascent-override:99%;descent-override:35%;line-gap-override:0%}
+
+  :root{
+    /* paleta da apostila das guias: verde-escuro #1F3A2C, dourado #C6A15B e creme #F8F5EC
+       (os nomes --roxo* vêm do app de origem; aqui são o verde) */
+    --fundo:#F8F5EC;
+    --branco:#FFFFFF;
+    --linha:#E9E3D3;
+    --linha-2:#DCD3BD;
+    --tinta:#1B2620;
+    --texto-2:#4F5A52;
+    --texto-3:#8A8F84;
+    --roxo:#1F3A2C;
+    --roxo-esc:#152A1F;
+    --roxo-nevoa:#EEF1E8;
+    --roxo-claro:#D3DCCB;
+    --ouro:#C6A15B; --ouro-esc:#9A7A3C; --ouro-nevoa:#F6EEDC;
+    --verde:#2E7D4F; --verde-nevoa:#E5F2EA;
+    --degrade:linear-gradient(135deg,#2B4D3B,#1F3A2C);
+    --compra:linear-gradient(135deg,#2E8B57,#21704A);
+    --sombra-1:0 1px 2px rgba(21,34,27,.05),0 1px 1px rgba(21,34,27,.03);
+    --sombra-2:0 14px 34px -14px rgba(31,58,44,.20),0 2px 6px -2px rgba(21,34,27,.06);
+    --sans:"Nunito","Nunito Fallback",system-ui,sans-serif;
+    --titulo:"Playfair Display",Georgia,"Times New Roman",serif;
+    --raio:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--fundo);color:var(--tinta);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+  img{display:block;max-width:100%;height:auto}
+  button{font-family:inherit;color:inherit}
+  [hidden]{display:none!important}
+  ::selection{background:var(--roxo-claro)}
+  .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 18px}
+  h1,h2,h3,h4{font-weight:400}
+
+  /* ---------- botões ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--degrade);color:#fff;
+    font-weight:700;font-size:14.5px;letter-spacing:.1px;text-decoration:none;border:0;border-radius:12px;
+    padding:12px 18px;cursor:pointer;line-height:1.15;white-space:nowrap;
+    box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 8px 18px -8px rgba(31,58,44,.55);transition:filter .15s,transform .15s,box-shadow .15s}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn:focus-visible{outline:3px solid rgba(31,58,44,.35);outline-offset:2px}
+  .btn svg{width:17px;height:17px;flex:none}
+  /* compra: verde, igual aos botões de compra do funil */
+  .btn.compra{background:var(--compra);box-shadow:0 4px 0 #157A42,0 10px 20px -8px rgba(31,154,85,.5)}
+  .btn.compra:active{transform:translateY(2px);box-shadow:0 2px 0 #157A42}
+  .btn.claro{background:var(--branco);color:var(--roxo-esc);border:1.5px solid var(--linha-2);box-shadow:var(--sombra-1)}
+  .btn.claro:hover{border-color:var(--roxo);filter:none}
+  .btn.parado{background:#F1EEE4;color:var(--texto-3);box-shadow:none;cursor:default}
+  .btn.parado:hover{transform:none;filter:none}
+  .btn.full{width:100%}
+
+  /* ---------- carregando ---------- */
+  .carregando{min-height:100vh;display:grid;place-items:center}
+  .carregando img{width:96px;border-radius:26%;animation:pulsa 1.4s ease-in-out infinite}
+  @keyframes pulsa{50%{opacity:.45;transform:scale(.96)}}
+
+  /* ═════════════ LOGIN ═════════════ */
+  .login{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:1fr 1fr;background:var(--branco)}
+  .login-lado{position:relative;background:var(--roxo-nevoa);display:flex;align-items:center;justify-content:center;padding:48px;overflow:hidden}
+  .colagem{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:520px}
+  .colagem img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;box-shadow:var(--sombra-2);animation:aparece .8s cubic-bezier(.2,.8,.2,1) both}
+  .colagem img:nth-child(3n+2){transform:translateY(28px)}
+  .colagem img:nth-child(2){animation-delay:.08s}.colagem img:nth-child(3){animation-delay:.16s}.colagem img:nth-child(4){animation-delay:.24s}
+  .colagem img:nth-child(5){animation-delay:.32s}.colagem img:nth-child(6){animation-delay:.4s}
+  .login-lado .frase{position:absolute;left:48px;right:48px;bottom:36px;font-family:var(--titulo);font-weight:700;font-size:19px;color:var(--roxo-esc);display:flex;align-items:center;gap:10px}
+  .login-lado .frase::before{content:"";width:24px;height:2px;background:var(--roxo);border-radius:2px}
+  .login-form{display:flex;align-items:center;justify-content:center;padding:40px 24px}
+  .login-caixa{width:100%;max-width:380px;animation:aparece .6s cubic-bezier(.2,.8,.2,1) both}
+  .marca{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+  .marca img{width:40px;height:40px;border-radius:26%}
+  .marca span{font-family:var(--titulo);font-weight:700;font-size:20px;line-height:1;color:var(--roxo-esc);white-space:nowrap}
+  .login-caixa .marca{margin-bottom:26px}
+  .login-caixa .marca img{width:52px;height:52px}
+  .login-caixa .marca span{font-size:24px}
+  .login-caixa h1{font-family:var(--titulo);font-weight:700;font-size:36px;line-height:1.05;letter-spacing:-.015em}
+  .login-caixa h1 em{color:var(--roxo);font-style:normal}
+  .login-caixa .sub{color:var(--texto-2);margin:10px 0 26px;font-size:15.5px}
+  label.rotulo{display:block;font-size:13.5px;font-weight:700;margin-bottom:7px}
+  .campo{display:flex;align-items:center;gap:10px;background:var(--branco);border:1.5px solid var(--linha-2);border-radius:13px;padding:0 14px;transition:border-color .15s,box-shadow .15s}
+  .campo:focus-within{border-color:var(--roxo);box-shadow:0 0 0 4px rgba(31,58,44,.12)}
+  .campo svg{width:19px;height:19px;color:var(--texto-3);flex:none}
+  .campo input{flex:1;border:0;outline:0;background:transparent;font:inherit;font-size:16px;padding:15px 0;color:var(--tinta);min-width:0}
+  .campo input::placeholder{color:var(--texto-3)}
+  .login-caixa .btn{margin-top:14px;padding:16px;font-size:15.5px}
+  .aviso{border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.5;margin-top:14px;background:#FEF2F2;border:1px solid #FBD5D5;color:#991B1B}
+  .aviso b{display:block;margin-bottom:1px}
+  .garantias{display:flex;gap:18px;margin-top:22px;flex-wrap:wrap;font-size:13px;color:var(--texto-2)}
+  .garantias span{display:inline-flex;align-items:center;gap:7px}
+  .garantias svg{width:16px;height:16px;color:var(--verde)}
+  .nota-login{margin-top:22px;padding-top:18px;border-top:1px solid var(--linha);font-size:13px;color:var(--texto-3);line-height:1.6}
+  @media(max-width:860px){
+    /* celular: leque de 3 guias em cima, marca, título e formulário no eixo */
+    .login{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+    .login-lado{padding:30px 18px 6px;background:linear-gradient(180deg,var(--roxo-nevoa),var(--branco))}
+    .colagem{display:flex;justify-content:center;align-items:center;gap:0;max-width:none;height:146px}
+    .colagem img{width:108px;height:auto;aspect-ratio:4/5;border-radius:18px;border:4px solid #fff;flex:none}
+    .colagem img:nth-child(n+4){display:none}
+    .colagem img:nth-child(1){transform:rotate(-8deg) translateX(18px)}
+    .colagem img:nth-child(2){transform:translateY(-6px) scale(1.12);position:relative;z-index:2}
+    .colagem img:nth-child(3){transform:rotate(8deg) translateX(-18px)}
+    .login-lado .frase{display:none}
+    .login-form{padding:18px 22px calc(34px + env(safe-area-inset-bottom));align-items:flex-start}
+    .login-caixa{text-align:center;max-width:400px}
+    .login-caixa .marca{justify-content:center;margin-bottom:16px}
+    .login-caixa h1{font-size:30px}
+    .login-caixa .sub{margin:8px auto 22px;max-width:320px}
+    label.rotulo{text-align:left}
+    .garantias{justify-content:center}
+    .nota-login{text-align:center}
+  }
+  @media(max-width:360px){
+    .colagem{height:126px}
+    .colagem img{width:90px}
+    .login-caixa h1{font-size:26px}
+  }
+
+  /* ═════════════ APLICATIVO ═════════════
+     Casca de app: barra de cima (marca, sino, foto), navegação de 5 abas (embaixo no celular, na lateral no computador)
+     e uma tela por aba. Contorno tracejado nos destaques (veio do app de origem). */
+  .app{min-height:100vh;min-height:100dvh}
+  .app-topo{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:0 16px;padding-top:env(safe-area-inset-top);
+    height:calc(60px + env(safe-area-inset-top));background:rgba(251,249,243,.92);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--linha)}
+  .app-topo .marca img{width:34px;height:34px}
+  .app-topo .marca span{font-size:18.5px}
+  .app-topo .titulo-tela{display:none;font-family:var(--titulo);font-weight:700;font-size:22px;line-height:1}
+  .topo-dir{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .ico-btn{position:relative;width:40px;height:40px;border-radius:50%;background:var(--branco);border:1px solid var(--linha-2);display:grid;place-items:center;cursor:pointer;transition:border-color .15s;-webkit-tap-highlight-color:transparent}
+  .ico-btn:hover{border-color:var(--texto-3)}
+  .ico-btn svg{width:19px;height:19px;color:var(--tinta)}
+  .ico-btn .bolinha{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#E5484D;color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+  .ico-btn.toca svg{animation:sino .9s ease}
+  @keyframes sino{20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+  .av{width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--degrade);color:#fff;font-weight:800;font-size:14.5px;display:grid;place-items:center;flex:none;
+    border:2px solid #fff;box-shadow:0 0 0 1px var(--linha-2);text-decoration:none;font-family:var(--sans)}
+  .av img{width:100%;height:100%;object-fit:cover}
+
+  .conteudo{width:100%;max-width:1040px;margin:0 auto;padding:18px 16px calc(100px + env(safe-area-inset-bottom))}
+  .tela{animation:aparece .35s cubic-bezier(.2,.8,.2,1) both}
+  .tela-cab{margin:6px 0 20px}
+  .tela-cab h1{font-family:var(--titulo);font-weight:700;font-size:clamp(28px,4.4vw,38px);line-height:1.04;letter-spacing:-.015em}
+  .tela-cab p{color:var(--texto-2);font-size:14.5px;margin-top:5px}
+
+  /* navegação */
+  .nav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:repeat(4,1fr);
+    background:rgba(255,255,255,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--linha);
+    padding:6px 2px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px -18px rgba(21,34,27,.25)}
+  .nav .nav-marca,.nav .nav-rodape{display:none}
+  .nav a{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--texto-3);font-size:11.5px;font-weight:700;
+    padding:3px 0;-webkit-tap-highlight-color:transparent;min-width:0}
+  .nav a .ic{width:54px;height:30px;border-radius:99px;display:grid;place-items:center;transition:background .2s,color .2s}
+  .nav a svg{width:22px;height:22px}
+  .nav a.on{color:var(--roxo-esc)}
+  .nav a.on .ic{background:var(--roxo-nevoa);box-shadow:inset 0 0 0 1.5px var(--roxo-claro)}
+  .nav a.on .ic{background-image:linear-gradient(var(--roxo-nevoa),var(--roxo-nevoa));outline:1.5px dashed rgba(31,58,44,.35);outline-offset:2px}
+  .nav a .ponto{position:absolute;top:1px;left:calc(50% + 9px);width:10px;height:10px;border-radius:50%;background:#E5484D;border:2px solid #fff}
+  @media(min-width:980px){
+    .nav{top:0;right:auto;width:244px;display:flex;flex-direction:column;gap:4px;padding:18px 14px;border-top:0;border-right:1px solid var(--linha);background:var(--branco);box-shadow:none}
+    .nav .nav-marca{display:flex;margin:6px 8px 26px}
+    .nav .nav-marca img{width:40px;height:40px}
+    .nav .nav-marca span{font-size:18px}
+    .nav a{flex-direction:row;gap:12px;font-size:14.5px;padding:11px 12px;border-radius:13px;color:var(--texto-2)}
+    .nav a .ic{width:auto;height:auto;background:none!important;outline:0!important;box-shadow:none!important}
+    .nav a:hover{background:var(--fundo)}
+    .nav a.on{background:var(--roxo-nevoa);color:var(--roxo-esc);box-shadow:inset 0 0 0 1.5px var(--roxo-claro)}
+    .nav a .ponto{left:auto;right:14px;top:50%;margin-top:-5px}
+    .nav .nav-rodape{display:block;margin-top:auto;padding:14px 12px 4px;border-top:1px dashed var(--linha-2);font-size:12px;color:var(--texto-3);line-height:1.5}
+    .app-topo,.conteudo-caixa{margin-left:244px}
+    .app-topo .marca{display:none}
+    .app-topo .titulo-tela{display:block}
+    .conteudo{padding:26px 32px 60px}
+  }
+
+  /* ---------- INÍCIO ---------- */
+  .ola{display:flex;align-items:center;gap:14px;margin:4px 0 18px}
+  .ola .av{width:54px;height:54px;font-size:21px}
+  .ola small{display:block;font-size:13.5px;color:var(--texto-2);font-weight:600}
+  .ola h1{font-family:var(--titulo);font-weight:700;font-size:clamp(26px,4vw,34px);line-height:1.05;letter-spacing:-.015em}
+  .ola .editar{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--roxo);text-decoration:none;background:var(--roxo-nevoa);padding:7px 11px;border-radius:99px;white-space:nowrap}
+
+  .busca{position:relative;margin-bottom:20px}
+  .busca .campo{border-radius:15px;box-shadow:var(--sombra-1)}
+  .busca .campo input{padding:13px 0;font-size:15.5px}
+  .busca .limpar{background:none;border:0;font-size:20px;line-height:1;color:var(--texto-3);cursor:pointer;padding:4px}
+  .resultados{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--branco);border:1px solid var(--linha);border-radius:16px;
+    box-shadow:0 22px 50px -14px rgba(21,34,27,.28);z-index:25;padding:6px;max-height:min(420px,60vh);overflow:auto;animation:abre .14s ease both}
+  @keyframes abre{from{opacity:0;transform:translateY(-4px)}}
+  .res{display:flex;align-items:center;gap:12px;padding:8px;border-radius:11px;text-decoration:none;color:inherit}
+  .res:hover,.res.sel{background:var(--fundo)}
+  .res .nn{width:38px;height:38px;border-radius:11px;background:var(--roxo-nevoa);color:var(--roxo-esc);font-weight:800;font-size:13px;display:grid;place-items:center;flex:none}
+  .res b{display:block;font-size:14.5px;line-height:1.25}
+  .res span{font-size:12.5px;color:var(--texto-3)}
+  .res .ir{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--roxo);white-space:nowrap}
+
+  .seguir{position:relative;display:flex;align-items:center;gap:14px;background:var(--degrade);color:#fff;border-radius:22px;padding:14px;text-decoration:none;
+    box-shadow:0 18px 36px -18px rgba(31,58,44,.75);overflow:hidden;margin-bottom:6px}
+  .seguir::after{content:"";position:absolute;inset:6px;border:1.5px dashed rgba(255,255,255,.32);border-radius:16px;pointer-events:none}
+  .seguir img{width:86px;height:86px;border-radius:14px;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.55)}
+  .seguir .t{min-width:0;flex:1}
+  .seguir small{display:block;font-size:11px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;opacity:.85}
+  .seguir b{display:block;font-family:var(--titulo);font-weight:700;font-size:21px;line-height:1.1;margin:3px 0 2px}
+  .seguir span{font-size:13px;opacity:.9}
+  .seguir .prog{height:5px;border-radius:99px;background:rgba(255,255,255,.25);margin-top:9px;overflow:hidden}
+  .seguir .prog i{display:block;height:100%;background:#fff;border-radius:99px}
+  .seguir .play{width:46px;height:46px;border-radius:50%;background:#fff;color:var(--roxo);display:grid;place-items:center;flex:none;position:relative;z-index:1}
+  .seguir .play svg{width:20px;height:20px;margin-left:2px}
+
+  .sec{margin-top:30px}
+  .sec-tit{display:flex;align-items:baseline;gap:10px;margin-bottom:13px}
+  .sec-tit h2{font-family:var(--titulo);font-weight:700;font-size:23px;line-height:1.1}
+  .sec-tit .cont{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--texto-3);white-space:nowrap}
+  .sec-tit .cont a{color:var(--roxo);text-decoration:none}
+  .sec-sub{font-size:13.5px;color:var(--texto-2);margin:-8px 0 13px}
+  /* banner das Trançadas (29/10): a oferta com mais foco de venda no app */
+  .trancadas{position:relative;display:grid;grid-template-columns:1.3fr .7fr;min-height:214px;border-radius:22px;overflow:hidden;
+    background:radial-gradient(120% 140% at 0% 0%,#2C5140 0%,#1F3A2C 55%,#16291F 100%);color:#F8F5EC;box-shadow:0 14px 34px -18px rgba(20,40,28,.7)}
+  .trancadas::after{content:"";position:absolute;inset:7px;border:1px solid rgba(198,161,91,.38);border-radius:17px;pointer-events:none}
+  .trancadas .tx{position:relative;z-index:2;padding:20px 4px 18px 20px;display:flex;flex-direction:column;align-items:flex-start}
+  .trancadas .selo-ex{display:inline-flex;align-items:center;gap:6px;background:#C6A15B;color:#1F3A2C;font-size:9.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;border-radius:99px;padding:5px 9px;white-space:nowrap}
+  .trancadas h3{font-family:'Playfair Display',Georgia,serif;font-size:26px;line-height:1.08;margin:10px 0 6px;color:#fff}
+  .trancadas h3 b{color:#E4C989;font-weight:700}
+  .trancadas p{font-size:13px;line-height:1.45;color:#D9E2DB;margin:0 0 12px}
+  .trancadas .preco{font-size:12px;color:#C9D3CC;margin-bottom:10px}
+  .trancadas .preco b{display:block;font-size:24px;color:#E4C989;font-variant-numeric:lining-nums;line-height:1.1}
+  .trancadas .cta{display:inline-flex;align-items:center;gap:6px;background:#C6A15B;color:#1F3A2C;text-decoration:none;font-weight:900;font-size:13.5px;border-radius:12px;padding:11px 14px;white-space:nowrap;box-shadow:0 6px 16px -6px rgba(198,161,91,.8)}
+  .trancadas .det{background:none;border:0;color:#D9E2DB;font-size:12px;text-decoration:underline;margin-top:8px;padding:0;cursor:pointer}
+  .trancadas .fotos{position:relative}
+  .trancadas .fotos img{position:absolute;width:86%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;border:3px solid #F8F5EC;box-shadow:0 10px 22px -8px rgba(0,0,0,.6)}
+  .trancadas .fotos img:nth-child(1){right:4%;top:7%;transform:rotate(6deg);z-index:1}
+  .trancadas .fotos img:nth-child(2){right:24%;top:26%;width:72%;transform:rotate(-7deg);z-index:2}
+  .trancadas .fotos img:nth-child(3){right:3%;bottom:7%;width:66%;transform:rotate(3deg);z-index:3}
+  @media(max-width:380px){.trancadas h3{font-size:22px}.trancadas .tx{padding-left:16px}}
+
+  /* produto principal (destaque da coleção) */
+  .principal{display:grid;grid-template-columns:1.1fr 1fr;background:var(--branco);border:1px solid var(--linha);border-radius:24px;overflow:hidden;box-shadow:var(--sombra-2)}
+  .principal .foto{position:relative;overflow:hidden;min-height:300px;background:var(--roxo-nevoa)}
+  .principal .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .selo{position:absolute;top:14px;left:14px;background:var(--degrade);color:#fff;font-size:11px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;padding:6px 10px;border-radius:8px;box-shadow:0 6px 14px -6px rgba(31,58,44,.6)}
+  .principal .corpo{padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;justify-content:center;gap:11px}
+  .principal h3{font-family:var(--titulo);font-weight:700;font-size:clamp(26px,3.2vw,34px);line-height:1.03;letter-spacing:-.015em}
+  .principal p{color:var(--texto-2);font-size:14.5px}
+  .etiquetas{display:flex;flex-wrap:wrap;gap:6px}
+  .etiquetas span{font-size:12.5px;font-weight:600;color:var(--roxo-esc);background:var(--roxo-nevoa);border:1px dashed var(--roxo-claro);padding:4px 10px;border-radius:99px}
+  .principal .acoes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .principal .acoes .btn:first-child{grid-column:1/-1;padding:14px}
+  @media(max-width:640px){
+    .principal{grid-template-columns:1fr;border-radius:20px}
+    .principal .foto{min-height:0;aspect-ratio:16/10}
+  }
+
+  /* status */
+  .status{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700}
+  .status.ok{color:var(--verde)}
+  .status.ok::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 3px var(--verde-nevoa)}
+  .status.breve{color:var(--roxo)}
+  .status svg{width:13px;height:13px}
+
+  /* meus produtos (lista) */
+  .meus{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+  .meu{display:flex;gap:13px;background:var(--branco);border:1px solid var(--linha);border-radius:18px;padding:10px;box-shadow:var(--sombra-1);align-items:center}
+  .meu .capa{width:112px;flex:none;border-radius:13px;overflow:hidden;background:var(--roxo-nevoa);position:relative}
+  .meu .capa img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .meu .t{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}
+  .meu h3{font-family:var(--titulo);font-weight:700;font-size:18.5px;line-height:1.12}
+  .meu .meta{font-size:12.5px;color:var(--texto-3)}
+  .meu .bts{display:flex;gap:6px;margin-top:4px}
+  .meu .bts .btn{padding:9px 12px;font-size:13px;border-radius:10px}
+  .meu .bts .btn.claro{padding:9px 10px}
+  .mini-prog{height:4px;border-radius:99px;background:#EEF1E8;overflow:hidden;margin-top:2px}
+  .mini-prog i{display:block;height:100%;background:var(--degrade);border-radius:99px}
+  @media(max-width:760px){.meus{grid-template-columns:1fr}}
+  @media(max-width:380px){.meu .capa{width:92px}.meu h3{font-size:17px}}
+
+  /* prateleiras (bônus e desbloqueios) */
+  .prateleira{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(178px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+    margin:0 -16px;padding:2px 16px 12px;scrollbar-width:none}
+  .prateleira::-webkit-scrollbar{display:none}
+  .prateleira.cinco{grid-auto-columns:minmax(168px,1fr)}
+  @media(min-width:980px){.prateleira{margin:0;padding:2px 0 12px}}
+  @media(max-width:560px){.prateleira{grid-auto-columns:46%}.prateleira.cinco{grid-auto-columns:44%}}
+  .card{position:relative;display:flex;flex-direction:column;background:var(--branco);border:1px solid var(--linha);border-radius:18px;overflow:hidden;
+    box-shadow:var(--sombra-1);scroll-snap-align:start;text-decoration:none;color:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s;-webkit-tap-highlight-color:transparent;text-align:left;font:inherit;padding:0}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--sombra-2)}
+  .card .foto{position:relative;background:var(--roxo-nevoa)}
+  .card .foto img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .card .corpo{padding:11px 12px 13px;display:flex;flex-direction:column;gap:5px;flex:1}
+  .card h3{font-family:var(--sans);font-size:14.5px;font-weight:700;line-height:1.25}
+  .card .sub{font-size:12.5px;color:var(--texto-3);line-height:1.35}
+  .card .pe{margin-top:auto;padding-top:6px;display:flex;align-items:center;gap:8px}
+  .card .pe b{font-size:15.5px;font-weight:800;letter-spacing:-.015em}
+  .card .pe .acao{margin-left:auto;font-size:12.5px;font-weight:800;color:var(--roxo)}
+  .card .pe .acao.verde{color:var(--verde)}
+  .card .tranca{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.94);color:var(--roxo);display:grid;place-items:center;box-shadow:var(--sombra-1)}
+  .card .tranca svg{width:15px;height:15px}
+  .card .fita{position:absolute;left:8px;top:8px;background:var(--degrade);color:#fff;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:5px 8px;border-radius:7px}
+  .card .fita.verde{background:var(--compra)}
+  .card.bloq .foto img{filter:saturate(.75)}
+  .card.feito .foto::after{content:"";position:absolute;inset:6px;border:1.5px dashed rgba(255,255,255,.75);border-radius:12px;pointer-events:none}
+
+  /* "em breve no clube" (materiais em produção) */
+  .breve-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+  .breve-item{display:flex;align-items:center;gap:12px;background:var(--branco);border:1px dashed var(--linha-2);border-radius:16px;padding:9px;font:inherit;text-align:left;color:inherit}
+  button.breve-item{cursor:pointer}
+  .breve-item img{width:60px;height:45px;border-radius:10px;object-fit:cover;flex:none}
+  .breve-item b{display:block;font-size:13.5px;line-height:1.25}
+  .breve-item span{font-size:12px;color:var(--texto-3)}
+  .breve-item .seta{margin-left:auto;width:18px;height:18px;color:var(--texto-3);transform:rotate(-90deg);flex:none}
+
+  /* ---------- FICHA DE PRODUTO (folha que sobe) ---------- */
+  .folha-fundo{position:fixed;inset:0;z-index:100;background:rgba(21,34,27,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px;animation:esmaece .2s ease both}
+  .folha{position:relative;width:100%;max-width:520px;max-height:calc(100dvh - 32px);overflow:auto;background:var(--branco);border-radius:24px;box-shadow:0 30px 70px -20px rgba(0,0,0,.4);animation:sobe .35s cubic-bezier(.2,.8,.2,1) both}
+  .folha .x{position:absolute;right:12px;top:12px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.94);font-size:21px;line-height:1;cursor:pointer;color:var(--tinta);box-shadow:var(--sombra-1)}
+  .folha .alca{display:none}
+  .folha .foto{position:relative}
+  .folha .foto img{width:100%;aspect-ratio:16/10;object-fit:cover}
+  .folha .foto .fita{position:absolute;left:14px;bottom:14px;background:var(--degrade);color:#fff;font-size:11px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;padding:6px 10px;border-radius:8px}
+  .folha .corpo{padding:18px 20px calc(20px + env(safe-area-inset-bottom))}
+  .folha h3{font-family:var(--titulo);font-weight:700;font-size:27px;line-height:1.06}
+  .folha .desc{font-size:14.5px;color:var(--texto-2);margin:7px 0 12px}
+  .inclui{list-style:none;display:flex;flex-direction:column;gap:8px;margin:4px 0 16px}
+  .inclui li{display:flex;gap:10px;font-size:14px;line-height:1.4}
+  .inclui li::before{content:"";flex:none;width:20px;height:20px;border-radius:50%;margin-top:-1px;background:var(--verde-nevoa) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 12.5 4 4 8-9' fill='none' stroke='%231F9A55' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/13px no-repeat}
+  .compra-linha{display:flex;align-items:center;gap:14px;border-top:1px dashed var(--linha-2);padding-top:14px}
+  .compra-linha .valor small{display:block;font-size:11.5px;color:var(--texto-3)}
+  .compra-linha .valor s{font-size:13px;color:var(--texto-3)}
+  .compra-linha .valor b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  .compra-linha .btn{flex:1;padding:15px}
+  .seguro{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12.5px;color:var(--texto-3);margin-top:12px;text-align:center}
+  .seguro svg{width:15px;height:15px;color:var(--verde);flex:none}
+  @media(max-width:600px){
+    .folha-fundo{align-items:flex-end;padding:0}
+    .folha{max-width:none;border-radius:24px 24px 0 0;max-height:92dvh}
+    .folha .alca{display:block;position:absolute;left:50%;top:8px;width:42px;height:5px;margin-left:-21px;border-radius:99px;background:rgba(255,255,255,.85);z-index:2}
+  }
+
+  /* ---------- PÁGINA DA AULA ---------- */
+  .aula-pg{position:fixed;inset:0;z-index:90;background:var(--fundo);display:flex;flex-direction:column}
+  .a-rolagem{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .a-grade{max-width:1240px;margin:0 auto;padding:18px 18px calc(36px + env(safe-area-inset-bottom));display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;align-items:start}
+  .a-player{border-radius:18px;overflow:hidden;box-shadow:var(--sombra-2)}
+  .a-info{margin-top:16px}
+  .a-mod{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--roxo);background:var(--roxo-nevoa);border-radius:8px;padding:5px 9px}
+  .a-info h1{font-family:var(--titulo);font-weight:700;font-size:clamp(23px,2.6vw,30px);line-height:1.1;margin:9px 0 6px}
+  .a-info p{font-size:14.5px;color:var(--texto-2)}
+  .a-info .dur{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--texto-3);margin-top:8px}
+  .a-info .dur svg{width:15px;height:15px}
+  .a-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .a-passo{display:flex;align-items:center;gap:12px;width:100%;min-width:0;text-align:left;background:var(--branco);border:1.5px solid var(--linha-2);border-radius:16px;padding:13px 14px;cursor:pointer;font:inherit;color:inherit;box-shadow:var(--sombra-1)}
+  .a-passo:hover{border-color:var(--roxo)}
+  .a-passo .seta{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--roxo-nevoa);color:var(--roxo)}
+  .a-passo .seta svg{width:18px;height:18px;transform:rotate(90deg)}
+  .a-passo.prox{flex-direction:row-reverse;text-align:right;background:var(--degrade);border-color:transparent;color:#fff}
+  .a-passo.prox .seta{background:rgba(255,255,255,.18);color:#fff}
+  .a-passo.prox .seta svg{transform:rotate(-90deg)}
+  .a-passo .txt{min-width:0;flex:1}
+  .a-passo small{display:block;font-size:11.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;opacity:.75}
+  .a-passo b{display:block;font-size:14px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .a-passo[disabled]{cursor:default;opacity:.45;box-shadow:none}
+  .a-passo.prox[disabled]{background:var(--verde-nevoa);color:var(--verde);opacity:1}
+  .a-passo.prox[disabled] .seta{background:#fff;color:var(--verde)}
+  .a-lado{position:sticky;top:0;background:var(--branco);border:1px solid var(--linha);border-radius:20px;box-shadow:var(--sombra-1);display:flex;flex-direction:column;max-height:calc(100dvh - 110px);overflow:hidden}
+  .a-lado-cab{padding:16px 16px 12px;border-bottom:1px solid var(--linha)}
+  .a-lado-cab b{font-family:var(--titulo);font-weight:700;font-size:18px}
+  .a-lado-cab span{display:block;font-size:12.5px;color:var(--texto-3);font-weight:600;margin:2px 0 8px}
+  .a-lado-cab .mini-prog{height:6px}
+  .a-lista{overflow-y:auto;padding:6px 10px 12px;overscroll-behavior:contain}
+  .a-lista h4{font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--texto-3);margin:12px 6px 6px}
+  .a-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:12px;padding:8px;cursor:pointer;font:inherit;color:inherit}
+  .a-item:hover{background:var(--fundo)}
+  .a-item .num{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--fundo);border:1.5px solid var(--linha-2);color:var(--roxo-esc)}
+  .a-item.vista .num{background:var(--verde);border-color:var(--verde);color:#fff}
+  .a-item .tt{min-width:0;flex:1}
+  .a-item b{display:block;font-size:13.5px;font-weight:700;line-height:1.3}
+  .a-item small{font-size:12px;color:var(--texto-3)}
+  .a-item.atual{background:var(--roxo-nevoa)}
+  .a-item.atual .num{background:var(--degrade);border-color:transparent;color:#fff}
+  .a-item.atual b{color:var(--roxo-esc)}
+  @media(max-width:900px){
+    .a-grade{grid-template-columns:1fr;padding:0 0 calc(30px + env(safe-area-inset-bottom));gap:14px}
+    .a-player{border-radius:0;box-shadow:none}
+    .a-info,.a-nav{margin-left:16px;margin-right:16px}
+    .a-lado{position:static;max-height:none;margin:4px 16px 0}
+    .a-lista{overflow:visible}
+  }
+  @media(max-width:480px){.a-nav{grid-template-columns:1fr}.a-passo b{white-space:normal}}
+  /* ---------- AULAS ---------- */
+  .aulas-hero{position:relative;border-radius:24px;overflow:hidden;background:var(--tinta);color:#fff;box-shadow:var(--sombra-2)}
+  .aulas-hero img{width:100%;aspect-ratio:16/8;object-fit:cover;opacity:.55}
+  .aulas-hero .sobre{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,3vw,30px);
+    background:linear-gradient(180deg,rgba(21,34,27,0) 20%,rgba(21,34,27,.88))}
+  .aulas-hero small{font-size:11.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;opacity:.85}
+  .aulas-hero h2{font-family:var(--titulo);font-weight:700;font-size:clamp(28px,4.2vw,40px);line-height:1.02;margin:4px 0 6px}
+  .aulas-hero p{font-size:14.5px;opacity:.9;max-width:520px}
+  .aulas-hero .play-g{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;background:rgba(255,255,255,.95);color:var(--roxo);display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(0,0,0,.5)}
+  .aulas-hero .play-g svg{width:28px;height:28px;margin-left:4px}
+  @media(max-width:600px){.aulas-hero img{aspect-ratio:4/3.4}}
+  .oferta-aulas{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-top:16px;align-items:start}
+  @media(max-width:820px){.oferta-aulas{grid-template-columns:1fr}}
+  .bloco{background:var(--branco);border:1px solid var(--linha);border-radius:20px;padding:18px;box-shadow:var(--sombra-1)}
+  .bloco h3{font-family:var(--titulo);font-weight:700;font-size:23px;line-height:1.1}
+  .bloco .sub{font-size:13.5px;color:var(--texto-2);margin:4px 0 12px}
+  .preco-aulas{text-align:center}
+  .preco-aulas s{font-size:14px;color:var(--texto-3)}
+  .preco-aulas .grande{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;margin:2px 0}
+  .preco-aulas .grande small{font-size:18px;font-weight:700;margin-right:3px}
+  .preco-aulas .btn{width:100%;padding:16px;margin-top:12px;font-size:15.5px}
+  .garantia{display:flex;gap:12px;align-items:center;margin-top:14px;padding:12px;border-radius:14px;background:var(--verde-nevoa);text-align:left}
+  .garantia b{display:block;font-size:13.5px}
+  .garantia span{font-size:12.5px;color:var(--texto-2)}
+  .garantia .sete{width:46px;height:46px;border-radius:50%;background:#fff;color:var(--verde);font-weight:800;display:grid;place-items:center;line-height:1;font-size:18px;flex:none;border:1.5px dashed rgba(31,154,85,.5)}
+  .garantia .sete small{display:block;font-size:9px;letter-spacing:.5px}
+  .modulo{margin-top:14px}
+  .modulo:first-child{margin-top:0}
+  .modulo h4{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--texto-3);margin-bottom:8px;display:flex;gap:8px}
+  .aula{display:flex;align-items:center;gap:12px;width:100%;background:var(--fundo);border:1px solid var(--linha);border-radius:14px;padding:10px 12px;margin-bottom:8px;font:inherit;color:inherit;text-align:left;cursor:default}
+  .aula.pode{cursor:pointer;background:var(--branco)}
+  .aula.pode:hover{border-color:var(--roxo-claro)}
+  .aula .num{width:34px;height:34px;border-radius:50%;background:var(--branco);border:1.5px dashed var(--linha-2);color:var(--roxo-esc);font-weight:800;font-size:13px;display:grid;place-items:center;flex:none}
+  .aula.pode .num{background:var(--degrade);color:#fff;border:0}
+  .aula.vista .num{background:var(--verde);color:#fff;border:0}
+  .aula b{display:block;font-size:14px;line-height:1.3}
+  .aula span{font-size:12px;color:var(--texto-3)}
+  .aula .dir{margin-left:auto;color:var(--texto-3);flex:none;display:grid;place-items:center}
+  .aula .dir svg{width:16px;height:16px}
+  .aviso-aulas{display:flex;gap:12px;align-items:center;background:var(--roxo-nevoa);border:1.5px dashed var(--roxo-claro);border-radius:16px;padding:14px;margin:16px 0}
+  .aviso-aulas .ic{width:42px;height:42px;border-radius:12px;background:#fff;color:var(--roxo);display:grid;place-items:center;flex:none}
+  .aviso-aulas .ic svg{width:21px;height:21px}
+  .aviso-aulas b{display:block;font-size:14.5px}
+  .aviso-aulas span{font-size:13px;color:var(--texto-2)}
+  .barra-aulas{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--texto-2);margin:4px 0 14px}
+  .barra-aulas .mini-prog{flex:1;height:6px}
+  .guia{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .dica{background:var(--branco);border:1px solid var(--linha);border-radius:16px;padding:15px;box-shadow:var(--sombra-1)}
+  .dica .n{width:28px;height:28px;border-radius:9px;background:var(--degrade);color:#fff;font-weight:800;font-size:13.5px;display:grid;place-items:center}
+  .dica h3{font-family:var(--sans);font-size:15px;font-weight:700;margin:11px 0 4px}
+  .dica p{font-size:13.5px;color:var(--texto-2);line-height:1.45}
+  @media(max-width:960px){
+    .guia{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:min(72%,250px);overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 16px 10px;margin:0 -16px;scrollbar-width:none}
+    .guia::-webkit-scrollbar{display:none}
+    .dica{scroll-snap-align:start;scroll-margin-left:16px}
+  }
+  .player{position:relative;background:#000;aspect-ratio:16/9}
+  .player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  /* ---------- SUPORTE ---------- */
+  .temas{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:700px){.temas{grid-template-columns:repeat(2,1fr)}}
+  .tema{display:flex;flex-direction:column;align-items:flex-start;gap:8px;background:var(--branco);border:1px solid var(--linha);border-radius:16px;padding:14px;cursor:pointer;font:inherit;color:inherit;text-align:left;
+    box-shadow:var(--sombra-1);transition:border-color .15s,transform .15s;-webkit-tap-highlight-color:transparent}
+  .tema:hover{border-color:var(--roxo-claro);transform:translateY(-2px)}
+  .tema .e{width:38px;height:38px;border-radius:12px;background:var(--roxo-nevoa);display:grid;place-items:center;font-size:19px}
+  .tema b{font-size:14px;line-height:1.25}
+  .form-sup{margin-top:4px}
+  .form-sup .voltar-tema{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--roxo-esc);font-weight:700;font-size:13.5px;cursor:pointer;padding:4px 0;margin-bottom:8px}
+  .form-sup .voltar-tema svg{width:16px;height:16px;transform:rotate(90deg)}
+  .form-sup .cab-tema{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .form-sup .cab-tema .e{width:44px;height:44px;border-radius:13px;background:var(--roxo-nevoa);display:grid;place-items:center;font-size:22px;flex:none}
+  .form-sup .cab-tema h3{font-family:var(--titulo);font-weight:700;font-size:23px;line-height:1.1}
+  .resposta-rapida{background:var(--fundo);border:1.5px dashed var(--linha-2);border-radius:14px;padding:12px 14px;font-size:13.5px;color:var(--texto-2);line-height:1.55;margin-bottom:12px}
+  .resposta-rapida b{display:block;color:var(--tinta);font-size:13px;margin-bottom:2px}
+  .resposta-rapida .btn{margin-top:10px;padding:10px 14px;font-size:13.5px}
+  .form-sup label{display:block;font-size:13.5px;font-weight:700;margin:12px 0 7px}
+  .form-sup .btn.enviar{margin-top:14px;padding:15px;width:100%}
+  .form-sup .prazo{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--texto-3);margin-top:10px}
+  .form-sup .prazo svg{width:15px;height:15px;flex:none}
+  textarea,.sel{width:100%;border:1.5px solid var(--linha-2);border-radius:13px;padding:12px 14px;font:inherit;font-size:15px;color:var(--tinta);background-color:var(--branco);outline:0;transition:border-color .15s,box-shadow .15s}
+  textarea{min-height:110px;resize:vertical}
+  textarea:focus,.sel:focus{border-color:var(--roxo);box-shadow:0 0 0 4px rgba(31,58,44,.12)}
+  .sel{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='%239A8CA5' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:18px;padding-right:40px}
+  .chamados{display:flex;flex-direction:column;gap:10px}
+  .chamado{border:1px solid var(--linha);border-radius:16px;padding:12px 14px;background:var(--branco);box-shadow:var(--sombra-1)}
+  .chamado .l1{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--texto-3);flex-wrap:wrap}
+  .chamado .l1 b{color:var(--tinta);font-size:13.5px}
+  .chamado .est{margin-left:auto;font-weight:800;font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:4px 8px;border-radius:99px;background:#FEF3C7;color:#92400E}
+  .chamado .est.respondido,.chamado .est.resolvido{background:var(--verde-nevoa);color:var(--verde)}
+  .chamado .msg{font-size:13.5px;color:var(--texto-2);margin-top:6px;white-space:pre-wrap;word-break:break-word}
+  .chamado .resp{margin-top:10px;background:var(--roxo-nevoa);border-left:3px solid var(--roxo);border-radius:10px;padding:10px 12px;font-size:13.5px;white-space:pre-wrap;word-break:break-word}
+  .chamado .resp small{display:block;font-weight:800;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--roxo);margin-bottom:3px}
+  .vazio{padding:22px 16px;text-align:center;font-size:13.5px;color:var(--texto-3);border:1.5px dashed var(--linha-2);border-radius:16px}
+  .faq{background:var(--branco);border:1px solid var(--linha);border-radius:20px;padding:6px 18px;box-shadow:var(--sombra-1)}
+  .faq details{border-bottom:1px dashed var(--linha-2);padding:2px 0}
+  .faq details:last-child{border-bottom:0}
+  .faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 2px;font-weight:700;font-size:14.5px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";margin-left:auto;width:24px;height:24px;border-radius:8px;background:var(--roxo-nevoa);color:var(--roxo);display:grid;place-items:center;font-weight:800;flex:none}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{font-size:14px;color:var(--texto-2);padding:0 2px 14px;line-height:1.55}
+
+  /* ---------- APP (instalar e notificações) ---------- */
+  .app-hero{display:flex;align-items:center;gap:16px;background:var(--branco);border:1px solid var(--linha);border-radius:24px;padding:18px;box-shadow:var(--sombra-2)}
+  .app-hero .icone{width:84px;height:84px;border-radius:22px;box-shadow:0 12px 26px -10px rgba(31,58,44,.55);flex:none}
+  .app-hero h2{font-family:var(--titulo);font-weight:700;font-size:25px;line-height:1.08}
+  .app-hero p{font-size:13.5px;color:var(--texto-2);margin-top:4px}
+  .vantagens{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  @media(max-width:700px){.vantagens{grid-template-columns:1fr}}
+  .vantagem{display:flex;gap:10px;align-items:center;background:var(--branco);border:1px dashed var(--linha-2);border-radius:14px;padding:11px 12px;font-size:13.5px;color:var(--texto-2)}
+  .vantagem .e{font-size:20px;flex:none}
+  .vantagem b{color:var(--tinta)}
+  .passos{list-style:none;counter-reset:p;display:flex;flex-direction:column;gap:10px;margin:6px 0 4px}
+  .passos li{counter-increment:p;display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.45}
+  .passos li::before{content:counter(p);width:26px;height:26px;border-radius:50%;background:var(--degrade);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;flex:none;margin-top:-1px}
+  .passos .chip{display:inline-flex;align-items:center;gap:5px;background:var(--roxo-nevoa);border-radius:8px;padding:1px 7px;font-weight:700;color:var(--roxo-esc);white-space:nowrap}
+  .passos .chip svg{width:14px;height:14px}
+  .estado{display:flex;align-items:center;gap:10px;border-radius:14px;padding:12px 14px;font-size:14px;margin-top:4px}
+  .estado.ok{background:var(--verde-nevoa);color:#14532D}
+  .estado.neutro{background:var(--fundo);color:var(--texto-2);border:1px dashed var(--linha-2)}
+  .estado.erro{background:#FEF2F2;color:#991B1B}
+  .estado .e{font-size:20px;flex:none}
+  .linha-bts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .linha-bts .btn{flex:1 1 auto}
+  .grade-app{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;align-items:start}
+  @media(max-width:820px){.grade-app{grid-template-columns:1fr}}
+  .interruptor{position:relative;width:48px;height:28px;border-radius:99px;background:#DCCFE6;border:0;cursor:pointer;flex:none;transition:background .2s}
+  .interruptor::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+  .interruptor.on{background:var(--verde)}
+  .interruptor.on::after{transform:translateX(20px)}
+
+  /* ---------- PERFIL ---------- */
+  .perfil-cartao{display:flex;flex-direction:column;align-items:center;text-align:center;background:var(--branco);border:1px solid var(--linha);border-radius:24px;padding:24px 18px 20px;box-shadow:var(--sombra-2);position:relative;overflow:hidden}
+  .perfil-cartao::before{content:"";position:absolute;left:0;right:0;top:0;height:82px;background:var(--degrade)}
+  .perfil-cartao::after{content:"";position:absolute;left:8px;right:8px;top:8px;height:66px;border:1.5px dashed rgba(255,255,255,.3);border-radius:16px}
+  .foto-perfil{position:relative;z-index:1;margin-top:18px}
+  .foto-perfil .av{width:104px;height:104px;font-size:38px;border:4px solid #fff;box-shadow:0 12px 26px -12px rgba(21,34,27,.45)}
+  .foto-perfil label{position:absolute;right:0;bottom:2px;width:36px;height:36px;border-radius:50%;background:var(--tinta);color:#fff;display:grid;place-items:center;cursor:pointer;border:3px solid #fff}
+  .foto-perfil label svg{width:16px;height:16px}
+  .perfil-cartao h2{font-family:var(--titulo);font-weight:700;font-size:25px;line-height:1.1;margin-top:10px}
+  .perfil-cartao .mail{font-size:13px;color:var(--texto-3);word-break:break-all}
+  .perfil-cartao .tira-foto{background:none;border:0;color:var(--texto-3);font-size:12.5px;font-weight:600;cursor:pointer;margin-top:4px;text-decoration:underline}
+  .grade-perfil{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;align-items:start}
+  @media(max-width:820px){.grade-perfil{grid-template-columns:1fr}}
+  .campo-p{margin-top:12px}
+  .campo-p:first-of-type{margin-top:0}
+  .campo-p label{display:block;font-size:13.5px;font-weight:700;margin-bottom:7px}
+  .campo-p input{width:100%;border:1.5px solid var(--linha-2);border-radius:13px;padding:12px 14px;font:inherit;font-size:16px;color:var(--tinta);outline:0;background:#fff}
+  .campo-p input:focus{border-color:var(--roxo);box-shadow:0 0 0 4px rgba(31,58,44,.12)}
+  .campo-p input[readonly]{background:var(--fundo);color:var(--texto-2)}
+  .niveis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .niveis button{border:1.5px solid var(--linha-2);background:var(--branco);border-radius:12px;padding:10px 6px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--texto-2)}
+  .niveis button.on{background:var(--roxo-nevoa);border-color:var(--roxo);color:var(--roxo-esc)}
+  .bloco .btn.salvar{width:100%;margin-top:16px;padding:14px}
+  .colecao{display:flex;align-items:center;gap:14px}
+  .colecao .num{font-family:var(--titulo);font-weight:700;font-size:40px;line-height:1;color:var(--roxo-esc)}
+  .colecao .num small{font-size:18px;color:var(--texto-3)}
+  .colecao .t{flex:1}
+  .colecao .t span{font-size:13px;color:var(--texto-2)}
+  .colecao .mini-prog{height:7px;margin-top:6px}
+  .menu-lista{display:flex;flex-direction:column;margin-top:4px}
+  .menu-lista button,.menu-lista a{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px dashed var(--linha);padding:13px 2px;font:inherit;font-size:14.5px;font-weight:600;color:var(--tinta);cursor:pointer;text-decoration:none;text-align:left}
+  .menu-lista button:last-child,.menu-lista a:last-child{border-bottom:0}
+  .menu-lista .ic{width:36px;height:36px;border-radius:11px;background:var(--roxo-nevoa);color:var(--roxo);display:grid;place-items:center;flex:none}
+  .menu-lista .ic svg{width:18px;height:18px}
+  .menu-lista .seta{margin-left:auto;width:18px;height:18px;color:var(--texto-3);transform:rotate(-90deg)}
+  .menu-lista .sair{color:#B42318}
+  .menu-lista .sair .ic{background:#FEF2F2;color:#B42318}
+
+  footer{text-align:center;padding:30px 0 6px;font-size:12px;color:var(--texto-3);line-height:1.7}
+
+  /* ---------- NOTIFICAÇÕES ---------- */
+  .painel-notif{position:fixed;right:16px;top:calc(68px + env(safe-area-inset-top));width:390px;max-height:min(600px,calc(100dvh - 100px));display:flex;flex-direction:column;background:var(--branco);border:1px solid var(--linha);border-radius:20px;
+    box-shadow:0 22px 50px -14px rgba(21,34,27,.3);transform-origin:top right;animation:abre .16s ease both;overflow:hidden;z-index:60}
+  .painel-notif .cab{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--linha)}
+  .painel-notif .cab b{font-family:var(--titulo);font-weight:700;font-size:21px}
+  .painel-notif .cab button{margin-left:auto;background:none;border:0;color:var(--roxo);font-weight:700;font-size:12.5px;cursor:pointer}
+  .painel-notif .cab .fechar-n{margin-left:6px;width:32px;height:32px;border-radius:50%;border:1px solid var(--linha);font-size:19px;color:var(--texto-2);display:none}
+  .painel-notif .lista-n{overflow:auto;padding:6px}
+  .convite-push{margin:6px 6px 2px;display:flex;align-items:center;gap:10px;background:var(--roxo-nevoa);border:1.5px dashed var(--roxo-claro);border-radius:14px;padding:10px 12px;font-size:13px;color:var(--texto-2)}
+  .convite-push b{display:block;color:var(--tinta);font-size:13.5px}
+  .convite-push .btn{padding:8px 11px;font-size:12.5px;margin-left:auto;flex:none}
+  .notif{display:flex;gap:12px;padding:11px 10px;border-radius:12px;cursor:pointer;position:relative;text-decoration:none;color:inherit}
+  .notif:hover{background:var(--fundo)}
+  .notif.nova{background:#FBF7FE}
+  .notif.nova::after{content:"";position:absolute;right:10px;top:16px;width:8px;height:8px;border-radius:50%;background:var(--roxo)}
+  .notif .mini{width:48px;height:48px;border-radius:12px;flex:none;object-fit:cover;background:var(--roxo-nevoa);display:grid;place-items:center;font-size:21px}
+  .notif .txt{min-width:0;padding-right:12px}
+  .notif .tag{font-size:10.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--roxo)}
+  .notif .tag.verde{color:var(--verde)}
+  .notif b{display:block;font-size:14px;line-height:1.3;margin:1px 0 2px}
+  .notif p{font-size:12.5px;color:var(--texto-2);line-height:1.4}
+  .notif time{font-size:11.5px;color:var(--texto-3)}
+  .painel-notif .vazio{border:0}
+  @media(max-width:560px){
+    .painel-notif{left:0;right:0;top:auto;bottom:0;width:auto;max-height:86dvh;border-radius:24px 24px 0 0;animation:sobe .3s cubic-bezier(.2,.8,.2,1) both;padding-bottom:env(safe-area-inset-bottom)}
+    .painel-notif .cab .fechar-n{display:grid;place-items:center;background:#fff;cursor:pointer}
+  }
+  .fundo-notif{position:fixed;inset:0;z-index:59;background:rgba(21,34,27,.35);animation:esmaece .2s ease both}
+  @media(min-width:561px){.fundo-notif{background:transparent}}
+
+  /* oferta que aparece sozinha: cartão discreto acima da barra de navegação */
+  .oferta-pop{position:fixed;right:20px;bottom:24px;z-index:55;width:360px;background:var(--branco);border:1px solid var(--linha-2);border-radius:20px;
+    box-shadow:0 26px 60px -18px rgba(21,34,27,.35);overflow:hidden;animation:sobe .45s cubic-bezier(.2,.8,.2,1) both;display:flex;gap:12px;padding:12px;align-items:center}
+  @keyframes sobe{from{opacity:0;transform:translateY(30px) scale(.97)}}
+  .oferta-pop img{width:76px;height:76px;border-radius:14px;object-fit:cover;flex:none}
+  .oferta-pop .t{min-width:0;flex:1}
+  .oferta-pop small{font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--roxo)}
+  .oferta-pop b{display:block;font-size:14.5px;line-height:1.25;margin:1px 0 6px}
+  .oferta-pop .bts{display:flex;gap:6px;align-items:center}
+  .oferta-pop .btn{padding:8px 12px;font-size:13px;border-radius:10px}
+  .oferta-pop .depois{background:none;border:0;font-size:12.5px;color:var(--texto-3);cursor:pointer;padding:6px}
+  .oferta-pop .x{position:absolute;right:6px;top:6px;width:26px;height:26px;border-radius:50%;border:0;background:none;font-size:18px;line-height:1;cursor:pointer;color:var(--texto-3)}
+  @media(max-width:979px){.oferta-pop{left:10px;right:10px;width:auto;bottom:calc(84px + env(safe-area-inset-bottom))}}
+
+  .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(16px);opacity:0;pointer-events:none;
+    background:var(--tinta);color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 14px 30px -10px rgba(0,0,0,.35);
+    transition:opacity .2s,transform .2s;z-index:120;max-width:calc(100% - 32px);text-align:center}
+  .toast.on{opacity:1;transform:translateX(-50%)}
+  @media(min-width:980px){.toast{bottom:28px;margin-left:122px}}
+  @keyframes aparece{from{opacity:0;transform:translateY(12px)}}
+  .entra{animation:aparece .6s cubic-bezier(.2,.8,.2,1) both}
+
+  .fundo-modal{position:fixed;inset:0;z-index:100;background:rgba(21,34,27,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:grid;place-items:center;padding:16px;animation:esmaece .2s ease both}
+  @keyframes esmaece{from{opacity:0}}
+  .modal{width:100%;max-width:520px;max-height:calc(100dvh - 32px);overflow:auto;background:var(--branco);border-radius:22px;padding:26px 24px 22px;box-shadow:0 30px 70px -20px rgba(0,0,0,.4);animation:sobe .35s cubic-bezier(.2,.8,.2,1) both;position:relative}
+  .modal .x{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--linha);background:var(--branco);font-size:20px;line-height:1;cursor:pointer;color:var(--texto-2)}
+  .modal h3{font-family:var(--titulo);font-weight:700;font-size:27px;line-height:1.08;padding-right:36px}
+  .modal .sub{font-size:14px;color:var(--texto-2);margin:6px 0 18px}
+  .modal .pergunta{font-size:14px;font-weight:700;margin:16px 0 9px}
+  .nps{display:grid;grid-template-columns:repeat(11,1fr);gap:5px}
+  .nps button{aspect-ratio:1;border-radius:10px;border:1.5px solid var(--linha-2);background:var(--branco);font-weight:800;font-size:14px;cursor:pointer;transition:all .12s}
+  .nps button:hover{border-color:var(--roxo)}
+  .nps button.on{background:var(--degrade);color:#fff;border-color:transparent}
+  .nps-leg{display:flex;justify-content:space-between;font-size:11.5px;color:var(--texto-3);margin-top:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chips button{border:1.5px solid var(--linha-2);background:var(--branco);border-radius:99px;padding:8px 13px;font-size:13px;font-weight:600;cursor:pointer;color:var(--texto-2)}
+  .chips button.on{background:var(--roxo-nevoa);border-color:var(--roxo-claro);color:var(--roxo-esc)}
+  textarea,.sel{width:100%;border:1.5px solid var(--linha-2);border-radius:13px;padding:12px 14px;font:inherit;font-size:15px;color:var(--tinta);background-color:var(--branco);outline:0;transition:border-color .15s,box-shadow .15s}
+  textarea{min-height:96px;resize:vertical}
+  textarea:focus,.sel:focus{border-color:var(--roxo);box-shadow:0 0 0 4px rgba(31,58,44,.12)}
+  .modal .btn{margin-top:18px;padding:15px}
+  .obrigado{text-align:center;padding:12px 4px}
+  .obrigado .ok{width:64px;height:64px;border-radius:50%;background:var(--verde-nevoa);color:var(--verde);display:grid;place-items:center;margin:0 auto 14px;font-size:30px}
+  @media(max-width:420px){.nps{grid-template-columns:repeat(6,1fr)}.modal{padding:22px 18px 18px}}
+  .pdfs{display:flex;flex-direction:column;gap:10px}
+  .pdf{display:flex;align-items:center;gap:12px;border:1px solid var(--linha);border-radius:14px;padding:12px 14px;text-decoration:none;color:inherit;transition:border-color .15s,background .15s}
+  .pdf:hover{border-color:var(--roxo-claro);background:var(--fundo)}
+  .pdf .ic{width:40px;height:40px;border-radius:11px;background:var(--roxo-nevoa);color:var(--roxo);display:grid;place-items:center;flex:none}
+  .pdf .ic svg{width:20px;height:20px}
+  .pdf b{display:block;font-size:14.5px}
+  .pdf span{font-size:12.5px;color:var(--texto-3)}
+  .pdf .baixar{margin-left:auto;font-size:13px;font-weight:700;color:var(--roxo);white-space:nowrap}
+  .dica-pdf{font-size:12.5px;color:var(--texto-3);margin-top:14px;line-height:1.5}
+
+  /* ═══════════ LEITOR (as páginas do material, uma embaixo da outra) ═══════════ */
+  .leitor{position:fixed;inset:0;z-index:90;background:#F4EEF8;display:flex;flex-direction:column}
+  .l-topo{flex:none;display:flex;align-items:center;gap:8px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));background:rgba(255,255,255,.96);border-bottom:1px solid var(--linha);backdrop-filter:blur(10px)}
+  .l-voltar{display:inline-flex;align-items:center;gap:6px;background:none;border:0;font-weight:700;font-size:14px;color:var(--roxo-esc);cursor:pointer;padding:8px 8px 8px 2px;border-radius:10px;white-space:nowrap}
+  .l-voltar svg{width:18px;height:18px;transform:rotate(90deg)}
+  .l-tit{min-width:0;flex:1;line-height:1.2}
+  .l-tit b{display:block;font-family:var(--titulo);font-weight:700;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .l-tit span{font-size:12.5px;color:var(--texto-3);font-weight:600}
+  .l-btn{display:inline-flex;align-items:center;gap:6px;background:var(--branco);border:1.5px solid var(--linha-2);border-radius:11px;padding:9px 12px;font-weight:700;font-size:13.5px;cursor:pointer;color:var(--roxo-esc);white-space:nowrap}
+  .l-btn:hover{border-color:var(--roxo)}
+  .l-btn svg{width:16px;height:16px}
+  .l-rolagem{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .l-paginas{max-width:860px;margin:0 auto;padding:16px 12px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+  .pg{position:relative;background:#fff;border-radius:6px;box-shadow:0 10px 30px -14px rgba(21,34,27,.35);overflow:hidden;scroll-margin-top:10px}
+  .pg img{width:100%;height:100%;object-fit:contain}
+  .l-fim{text-align:center;padding:10px 0 4px;color:var(--texto-3);font-size:13.5px}
+  .l-fim .btn{margin-top:12px}
+  @media(max-width:560px){
+    .l-topo{padding-left:8px;padding-right:8px;gap:6px}
+    .l-voltar span{display:none}
+    .l-btn{padding:9px 10px}
+    .l-btn .t{display:none}
+    .l-paginas{padding:8px 0 calc(40px + env(safe-area-inset-bottom));gap:8px}
+    .pg{border-radius:0}
+  }
+  /* gaveta do índice de modelos */
+  .gaveta{position:fixed;inset:0;z-index:95;background:rgba(21,34,27,.4);display:flex;justify-content:flex-end;animation:esmaece .2s ease both}
+  .gaveta .caixa{width:min(400px,100%);height:100%;background:var(--branco);display:flex;flex-direction:column;animation:entraLado .3s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes entraLado{from{transform:translateX(30px);opacity:0}}
+  .gaveta .cab{display:flex;align-items:center;gap:10px;padding:16px 16px 12px;padding-top:calc(16px + env(safe-area-inset-top))}
+  .gaveta .cab b{font-family:var(--titulo);font-weight:700;font-size:24px}
+  .gaveta .cab button{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--linha);background:var(--branco);font-size:20px;line-height:1;cursor:pointer;color:var(--texto-2)}
+  .gaveta .busca{margin:0 16px 10px}
+  .gaveta .busca input{width:100%;border:1.5px solid var(--linha-2);border-radius:12px;padding:11px 13px;font:inherit;font-size:15px;outline:0}
+  .gaveta .busca input:focus{border-color:var(--roxo)}
+  .gaveta ol{list-style:none;overflow:auto;padding:0 8px calc(16px + env(safe-area-inset-bottom));flex:1}
+  .gaveta li button{width:100%;display:flex;align-items:center;gap:12px;background:none;border:0;border-radius:12px;padding:10px 10px;cursor:pointer;text-align:left;font-size:14.5px}
+  .gaveta li button:hover{background:var(--fundo)}
+  .gaveta li button.atual{background:var(--roxo-nevoa)}
+  .gaveta li .nn{width:34px;height:34px;border-radius:10px;background:var(--roxo-nevoa);color:var(--roxo-esc);font-weight:800;font-size:13px;display:grid;place-items:center;flex:none}
+  .gaveta li button.atual .nn{background:var(--degrade);color:#fff}
+  .gaveta li small{margin-left:auto;font-size:12px;color:var(--texto-3);white-space:nowrap}
+  @media(max-width:560px){.gaveta{align-items:flex-end}.gaveta .caixa{height:82dvh;border-radius:22px 22px 0 0;animation:sobe .3s cubic-bezier(.2,.8,.2,1) both}}
+
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+  .texto-bonus .tag-bonus{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--roxo);background:var(--roxo-nevoa);border-radius:99px;padding:4px 10px;margin-bottom:8px}
+  .texto-bonus details{border-top:1px solid var(--linha);padding:12px 0}
+  .texto-bonus summary{font-weight:800;font-size:17px;cursor:pointer;list-style:none}
+  .texto-bonus summary::-webkit-details-marker{display:none}
+  .texto-bonus .sec-texto{padding-top:8px;color:var(--texto-2);font-size:15px;line-height:1.55}
+  .texto-bonus .sec-texto h4{color:var(--tinta);font-size:15.5px;margin:12px 0 4px}
+  .texto-bonus .sec-texto ul{margin:4px 0 8px 18px}
+  .texto-bonus .sec-texto p{margin:6px 0}
+  .pre-push{text-align:center}
+  .pre-push .pp-ico{font-size:44px;line-height:1;margin:4px 0 10px}
+  .pre-push h3{font-family:var(--titulo);font-weight:700;font-size:22px;line-height:1.2;margin-bottom:8px}
+  .pre-push .sub{color:var(--texto-2);margin-bottom:18px}
+  /* identidade das guias: dourado nos selos e números, serifa nos títulos */
+  body{font-variant-numeric:lining-nums}  /* a Playfair desenha "100" com algarismos baixos sem isto */
+  .selo,.card .fita,.folha .foto .fita{background:var(--ouro);color:#1F2A20}
+  .dica .n{background:var(--ouro-nevoa);color:var(--ouro-esc);box-shadow:inset 0 0 0 1.5px var(--ouro)}
+  .gaveta .cab b{font-weight:700}
+  .gaveta li.grupo{font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ouro-esc);padding:16px 12px 6px;border-top:1px solid var(--linha)}
+  .gaveta li.grupo:first-child{border-top:0;padding-top:4px}
+  .nota-fe{margin-top:12px;font-size:13.5px;color:var(--texto-2);background:var(--ouro-nevoa);border:1px solid #EADBB8;border-radius:14px;padding:12px 14px}
+  .breve-tx{color:var(--ouro-esc);font-size:13px}
+  .sem-venda{display:flex;gap:12px;align-items:center;background:var(--fundo);border:1.5px dashed var(--linha-2);border-radius:16px;padding:14px;margin-top:16px;font-size:14px;color:var(--texto-2)}
+  .sem-venda svg{width:22px;height:22px;flex:none;color:var(--roxo)}
+  .sem-venda b{display:block;color:var(--tinta)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></g></symbol>
+  <symbol id="i-livro" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></g></symbol>
+  <symbol id="i-cadeado" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></g></symbol>
+  <symbol id="i-relogio" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
+  <symbol id="i-atualizar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></g></symbol>
+  <symbol id="i-baixar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></g></symbol>
+  <symbol id="i-sair" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l-4-4 4-4M6 12h10"/></g></symbol>
+  <symbol id="i-baixo" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-escudo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/></g></symbol>
+  <symbol id="i-infinito" viewBox="0 0 24 24"><path d="M7 8c-2.2 0-4 1.8-4 4s1.8 4 4 4c3.5 0 6.5-8 10-8 2.2 0 4 1.8 4 4s-1.8 4-4 4c-3.5 0-6.5-8-10-8Z" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+  <symbol id="i-sino" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z"/><path d="M10 20a2 2 0 0 0 4 0"/></g></symbol>
+  <symbol id="i-boia" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.6"/><path d="m5.6 5.6 3.9 3.9m5 5 3.9 3.9m0-12.8-3.9 3.9m-5 5-3.9 3.9"/></g></symbol>
+  <symbol id="i-estrela" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-lista" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2" fill="currentColor"/><circle cx="4.5" cy="12" r="1.2" fill="currentColor"/><circle cx="4.5" cy="18" r="1.2" fill="currentColor"/></g></symbol>
+  <symbol id="i-pdf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M12 11v6m0 0-2.5-2.5M12 17l2.5-2.5"/></g></symbol>
+  <symbol id="i-casa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5 12 4l8.5 6.5"/><path d="M5.5 9v10a1 1 0 0 0 1 1H10v-5.5h4V20h3.5a1 1 0 0 0 1-1V9"/></g></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4A8 8 0 1 1 20 12Z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01" stroke-width="2.8"/></g></symbol>
+  <symbol id="i-cel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></g></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.2-3.6 4.2-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></g></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5Z"/><circle cx="12" cy="12.5" r="3.3"/></g></symbol>
+  <symbol id="i-busca" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></g></symbol>
+  <symbol id="i-compartilhar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L8 7m4-4 4 4"/><path d="M8 10H6.5A1.5 1.5 0 0 0 5 11.5v8A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-8a1.5 1.5 0 0 0-1.5-1.5H16"/></g></symbol>
+  <symbol id="i-mais" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/></g></symbol>
+</svg>
+
+<div class="carregando" id="v-carregando"><img src="/assets/logo-gc-192.webp" alt="Carregando" width="192" height="192"></div>
+
+<!-- ═════════════ LOGIN ═════════════ -->
+<main class="login" id="v-login" hidden>
+  <section class="login-lado" aria-hidden="true">
+    <div class="colagem">
+      <img src="/assets/login/m09.webp" alt="" width="416" height="520">
+      <img src="/assets/login/m20.webp" alt="" width="416" height="520">
+      <img src="/assets/login/m13.webp" alt="" width="416" height="520">
+      <img src="/assets/login/m11.webp" alt="" width="416" height="520">
+      <img src="/assets/login/m39.webp" alt="" width="416" height="520">
+      <img src="/assets/login/m05.webp" alt="" width="416" height="520">
+    </div>
+    <p class="frase">100 guias de contas, do esquema ao fechamento</p>
+  </section>
+  <section class="login-form">
+    <div class="login-caixa">
+      <div class="marca"><img src="/assets/logo-gc-192.webp" alt="" width="192" height="192"><span>Guias de Contas</span></div>
+      <h1>Acesse sua <em>área de membros</em></h1>
+      <p class="sub">Digite o e-mail que você usou na compra para liberar seus modelos.</p>
+      <form id="form-login" novalidate>
+        <label class="rotulo" for="email">Seu e-mail</label>
+        <div class="campo">
+          <svg aria-hidden="true"><use href="#i-mail"/></svg>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="seuemail@exemplo.com" required>
+        </div>
+        <button class="btn full" type="submit" id="btn-entrar">Entrar</button>
+        <div class="aviso" id="erro-login" role="alert" hidden></div>
+      </form>
+      <div class="garantias"><span><svg aria-hidden="true"><use href="#i-escudo"/></svg>Acesso seguro</span><span><svg aria-hidden="true"><use href="#i-infinito"/></svg>Acesso vitalício</span></div>
+      <p class="nota-login">Pagou no Pix agora? A liberação leva 1 ou 2 minutos. Se não conseguir entrar, responda o e-mail de confirmação da compra que a gente te ajuda.</p>
+    </div>
+  </section>
+</main>
+
+<!-- ═════════════ APLICATIVO ═════════════ -->
+<div class="app" id="v-area" hidden>
+  <nav class="nav" aria-label="Navegação">
+    <a class="marca nav-marca" href="#inicio"><img src="/assets/logo-gc-192.webp" alt="" width="192" height="192"><span>Guias de Contas</span></a>
+    <a href="#inicio" data-tela="inicio"><span class="ic"><svg aria-hidden="true"><use href="#i-casa"/></svg></span>Início</a>
+    <a href="#suporte" data-tela="suporte"><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span>Suporte<span class="ponto" id="ponto-suporte" hidden></span></a>
+    <a href="#app" data-tela="app"><span class="ic"><svg aria-hidden="true"><use href="#i-cel"/></svg></span>App</a>
+    <a href="#perfil" data-tela="perfil"><span class="ic"><svg aria-hidden="true"><use href="#i-user"/></svg></span>Perfil</a>
+    <div class="nav-rodape">Material digital de uso pessoal.<br>Arte, fé e tradição, conta por conta 📿</div>
+  </nav>
+
+  <header class="app-topo">
+    <a class="marca" href="#inicio"><img src="/assets/logo-gc-192.webp" alt="" width="192" height="192"><span>Guias de Contas</span></a>
+    <span class="titulo-tela" id="titulo-tela">Início</span>
+    <div class="topo-dir">
+      <button class="ico-btn" id="sino" aria-label="Notificações" aria-haspopup="dialog" aria-expanded="false"><svg aria-hidden="true"><use href="#i-sino"/></svg><span class="bolinha" id="bolinha" hidden>0</span></button>
+      <a class="av" id="av-topo" href="#perfil" aria-label="Meu perfil">E</a>
+    </div>
+  </header>
+
+  <div class="conteudo-caixa"><main class="conteudo">
+
+    <!-- INÍCIO: só os produtos -->
+    <section class="tela" id="t-inicio" data-titulo="Início">
+      <div class="ola">
+        <a class="av" id="av-ola" href="#perfil" aria-label="Meu perfil">E</a>
+        <div><small id="ola-sauda">Olá!</small><h1 id="ola-nome">Suas guias</h1></div>
+        <a class="editar" id="ola-editar" href="#perfil" hidden>Pôr seu nome</a>
+      </div>
+      <div id="seguir"></div>
+      <div class="busca" id="busca">
+        <div class="campo"><svg aria-hidden="true"><use href="#i-busca"/></svg>
+          <input id="busca-in" type="search" autocomplete="off" placeholder="Procure uma guia: Oxum, Exu, cristais…" aria-label="Procurar uma guia">
+          <button class="limpar" id="busca-limpar" type="button" aria-label="Limpar" hidden>×</button></div>
+        <div class="resultados" id="busca-res" role="listbox" hidden></div>
+      </div>
+      <section class="sec" id="s-colecao" style="margin-top:22px">
+        <div class="sec-tit"><h2>Minha coleção</h2><span class="cont" id="c-colecao"></span></div>
+        <div id="principal"></div>
+        <div class="meus" id="meus"></div>
+      </section>
+      <section class="sec" id="s-bonus">
+        <div class="sec-tit"><h2>Bônus</h2><span class="cont" id="c-bonus"></span></div>
+        <div class="prateleira cinco" id="bonus"></div>
+      </section>
+      <section class="sec" id="guia">
+        <div class="sec-tit"><h2>Antes da primeira conta</h2></div>
+        <div class="guia">
+          <article class="dica"><span class="n">1</span><h3>Fio de nylon</h3><p>Use fio de nylon de boa qualidade. Corte a medida que a ficha do modelo pede e passe a ponta no isqueiro: sela o fio e facilita o enfiamento.</p></article>
+          <article class="dica"><span class="n">2</span><h3>Separe e conte</h3><p>Separe as contas por cor e tamanho e conte antes de começar. A ficha traz a quantidade exata de cada uma.</p></article>
+          <article class="dica"><span class="n">3</span><h3>Siga o módulo</h3><p>O esquema mostra o módulo, o trecho que se repete. Monte o primeiro, confira e repita sempre na mesma ordem, sem pular conta.</p></article>
+          <article class="dica"><span class="n">4</span><h3>Meça antes de fechar</h3><p>Confira o comprimento com régua ou fita métrica. Pra aumentar ou diminuir, some ou tire módulos inteiros.</p></article>
+          <article class="dica"><span class="n">5</span><h3>Feche com firmeza</h3><p>Siga o detalhe do fechamento do modelo. No nó duplo: encoste as contas sem esticar o fio, aperte bem, corte a sobra e sele as pontas.</p></article>
+        </div>
+        <p class="nota-fe">📿 Para uso ritual, siga a orientação do seu zelador ou zeladora e da sua casa. Confeccionar a guia não é o mesmo que consagrá-la.</p>
+      </section>
+      <section class="sec" id="s-prep" hidden>
+        <div class="sec-tit"><h2>Em preparação pra você</h2><span class="cont" id="c-prep"></span></div>
+        <p class="sec-sub">Você já comprou. O material entra aqui assim que ficar pronto, e a gente te avisa.</p>
+        <div class="breve-lista" id="prep"></div>
+      </section>
+      <section class="sec" id="s-trancadas" hidden>
+        <div class="trancadas">
+          <div class="tx">
+            <span class="selo-ex">✦ Exclusivo pra membros</span>
+            <h3>Guias <b>Trançadas</b></h3>
+            <p>30 projetos de guias de vários fios, unindo as cores de mais de um orixá numa guia só.</p>
+            <div class="preco">Preço de membro<b>R$ 19,90</b></div>
+            <a class="cta" id="tr-cta" href="#" target="_blank" rel="noopener">Quero as Trançadas →</a>
+            <button class="det" type="button" data-produto="trancadas">Ver o que vem</button>
+          </div>
+          <div class="fotos" aria-hidden="true"><img src="/assets/trancadas/t3.webp" alt="" loading="lazy"><img src="/assets/trancadas/t1.webp" alt="" loading="lazy"><img src="/assets/trancadas/t5.webp" alt="" loading="lazy"></div>
+        </div>
+      </section>
+      <section class="sec" id="s-mais" hidden>
+        <div class="sec-tit"><h2>Complete sua coleção</h2><span class="cont">pra membros</span></div>
+        <p class="sec-sub">Materiais extras para membros.</p>
+        <div class="prateleira" id="mais"></div>
+      </section>
+      <footer>Guias de Contas · 100 projetos ilustrados<br>Material digital de uso pessoal. A reprodução ou revenda dos arquivos não é autorizada.</footer>
+    </section>
+
+    <!-- SUPORTE -->
+    <section class="tela" id="t-suporte" data-titulo="Suporte" hidden>
+      <div class="tela-cab"><h1>Como podemos ajudar?</h1><p>Escolha o assunto. A gente responde aqui mesmo, em até 1 dia útil.</p></div>
+      <div id="sup-passo1">
+        <div class="temas" id="temas"></div>
+      </div>
+      <div class="bloco form-sup" id="sup-passo2" hidden>
+        <button class="voltar-tema" type="button" id="sup-voltar"><svg aria-hidden="true"><use href="#i-baixo"/></svg>Outro assunto</button>
+        <div class="cab-tema"><span class="e" id="sup-e"></span><h3 id="sup-tit"></h3></div>
+        <div class="resposta-rapida" id="sup-rapida" hidden></div>
+        <form id="form-sup" novalidate>
+          <label for="sup-produto">Sobre qual produto?</label>
+          <select class="sel" id="sup-produto"></select>
+          <label for="sup-msg">Conte pra gente</label>
+          <textarea id="sup-msg" maxlength="2000"></textarea>
+          <button class="btn enviar" type="submit" id="sup-enviar">Enviar mensagem</button>
+          <div class="aviso" id="sup-erro" role="alert" hidden></div>
+          <div class="prazo"><svg aria-hidden="true"><use href="#i-relogio"/></svg>Resposta em até 1 dia útil, aqui e no sininho 🔔</div>
+        </form>
+      </div>
+      <section class="sec">
+        <div class="sec-tit"><h2>Minhas mensagens</h2><span class="cont" id="c-chamados"></span></div>
+        <div class="chamados" id="chamados"><div class="vazio">Você ainda não mandou nenhuma mensagem.</div></div>
+      </section>
+      <section class="sec">
+        <div class="sec-tit"><h2>Dúvidas frequentes</h2></div>
+        <div class="faq">
+          <details><summary>Como abro os modelos?</summary><p>No Início, toque em "Abrir modelos". As páginas abrem aqui mesmo, uma embaixo da outra. No botão "Modelos" você pula direto pra guia que quer fazer, separada por coleção. O app lembra onde você parou.</p></details>
+          <details><summary>Como acho uma guia pelo nome?</summary><p>Use a busca no topo do Início: digite "Oxum", "Exu", "Preto-Velho", "cristais"… e toque no resultado pra abrir direto na página do modelo.</p></details>
+          <details><summary>Como baixo o PDF pra imprimir?</summary><p>Toque em "PDF" no produto. É um arquivo só, com as 201 páginas (cerca de 48 MB): no celular, prefira baixar no Wi-Fi. Pra imprimir, use papel A4 e escala 100%.</p></details>
+          <details><summary>Qual comprimento a guia deve ter?</summary><p>Cada modelo traz o comprimento final e quanto mede um módulo. Pra aumentar ou diminuir, some ou tire módulos inteiros, sempre na mesma ordem do esquema.</p></details>
+          <details><summary>A quantidade de contas não bateu</summary><p>Confira o esquema: o módulo se repete sempre na mesma ordem. Conte as contas de um módulo pronto e meça com a régua. Conta de outro tamanho muda o comprimento: a ficha diz o tamanho de cada uma.</p></details>
+          <details><summary>As cores valem pra qualquer casa?</summary><p>Não. Cada modelo diz de qual tradição vem a referência. As cores, a quantidade e a forma de uso mudam de uma casa pra outra. Para uso ritual, siga a orientação do seu zelador ou zeladora: confeccionar a guia não é o mesmo que consagrá-la.</p></details>
+          <details><summary>Quando chegam os bônus?</summary><p>Os 4 bônus estão em preparação e o seu acesso já está garantido. Eles aparecem aqui no app assim que ficarem prontos, e você recebe o aviso no sininho.</p></details>
+          <details><summary>Comprei e não apareceu no app</summary><p>No Pix a liberação leva 1 ou 2 minutos. Depois vá em Perfil → "Atualizar meus produtos". Se ainda não aparecer, mande uma mensagem com o assunto "Comprei e não liberou".</p></details>
+          <details><summary>Como instalo o app no celular?</summary><p>Na aba App tem o passo a passo do seu aparelho. Depois de instalado, o Guias de Contas abre direto da tela inicial, em tela cheia.</p></details>
+          <details><summary>Como funciona a garantia?</summary><p>Você tem 7 dias a partir da compra. Se não gostar, mande uma mensagem com o assunto "Reembolso" que a gente devolve 100% do valor.</p></details>
+        </div>
+      </section>
+    </section>
+
+    <!-- APP: instalar e notificações -->
+    <section class="tela" id="t-app" data-titulo="App" hidden>
+      <div class="tela-cab"><h1>O Guias de Contas no seu celular</h1><p>Instale em 30 segundos e receba os avisos das novidades.</p></div>
+      <div class="app-hero">
+        <img class="icone" src="/assets/icon-gc-192.png" alt="Ícone do app Guias de Contas" width="192" height="192">
+        <div><h2>Guias de Contas</h2><p>Seus 100 modelos e os bônus a um toque, direto da tela inicial. Não ocupa espaço como um app de loja.</p></div>
+      </div>
+      <div class="vantagens">
+        <div class="vantagem"><span class="e">📲</span><span><b>Abre direto</b> do ícone, sem procurar o link</span></div>
+        <div class="vantagem"><span class="e">🖼️</span><span><b>Tela cheia</b>, sem a barra do navegador</span></div>
+        <div class="vantagem"><span class="e">🔔</span><span><b>Avisos</b> de respostas, liberações e novidades</span></div>
+      </div>
+      <div class="grade-app">
+        <div class="bloco" id="bloco-instalar"></div>
+        <div class="bloco" id="bloco-push"></div>
+      </div>
+    </section>
+
+    <!-- PERFIL -->
+    <section class="tela" id="t-perfil" data-titulo="Perfil" hidden>
+      <div class="perfil-cartao">
+        <div class="foto-perfil">
+          <span class="av" id="av-perfil">E</span>
+          <label for="foto-in" aria-label="Trocar foto"><svg aria-hidden="true"><use href="#i-camera"/></svg></label>
+          <input type="file" id="foto-in" accept="image/*" hidden>
+        </div>
+        <h2 id="perfil-nome">Seu nome</h2>
+        <span class="mail" id="perfil-mail"></span>
+        <button class="tira-foto" id="tira-foto" type="button" hidden>Remover foto</button>
+      </div>
+      <div class="grade-perfil">
+        <form class="bloco" id="form-perfil" novalidate>
+          <h3>Seus dados</h3><p class="sub">Como você quer aparecer no app.</p>
+          <div class="campo-p"><label for="p-nome">Nome</label><input id="p-nome" maxlength="40" autocomplete="given-name" placeholder="Como podemos te chamar?"></div>
+          <div class="campo-p"><label>Sua experiência com guias</label>
+            <div class="niveis" id="p-nivel"><button type="button" data-n="iniciante">Iniciante</button><button type="button" data-n="intermediaria">Intermediária</button><button type="button" data-n="avancada">Avançada</button></div></div>
+          <div class="campo-p"><label for="p-mail">E-mail da compra</label><input id="p-mail" readonly></div>
+          <button class="btn salvar" type="submit" id="p-salvar">Salvar</button>
+        </form>
+        <div>
+          <div class="bloco">
+            <div class="colecao"><span class="num" id="p-lib">0<small>/0</small></span><div class="t"><b>Sua coleção</b><br><span id="p-lib-txt">produtos liberados</span><div class="mini-prog"><i id="p-barra" style="width:0"></i></div></div></div>
+          </div>
+          <div class="bloco" style="margin-top:12px;padding:6px 16px">
+            <div class="menu-lista">
+              <button type="button" id="m-atualizar"><span class="ic"><svg aria-hidden="true"><use href="#i-atualizar"/></svg></span>Atualizar meus produtos<svg class="seta" aria-hidden="true"><use href="#i-baixo"/></svg></button>
+              <a href="#app"><span class="ic"><svg aria-hidden="true"><use href="#i-sino"/></svg></span>Instalar app e notificações<svg class="seta" aria-hidden="true"><use href="#i-baixo"/></svg></a>
+              <button type="button" id="m-pesquisa"><span class="ic"><svg aria-hidden="true"><use href="#i-estrela"/></svg></span>Avaliar minha experiência<svg class="seta" aria-hidden="true"><use href="#i-baixo"/></svg></button>
+              <a href="#suporte"><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span>Falar com o suporte<svg class="seta" aria-hidden="true"><use href="#i-baixo"/></svg></a>
+              <button type="button" class="sair" id="m-sair"><span class="ic"><svg aria-hidden="true"><use href="#i-sair"/></svg></span>Sair da conta</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>Guias de Contas · acesso vitalício</footer>
+    </section>
+
+  </main></div>
+</div>
+
+<!-- ═════════════ LEITOR ═════════════ -->
+<!-- ═════════════ LEITOR ═════════════ -->
+<div class="leitor" id="v-leitor" role="dialog" aria-modal="true" aria-labelledby="l-titulo" hidden>
+  <header class="l-topo">
+    <button class="l-voltar" id="l-voltar"><svg aria-hidden="true"><use href="#i-baixo"/></svg><span>Voltar</span></button>
+    <div class="l-tit"><b id="l-titulo"></b><span id="l-pag"></span></div>
+    <button class="l-btn" id="l-indice"><svg aria-hidden="true"><use href="#i-lista"/></svg><span class="t" id="l-indice-t">Modelos</span></button>
+    <button class="l-btn" id="l-pdf"><svg aria-hidden="true"><use href="#i-pdf"/></svg><span class="t">PDF</span></button>
+  </header>
+  <div class="l-rolagem" id="l-rolagem"><div class="l-paginas" id="l-paginas"></div></div>
+</div>
+<div class="gaveta" id="gaveta" hidden></div>
+<div class="folha-fundo" id="folha" hidden></div>
+<div class="fundo-notif" id="fundo-notif" hidden></div>
+<div class="painel-notif" id="painel-notif" role="dialog" aria-label="Notificações" hidden>
+  <div class="cab"><b>Notificações</b><button id="ler-todas" type="button">Marcar como lidas</button><button class="fechar-n" id="fechar-notif" type="button" aria-label="Fechar">×</button></div>
+  <div class="lista-n" id="lista-notif"></div>
+</div>
+<div class="oferta-pop" id="oferta-pop" role="dialog" aria-label="Oferta para membros" hidden></div>
+<div class="fundo-modal" id="pesquisa" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ═══════════ ACESSO (no lugar do backend /api) ═══════════
+   O app de referência tem servidor próprio. Aqui o acesso vem da mesma Edge Function
+   que o clubedajuh e o ateliedamari usam: POST {email} -> {itens:[...]}.
+   O item das guias é "guias" (o webhook grava esse nome nas compras do checkout 6aded3e9…).
+   Isso decide o que a TELA mostra; não protege arquivo. */
+(function () {
+  var URL_ACESSO = 'https://dxybmayffxvepmwbyezc.supabase.co/functions/v1/membros-acesso';
+  var URL_SUPORTE = 'https://dxybmayffxvepmwbyezc.supabase.co/functions/v1/membros-suporte';
+  var URL_PUSH = 'https://dxybmayffxvepmwbyezc.supabase.co/functions/v1/membros-push';
+  // chave pública VAPID: a mesma do clubedajuh (a privada é o segredo VAPID_JWK do Supabase)
+  var VAPID_PUBLICO = 'BL3VPB_YP8gLJ-W95Q-EtBt_OzhCRBJjqQbyJ4mOJlkj1P_XXyspKsPYMsOnJegixdzDKlggt_O6MVN_USlBC9c';
+  // item que o webhook da venda grava em membros_compras para liberar a apostila (e os bônus: plano único)
+  var ITEM = 'guias';
+  // com true, qualquer compra registrada entra (só para teste; fica false)
+  var ACEITA_QUALQUER_COMPRA = false;
+  // os bônus vêm com a apostila (não existe Básico x Completo nas guias)
+  var ITEM_BONUS = 'guias';
+  // os extras (order bumps e o upsell) liberam pelo campo "item" de cada um no CATALOGO
+  // login de teste: SÓ funciona rodando em localhost/127.0.0.1 (no domínio publicado não existe)
+  var LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  var TESTE = LOCAL ? { 'teste@guiasdecontas.com': ['guias'], 'varios@guiasdecontas.com': ['guias', 'guias-varios'],
+    'bumps@guiasdecontas.com': ['guias', 'guias-bump-orixas', 'guias-bump-fundamentos', 'guias-bump-oracoes', 'guias-bump-dicionario'] } : {};
+  var CHAVE_EMAIL = 'cc:email', CHAVE_ITENS = 'cc:itens', CHAVE_PERFIL = 'cc:perfil';
+  function g(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function s(k, v) { try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} }
+  function itens() { try { return JSON.parse(g(CHAVE_ITENS) || '[]'); } catch (e) { return []; } }
+  function perfil() { try { return JSON.parse(g(CHAVE_PERFIL) || '{}'); } catch (e) { return {}; } }
+  // perfil já preenchido com o nome e o telefone da compra (a cliente pode editar depois).
+  // Guardado por e-mail: trocar de conta no mesmo aparelho não mistura os perfis.
+  function nomeBonito(n) { return String(n || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/(^|\s)(\p{L})/gu, function (x, a, b) { return a + b.toUpperCase(); }).replace(/ (Da|De|Do|Das|Dos|E) /g, function (x) { return x.toLowerCase(); }); }
+  function preencherPerfil(email, nome, tel) {
+    var pf = perfil();
+    if (pf.dono !== email) pf = { dono: email };
+    if (!pf.nome && nome) pf.nome = nomeBonito(nome);
+    if (!pf.telefone && tel) pf.telefone = String(tel);
+    s(CHAVE_PERFIL, JSON.stringify(pf));
+  }
+  function json(o, st) { return Promise.resolve(new Response(JSON.stringify(o), { status: st || 200, headers: { 'Content-Type': 'application/json' } })); }
+
+  function montarMe() {
+    var email = g(CHAVE_EMAIL);
+    if (!email) return json({ erro: 'deslogado' }, 401);
+    var meus = itens(), prod = {};
+    (window.CATALOGO || []).forEach(function (p) {
+      var k = p.dono || p.id;
+      if (prod[k]) return;
+      var liberado = (k === 'principal' && (meus.indexOf(ITEM) >= 0 || (ACEITA_QUALQUER_COMPRA && meus.length > 0))) ||
+        (k === 'bonus' && meus.indexOf(ITEM_BONUS) >= 0) ||
+        (p.tipo === 'extra' && ((!!p.item && meus.indexOf(p.item) >= 0) || (!!p.comGuias && meus.indexOf(ITEM) >= 0)));
+      prod[k] = { liberado: liberado, embreve: !!p.embreve, pasta: liberado && !(p.tipo === 'extra' && p.embreve) ? '/assets/livros/' + k + '/' : null };
+    });
+    var pf = perfil();
+    return json({ ok: true, email: email, produtos: prod, vapid: VAPID_PUBLICO,
+      perfil: { nome: pf.nome || '', foto: pf.foto || '', nivel: pf.nivel || '' } });
+  }
+
+  var puro = window.fetch.bind(window);
+  window.fetch = function (url, opt) {
+    var u = String(url || '');
+    if (u.charAt(0) !== '/' || u.indexOf('/api/') !== 0) return puro(url, opt);
+    opt = opt || {};
+    var corpo = {};
+    try { corpo = opt.body ? JSON.parse(opt.body) : {}; } catch (e) {}
+
+    if (u.indexOf('/api/login') === 0) {
+      var email = String(corpo.email || '').trim().toLowerCase();
+      if (TESTE[email]) { s(CHAVE_EMAIL, email); s(CHAVE_ITENS, JSON.stringify(TESTE[email])); preencherPerfil(email, 'MARIA DE TESTE SILVA', ''); return json({ ok: true }); }
+      return puro(URL_ACESSO, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: email }) })
+        .then(function (r) { return r.ok ? r.json() : { itens: [] }; })
+        .then(function (d) {
+          var lista = d.itens || [];
+          var vale = lista.indexOf(ITEM) >= 0 || (ACEITA_QUALQUER_COMPRA && lista.length > 0);
+          if (!vale) return json({ ok: false, erro: 'naocomprou' });
+          s(CHAVE_EMAIL, email); s(CHAVE_ITENS, JSON.stringify(lista));
+          preencherPerfil(email, d.nome, d.telefone);
+          return json({ ok: true });
+        });
+    }
+    if (u.indexOf('/api/me') === 0) return montarMe();
+    if (u.indexOf('/api/sair') === 0) { s(CHAVE_EMAIL, null); s(CHAVE_ITENS, null); return json({ ok: true }); }
+    if (u.indexOf('/api/perfil') === 0) {
+      var pf = perfil();
+      Object.keys(corpo).forEach(function (k) { pf[k] = corpo[k]; });
+      s(CHAVE_PERFIL, JSON.stringify(pf));
+      return json({ ok: true, perfil: pf });
+    }
+    // suporte: Edge Function membros-suporte grava em membros_suporte (a resposta escrita lá aparece aqui)
+    if (u.indexOf('/api/suporte') === 0) {
+      var em = g(CHAVE_EMAIL);
+      if (!em) return json({ chamados: [] });
+      var enviar = (opt.method || 'GET').toUpperCase() === 'POST';
+      var pedido = enviar ? { acao: 'enviar', email: em, app: 'guias', assunto: corpo.assunto, mensagem: corpo.mensagem, produto: corpo.produto } : { acao: 'listar', email: em, app: 'guias' };
+      return puro(URL_SUPORTE, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(pedido) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { return json(enviar ? d : { chamados: d.chamados || [] }); })
+        .catch(function () { return json(enviar ? { ok: false, erro: 'falha' } : { chamados: [] }); });
+    }
+    if (u.indexOf('/api/feedback') === 0) return json({});
+    // push: Edge Function membros-push guarda a inscrição ligada ao e-mail (membros_push) e envia
+    if (u.indexOf('/api/push') === 0) {
+      var emp = g(CHAVE_EMAIL);
+      if (!emp) return json({ ok: false }, 401);
+      var met = (opt.method || 'GET').toUpperCase(), ped;
+      if (met === 'DELETE') ped = { acao: 'remover', endpoint: corpo.endpoint };
+      else if (corpo.teste) ped = { acao: 'teste', email: emp, app: 'guias' };
+      else ped = { acao: 'inscrever', email: emp, app: 'guias', sub: corpo.sub, ua: navigator.userAgent };
+      return puro(URL_PUSH, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(ped) })
+        .then(function (r) { return r.json().then(function (d) { return json(d, r.ok ? 200 : r.status); }); })
+        .catch(function () { return json({ ok: false }, 503); });
+    }
+    return json({ ok: false }, 404);
+  };
+})();
+
+/* ═══════════ CATÁLOGO (vitrine) ═══════════
+   Títulos, capas, livros (contagem de páginas, índice e PDFs) e o checkout de desbloqueio.
+   A PASTA de cada material vem do servidor (/api/me) e só para o que o e-mail comprou.
+   "dono" = a chave do produto no servidor (os 5 bônus são um produto só: bonus). */
+// Checkout das Guias na Wiapy: 6aded3e92c5feb79f3bbdbed (R$ 17,90 pay.wiapy.com/0y51jtcpQcxt e
+// R$ 9,90 pay.wiapy.com/pSTsOBtu_xr). Plano único: toda compra grava o item "guias", que abre a
+// apostila e os bônus. O upsell de vários fios ("guias-varios") ainda não é vendido.
+var VENDA = '';
+// checkouts próprios do app na Wiapy (29/10): bumps pelo dobro e Trançadas a R$ 19,90. Vazio = "Ainda não está à venda".
+var VENDA_APP = { orixas: 'https://pay.wiapy.com/GDkiYQEXdMrF', fundamentos: 'https://pay.wiapy.com/8T_yaW5MKiYN', oracoes: 'https://pay.wiapy.com/0MGbaJCrPONH',
+  dicionario: 'https://pay.wiapy.com/PrGYLw9V__N6', trancadas: 'https://pay.wiapy.com/dS_60U3AxbhH' };
+
+// livros: páginas pag-001.webp… dentro da pasta; w/h = tamanho das páginas (o leitor reserva o espaço certo)
+var LIVROS = {
+  principal: { titulo: '100 Projetos de Guias de Contas', paginas: 201, w: 1055, h: 1491, rotulo: 'Modelos',
+    // página 1 é a capa; cada modelo tem 2 páginas (o modelo + como fazer); "col" = a coleção (índice agrupado)
+    colecoes: ["Orixás","Linhas e entidades","Técnicas","Mais orixás e qualidades","Mais linhas e entidades"],
+    indice: [{"n":1,"nome":"Oxalá — Branca com Cristais","pag":2,"col":1},{"n":2,"nome":"Oxalá — Branco Leitoso","pag":4,"col":1},{"n":3,"nome":"Ogum — Vermelha","pag":6,"col":1},{"n":4,"nome":"Ogum — Ogumjá, Branca e Azul","pag":8,"col":1},{"n":5,"nome":"Oxóssi — Verde","pag":10,"col":1},{"n":6,"nome":"Oxóssi — Azul-Turquesa","pag":12,"col":1},{"n":7,"nome":"Xangô — Marrom e Branca","pag":14,"col":1},{"n":8,"nome":"Xangô — Vermelha e Branca","pag":16,"col":1},{"n":9,"nome":"Oxum — Dourada","pag":18,"col":1},{"n":10,"nome":"Oxum — Âmbar","pag":20,"col":1},{"n":11,"nome":"Iemanjá — Azul-Clara e Branca","pag":22,"col":1},{"n":12,"nome":"Iemanjá — Cristal","pag":24,"col":1},{"n":13,"nome":"Iansã — Coral","pag":26,"col":1},{"n":14,"nome":"Iansã — Amarela","pag":28,"col":1},{"n":15,"nome":"Obaluaê — Rajada","pag":30,"col":1},{"n":16,"nome":"Omolu — Vermelha, Branca e Preta","pag":32,"col":1},{"n":17,"nome":"Nanã — Lilás","pag":34,"col":1},{"n":18,"nome":"Nanã — Rajada de Azul","pag":36,"col":1},{"n":19,"nome":"Oxumarê — Verde e Amarela","pag":38,"col":1},{"n":20,"nome":"Oxumarê — Arco-Íris","pag":40,"col":1},{"n":21,"nome":"Ossaim — Verde e Branca","pag":42,"col":1},{"n":22,"nome":"Ossaim — Rajada de Verde","pag":44,"col":1},{"n":23,"nome":"Obá — Magenta e Dourada","pag":46,"col":1},{"n":24,"nome":"Obá — Vermelho-Escura e Amarela","pag":48,"col":1},{"n":25,"nome":"Caboclo Sete Flechas","pag":50,"col":2},{"n":26,"nome":"Caboclo Pena Branca","pag":52,"col":2},{"n":27,"nome":"Preto-Velho — ref. Pai Joaquim","pag":54,"col":2},{"n":28,"nome":"Vovó Catarina","pag":56,"col":2},{"n":29,"nome":"Erê — ref. Joãozinho","pag":58,"col":2},{"n":30,"nome":"Erê — ref. Pedrinho","pag":60,"col":2},{"n":31,"nome":"Baiano — ref. Mestre Zimba","pag":62,"col":2},{"n":32,"nome":"Baiano — ref. Zé do Trilho","pag":64,"col":2},{"n":33,"nome":"Boiadeiro — ref. Juvêncio","pag":66,"col":2},{"n":34,"nome":"Boiadeiro — ref. Venâncio","pag":68,"col":2},{"n":35,"nome":"Marinheiro — ref. Braguinha","pag":70,"col":2},{"n":36,"nome":"Marinheiro — ref. Martim Pescador","pag":72,"col":2},{"n":37,"nome":"Exu Tranca-Ruas","pag":74,"col":2},{"n":38,"nome":"Exu — ref. Exu Veludo","pag":76,"col":2},{"n":39,"nome":"Pombagira Maria Padilha","pag":78,"col":2},{"n":40,"nome":"Pombagira Maria Mulambo","pag":80,"col":2},{"n":41,"nome":"Cigano — ref. Manolo","pag":82,"col":2},{"n":42,"nome":"Cigano — ref. Ramirez","pag":84,"col":2},{"n":43,"nome":"Malandro Zé Pilintra","pag":86,"col":2},{"n":44,"nome":"Maria Navalha","pag":88,"col":2},{"n":45,"nome":"Guia Monocromática — Tom sobre Tom","pag":90,"col":3},{"n":46,"nome":"Guia com Cristais Facetados","pag":92,"col":3},{"n":47,"nome":"Guia Bicolor Alternada 1×1","pag":94,"col":3},{"n":48,"nome":"Guia Bicolor Alternada 2×2","pag":96,"col":3},{"n":49,"nome":"Guia com Blocos 5×5","pag":98,"col":3},{"n":50,"nome":"Guia com Blocos 7×3","pag":100,"col":3},{"n":51,"nome":"Guia com Destaque Simétrico","pag":102,"col":3},{"n":52,"nome":"Guia Degradê em Três Tons","pag":104,"col":3},{"n":53,"nome":"Guia com Separadores Metálicos","pag":106,"col":3},{"n":54,"nome":"Guia com Cristais e Contas Centrais","pag":108,"col":3},{"n":55,"nome":"Madeira e Sementes","pag":110,"col":3},{"n":56,"nome":"Guia Artesanal com Búzios","pag":112,"col":3},{"n":57,"nome":"Guia com Terminal e Fecho","pag":114,"col":3},{"n":58,"nome":"Exu (orixá) — Preta e Vermelha","pag":116,"col":4},{"n":59,"nome":"Exu (orixá) — Preta e Cinza","pag":118,"col":4},{"n":60,"nome":"Logunedé — Turquesa e Dourada","pag":120,"col":4},{"n":61,"nome":"Logunedé — Turquesa e Mel","pag":122,"col":4},{"n":62,"nome":"Ewá — Vermelha Rajada de Amarelo","pag":124,"col":4},{"n":63,"nome":"Ewá — Vermelho-Escura","pag":126,"col":4},{"n":64,"nome":"Iroko (Tempo) — Verde e Marrom","pag":128,"col":4},{"n":65,"nome":"Iroko (Tempo) — Verde e Branca","pag":130,"col":4},{"n":66,"nome":"Ibeji — Todas as Cores, em Pares","pag":132,"col":4},{"n":67,"nome":"Oyá-Tempo (Logunan) — Fumê","pag":134,"col":4},{"n":68,"nome":"Orunmilá (Ifá) — Verde e Amarela","pag":136,"col":4},{"n":69,"nome":"Orunmilá (Ifá) — Verde e Marrom","pag":138,"col":4},{"n":70,"nome":"Oxalá — Oxaguiã, Branca com Seguís Azuis","pag":140,"col":4},{"n":71,"nome":"Ogum — Azul-Escura","pag":142,"col":4},{"n":72,"nome":"Oxóssi — Verde, Azul-Escura e Magenta","pag":144,"col":4},{"n":73,"nome":"Xangô — Ayrá, Branca Rajada de Vermelho","pag":146,"col":4},{"n":74,"nome":"Oxum — Azul e Dourada","pag":148,"col":4},{"n":75,"nome":"Iemanjá — Branco-Azulada e Prateada","pag":150,"col":4},{"n":76,"nome":"Iansã — Oyá Marrom","pag":152,"col":4},{"n":77,"nome":"Omolu — Jagun, Branca Rajada de Preto","pag":154,"col":4},{"n":78,"nome":"Nanã — Lilás, Branca e Azul-Clara","pag":156,"col":4},{"n":79,"nome":"Oxumarê — Amarela e Preta","pag":158,"col":4},{"n":80,"nome":"Ossaim — Verde Rajada de Branco","pag":160,"col":4},{"n":81,"nome":"Obá — Laranja","pag":162,"col":4},{"n":82,"nome":"Exu Mirim","pag":164,"col":5},{"n":83,"nome":"Pombagira Mirim — ref. Pombagira Menina","pag":166,"col":5},{"n":84,"nome":"Linha do Oriente — Dourada e Rosa","pag":168,"col":5},{"n":85,"nome":"Cigana Esmeralda","pag":170,"col":5},{"n":86,"nome":"Cigana — ref. Carmem","pag":172,"col":5},{"n":87,"nome":"Pombagira Rosa Caveira","pag":174,"col":5},{"n":88,"nome":"Pombagira Sete Saias","pag":176,"col":5},{"n":89,"nome":"Pombagira das Sete Encruzilhadas","pag":178,"col":5},{"n":90,"nome":"Pombagira Maria Farrapo","pag":180,"col":5},{"n":91,"nome":"Exu Marabô","pag":182,"col":5},{"n":92,"nome":"Exu Rei das Sete Encruzilhadas","pag":184,"col":5},{"n":93,"nome":"Exu Caveira","pag":186,"col":5},{"n":94,"nome":"Exu — ref. Tranca-Ruas das Almas","pag":188,"col":5},{"n":95,"nome":"Caboclo Arranca-Toco","pag":190,"col":5},{"n":96,"nome":"Caboclo Tupinambá","pag":192,"col":5},{"n":97,"nome":"Pai Benedito","pag":194,"col":5},{"n":98,"nome":"Vovó Maria Conga","pag":196,"col":5},{"n":99,"nome":"Malandro Zé Pretinho","pag":198,"col":5},{"n":100,"nome":"Malandra — ref. Maria do Cais","pag":200,"col":5}],
+    pdf: [['/pdf/100-Projetos-de-Guias-de-Contas.pdf', 'Os 100 modelos · 201 páginas', 47.9]] },
+  varios: { titulo: 'Guias de Vários Fios', paginas: 6, w: 1055, h: 1491, rotulo: 'Modelos', indice: [{"n":1,"nome":"Dois Fios Paralelos — A","pag":1},{"n":2,"nome":"Dois Fios Paralelos — B","pag":3},{"n":3,"nome":"Três Fios Paralelos","pag":5}], pdf: [] },
+  // bônus (dono "bonus", uma sub-pasta por bônus) e order bumps: gerados por "node scripts/gc-app-bonus.cjs" (29/10)
+b1: {"dono":"bonus","sub":"b1/","titulo":"Guia Completo de Materiais e Componentes","paginas":11,"w":1055,"h":1491,"rotulo":"Páginas","indice":[{"n":1,"nome":"Como Usar Este Guia","pag":2},{"n":2,"nome":"Fios — Parte 1","pag":3},{"n":3,"nome":"Fios — Parte 2","pag":4},{"n":4,"nome":"Contas de Vidro, Cristal e Louça","pag":5},{"n":5,"nome":"Pedras, Sementes e Madeira","pag":6},{"n":6,"nome":"Búzios e Palha da Costa","pag":7},{"n":7,"nome":"Firmas, Entremeios e Fechos","pag":8},{"n":8,"nome":"Ferramentas","pag":9},{"n":9,"nome":"Tabela de Tamanhos de Conta","pag":10},{"n":10,"nome":"Lista de Compras para Começar","pag":11}],"pdf":[["/pdf/Guia Completo de Materiais e Componentes.pdf","10 páginas + capa",3.2]]},
+  b2: {"dono":"bonus","sub":"b2/","titulo":"Guia Completo dos Orixás e Entidades","paginas":13,"w":1055,"h":1491,"rotulo":"Páginas","indice":[{"n":1,"nome":"Como Ler Este Guia","pag":2},{"n":2,"nome":"Orixás — Exu, Ogum e Oxóssi","pag":3},{"n":3,"nome":"Orixás — Ossaim, Xangô, Obaluaê e Omolu","pag":4},{"n":4,"nome":"Orixás — Oxumarê, Nanã e Iemanjá","pag":5},{"n":5,"nome":"Orixás — Oxum, Iansã e Obá","pag":6},{"n":6,"nome":"Orixás — Oxalá, Ewá e Logunedé","pag":7},{"n":7,"nome":"Orixás — Iroko, Ibeji e Outros","pag":8},{"n":8,"nome":"Linhas da Umbanda — Caboclos, Pretos-Velhos e Crianças","pag":9},{"n":9,"nome":"Linhas da Umbanda — Baianos, Boiadeiros e Marinheiros","pag":10},{"n":10,"nome":"Linhas da Umbanda — Exus, Exu Mirim e Pombagiras","pag":11},{"n":11,"nome":"Linhas da Umbanda — Ciganos e Malandros","pag":12},{"n":12,"nome":"Quadro-Resumo das Cores","pag":13}],"pdf":[["/pdf/Guia Completo dos Orixás e Entidades.pdf","12 páginas + capa",3.8]]},
+  b3: {"dono":"bonus","sub":"b3/","titulo":"Como Precificar e Vender Suas Guias","paginas":9,"w":1055,"h":1491,"rotulo":"Páginas","indice":[{"n":1,"nome":"O Preço Justo","pag":2},{"n":2,"nome":"Custo do Material — Modelo 01","pag":3},{"n":3,"nome":"O Valor do Seu Tempo","pag":4},{"n":4,"nome":"Margem e Preço Final","pag":5},{"n":5,"nome":"Tabela de Preços de Exemplo","pag":6},{"n":6,"nome":"Onde Vender","pag":7},{"n":7,"nome":"A Foto do Produto","pag":8},{"n":8,"nome":"Encomendas","pag":9}],"pdf":[["/pdf/Como Precificar e Vender Suas Guias.pdf","8 páginas + capa",2.4]]},
+  b4: {"dono":"bonus","sub":"b4/","titulo":"Guia de Erros, Ajustes e Reparos","paginas":9,"w":1055,"h":1491,"rotulo":"Páginas","indice":[{"n":1,"nome":"Diagnóstico Rápido","pag":2},{"n":2,"nome":"Fio Fino Demais","pag":3},{"n":3,"nome":"Fio Esticado Sem Folga","pag":4},{"n":4,"nome":"Nó Sem Arremate","pag":5},{"n":5,"nome":"Conta com Borda Cortante","pag":6},{"n":6,"nome":"Guia Embolada na Guarda","pag":7},{"n":7,"nome":"Sequência e Contagem","pag":8},{"n":8,"nome":"Quando a Guia Arrebenta","pag":9}],"pdf":[["/pdf/Guia de Erros, Ajustes e Reparos.pdf","8 páginas + capa",2.4]]},
+  orixas: {"titulo":"Guia dos Orixás e Entidades Ilustrado","paginas":25,"w":1055,"h":1491,"rotulo":"Páginas","indice":[{"n":1,"nome":"Apresentação","pag":2},{"n":2,"nome":"Exu (Orixá)","pag":3},{"n":3,"nome":"Ogum","pag":4},{"n":4,"nome":"Oxóssi","pag":5},{"n":5,"nome":"Ossaim","pag":6},{"n":6,"nome":"Xangô","pag":7},{"n":7,"nome":"Obaluaê e Omolu","pag":8},{"n":8,"nome":"Oxumarê","pag":9},{"n":9,"nome":"Nanã","pag":10},{"n":10,"nome":"Iemanjá","pag":11},{"n":11,"nome":"Oxum","pag":12},{"n":12,"nome":"Iansã (Oyá)","pag":13},{"n":13,"nome":"Obá","pag":14},{"n":14,"nome":"Oxalá","pag":15},{"n":15,"nome":"Caboclos","pag":16},{"n":16,"nome":"Pretos-Velhos","pag":17},{"n":17,"nome":"Crianças (Erês)","pag":18},{"n":18,"nome":"Baianos","pag":19},{"n":19,"nome":"Boiadeiros","pag":20},{"n":20,"nome":"Marinheiros","pag":21},{"n":21,"nome":"Exus","pag":22},{"n":22,"nome":"Pombagiras","pag":23},{"n":23,"nome":"Ciganos","pag":24},{"n":24,"nome":"Malandros","pag":25}],"pdf":[["/pdf/Guia dos Orixás e Entidades Ilustrado.pdf","24 páginas + capa",7.6]]},
+  fundamentos: {"titulo":"Fundamentos e Consagração das Guias","paginas":11,"w":1055,"h":1491,"rotulo":"Páginas","indice":[{"n":1,"nome":"Um Material de Respeito","pag":2},{"n":2,"nome":"O Que é a Guia","pag":3},{"n":3,"nome":"Para Que Serve","pag":4},{"n":4,"nome":"Tipos de Guia","pag":5},{"n":5,"nome":"Quem Pode Usar","pag":6},{"n":6,"nome":"Confecção Não é Consagração","pag":7},{"n":7,"nome":"Antes de Começar a Montar","pag":8},{"n":8,"nome":"Cuidados do Dia a Dia","pag":9},{"n":9,"nome":"Quando a Guia Arrebenta ou Se Perde","pag":10},{"n":10,"nome":"Para Quem Faz Sob Encomenda","pag":11}],"pdf":[["/pdf/Fundamentos e Consagração das Guias.pdf","10 páginas + capa",3]]},
+  oracoes: {"titulo":"50 Orações e Preces de Umbanda","paginas":16,"w":1055,"h":1491,"rotulo":"Páginas","indice":[{"n":1,"nome":"Como Usar Estas Orações","pag":2},{"n":2,"nome":"Orações de Abertura","pag":3},{"n":3,"nome":"Prece de Cáritas","pag":4},{"n":4,"nome":"Orações de Abertura","pag":5},{"n":5,"nome":"Preces da Gira","pag":6},{"n":6,"nome":"Preces da Gira e Preces aos Orixás","pag":7},{"n":7,"nome":"Preces aos Orixás","pag":8},{"n":8,"nome":"Preces aos Orixás","pag":9},{"n":9,"nome":"Preces aos Orixás","pag":10},{"n":10,"nome":"Preces às Linhas","pag":11},{"n":11,"nome":"Preces às Linhas","pag":12},{"n":12,"nome":"Preces às Linhas e Preces do Dia a Dia","pag":13},{"n":13,"nome":"Preces do Dia a Dia","pag":14},{"n":14,"nome":"Preces do Dia a Dia","pag":15},{"n":15,"nome":"Preces do Dia a Dia","pag":16}],"pdf":[["/pdf/50 Orações e Preces de Umbanda.pdf","15 páginas + capa",4.4]]},
+  dicionario: {"titulo":"Dicionário da Umbanda - 100 Termos Explicados","paginas":13,"w":1055,"h":1491,"rotulo":"Páginas","indice":[{"n":1,"nome":"De Abebé a Aruanda","pag":2},{"n":2,"nome":"De Assentamento a Caboclo","pag":3},{"n":3,"nome":"De Cambone a Curimba","pag":4},{"n":4,"nome":"De Defumação a Encruzilhada","pag":5},{"n":5,"nome":"De Entidade a Firma","pag":6},{"n":6,"nome":"De Firmeza a Ibeji","pag":7},{"n":7,"nome":"De Ibiri a Mãe de Santo","pag":8},{"n":8,"nome":"De Mãe Pequena a Obrigação","pag":9},{"n":9,"nome":"De Oferenda a Oxê","pag":10},{"n":10,"nome":"De Padê a Preto-Velho","pag":11},{"n":11,"nome":"De Qualidade a Sete Linhas","pag":12},{"n":12,"nome":"De Sincretismo a Zelador","pag":13}],"pdf":[["/pdf/Dicionário da Umbanda - 100 Termos Explicados.pdf","12 páginas + capa",2.9]]}
+};
+
+var CATALOGO = [
+  { id: 'principal', tipo: 'principal', titulo: '100 Projetos de Guias de Contas', meta: '100 modelos · 201 páginas',
+    desc: 'Guias de orixás, linhas e entidades, com a técnica de cada uma. Cada modelo traz os materiais com as quantidades, o esquema das contas, as medidas e a montagem passo a passo.',
+    venda: VENDA, preco: '', rotuloVenda: 'Liberar a coleção',
+    inclui: ['100 modelos em 5 coleções: orixás, linhas e entidades, técnicas e mais', 'Materiais com a quantidade exata de cada conta', 'Esquema das contas, medidas e conferência', 'Montagem em 8 etapas com fotos e o detalhe do fechamento', 'PDF pronto pra imprimir'] },
+  // os 4 bônus da página de vendas (conteúdo pronto em 29/10)
+  { id: 'b1', dono: 'bonus', tipo: 'bonus', titulo: 'Guia Completo de Materiais e Componentes', desc: 'Contas, fios e componentes, e a lista de compras.' },
+  // (26/10: o bônus 2 era "Fundamentos e Consagração das Guias", que virou order bump)
+  { id: 'b2', dono: 'bonus', tipo: 'bonus', titulo: 'Guia Completo dos Orixás e Entidades', desc: 'Cores, dia, elemento e saudação de cada orixá e de cada linha.' },
+  { id: 'b3', dono: 'bonus', tipo: 'bonus', titulo: 'Como Precificar e Vender Suas Guias', desc: 'Preço, onde vender e como apresentar as peças.' },
+  { id: 'b4', dono: 'bonus', tipo: 'bonus', titulo: 'Guia de Erros, Ajustes e Reparos', desc: 'Os erros mais comuns e como consertar cada um.' },
+  // order bumps do checkout (26/10; conteúdo pronto em 29/10): "item" = o que o webhook grava.
+  // Cada um libera só para quem comprou (decisão do Heitor em 29/10). No app, o desbloqueio custa o
+  // DOBRO do preço do checkout, pelo checkout próprio de cada um (venda = link pay.wiapy.com).
+  { id: 'orixas', tipo: 'extra', pronto: true, item: 'guias-bump-orixas', titulo: 'Guia dos Orixás e Entidades Ilustrado', meta: '24 páginas', venda: VENDA_APP.orixas, preco: '9,80',
+    desc: 'Uma página ilustrada por orixá e por linha, com a guia nas cores dele.',
+    inclui: ['13 orixás e 10 linhas da Umbanda','A guia nas cores de cada um','Cores, elemento, dia e saudação','Os modelos da apostila de cada orixá'] },
+  { id: 'fundamentos', tipo: 'extra', pronto: true, item: 'guias-bump-fundamentos', titulo: 'Fundamentos e Consagração das Guias', meta: '10 páginas', venda: VENDA_APP.fundamentos, preco: '11,80',
+    desc: 'O que é a guia, para que serve, quem pode usar e os cuidados, com respeito a cada tradição.',
+    inclui: ['O que é a guia e para que serve','Confecção não é consagração','Cuidados do dia a dia','Quando a guia arrebenta ou se perde'] },
+  { id: 'oracoes', tipo: 'extra', pronto: true, item: 'guias-bump-oracoes', titulo: '50 Orações e Preces de Umbanda', meta: '15 páginas', venda: VENDA_APP.oracoes, preco: '11,80',
+    desc: 'Orações de abertura, preces da gira, aos orixás, às linhas e do dia a dia.',
+    inclui: ['7 orações de domínio público, como a Prece de Cáritas','Preces aos orixás e às linhas','Preces da gira e do dia a dia'] },
+  { id: 'dicionario', tipo: 'extra', pronto: true, item: 'guias-bump-dicionario', titulo: 'Dicionário da Umbanda - 100 Termos Explicados', meta: '12 páginas', venda: VENDA_APP.dicionario, preco: '9,80',
+    desc: '100 termos que você ouve no terreiro, de abebé a zelador, explicados em poucas linhas.',
+    inclui: ['100 termos em ordem alfabética','Definições curtas e diretas','As diferenças entre as casas, quando existem'] },
+  // upsell do funil (29/10): 30 Projetos de Guias Trançadas, R$ 19,90 (upsell 6ae0169…, downsell 6ae017c…
+  // e o checkout próprio do app gravam "guias-trancadas"). O material ainda está em produção (embreve):
+  // quem comprou vê "Acesso garantido"; quem não comprou garante o seu pelo checkout do app.
+  { id: 'trancadas', tipo: 'extra', pronto: false, embreve: true, item: 'guias-trancadas', titulo: '30 Projetos de Guias Trançadas', meta: 'Em produção', venda: VENDA_APP.trancadas, preco: '19,90',
+    desc: 'Guias de vários fios trançados, unindo as cores de mais de um orixá ou linha, no mesmo formato da apostila.',
+    inclui: ['30 projetos de guias trançadas', 'Materiais com a quantidade exata de cada conta', 'A trança passo a passo, com fotos', 'Entra aqui no app assim que ficar pronto, e você recebe o aviso'] }
+  // (o upsell antigo de vários fios, 6 páginas em LIVROS.varios, saiu da vitrine em 29/10)
+  /* { id: 'varios', tipo: 'extra', pronto: true, item: 'guias-varios', titulo: 'Guias de Vários Fios', meta: '3 modelos · 6 páginas', venda: '', preco: '',
+    desc: 'Guias de dois e de três fios paralelos, no mesmo formato da apostila.',
+    inclui: ['Dois fios paralelos: modelos A e B', 'Três fios paralelos', 'O modelo e a montagem passo a passo de cada um'] } */
+];
+var BONUS_PACOTE = { titulo: 'Os 4 bônus', venda: '', preco: '',
+  desc: 'Vêm junto com a coleção: abra cada um aqui no app ou baixe o PDF.',
+  inclui: ['Guia Completo de Materiais e Componentes', 'Guia Completo dos Orixás e Entidades', 'Como Precificar e Vender Suas Guias', 'Guia de Erros, Ajustes e Reparos'] };
+var TEXTOS = {};
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function mostrar(v) { ['v-carregando', 'v-login', 'v-area'].forEach(function (x) { $(x).hidden = x !== v; }); window.scrollTo(0, 0); }
+function toast(t) { var el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('on'); }, 2800); }
+function guardar(k, v) { try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} }
+function ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function dois(n) { return (n < 10 ? '0' : '') + n; }
+function norm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function capaImg(id, sizes) {
+  return '<img src="/assets/capas/' + id + '-480.webp" srcset="/assets/capas/' + id + '-480.webp 480w, /assets/capas/' + id + '-800.webp 800w" sizes="' + (sizes || '240px') + '" alt="" width="800" height="600" loading="lazy" decoding="async">';
+}
+function ico(n) { return '<svg aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+function produto(id) { return CATALOGO.filter(function (p) { return p.id === id; })[0]; }
+
+var DADOS = null, PERFIL = { nome: '', foto: '', nivel: '' }, TELA = 'inicio';
+function estado(p) { var prod = (DADOS && DADOS.produtos) || {}; return prod[p.dono || p.id] || {}; }
+function tem(k) { var e = ((DADOS && DADOS.produtos) || {})[k]; return !!(e && e.liberado); }
+function pastaDe(id) {
+  var L = LIVROS[id] || {};
+  if (!tem(L.dono || id)) return null;
+  return '/assets/livros/' + (L.dono || id) + '/' + (L.sub || '');
+}
+function chaveUsuario() { return DADOS ? DADOS.email : ''; }
+function paginaSalva(id) { var n = parseInt(ler('cc:pag:' + chaveUsuario() + ':' + id), 10); return n > 0 ? n : 0; }
+function modeloNa(id, p) { var L = LIVROS[id], m = null; ((L && L.indice) || []).forEach(function (x) { if (x.pag <= p) m = x; }); return m; }
+
+/* ═══════════ PERFIL: foto e nome em todo o app ═══════════ */
+function primeiroNome() { return (PERFIL.nome || '').trim().split(/\s+/)[0] || ''; }
+function inicial() { var b = (PERFIL.nome || (DADOS && DADOS.email) || 'E').trim(); return (b[0] || 'E').toUpperCase(); }
+function pintarAvatares() {
+  ['av-topo', 'av-ola', 'av-perfil'].forEach(function (id) {
+    var el = $(id); if (!el) return;
+    el.innerHTML = PERFIL.foto ? '<img src="' + esc(PERFIL.foto) + '" alt="">' : esc(inicial());
+  });
+}
+
+/* ═══════════ INÍCIO ═══════════ */
+function desenharInicio() {
+  var h = new Date().getHours(), nome = primeiroNome();
+  $('ola-sauda').textContent = (h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite') + (nome ? ',' : '') + ' 👋';
+  $('ola-nome').textContent = nome || 'Suas guias';
+  $('ola-editar').hidden = !!PERFIL.nome;
+
+  // continuar de onde parou
+  var ult = ler('cc:ultimo:' + chaveUsuario()), s = '';
+  if (ult && LIVROS[ult] && pastaDe(ult) && paginaSalva(ult) > 1) {
+    var L = LIVROS[ult], pg = paginaSalva(ult), m = modeloNa(ult, pg);
+    s = '<a class="seguir" href="#ler/' + ult + '"><img src="/assets/capas/' + ult + '-480.webp" alt="" width="480" height="360">' +
+      '<div class="t"><small>Continue de onde parou</small><b>' + esc(ult === 'principal' && m ? dois(m.n) + ' · ' + m.nome : m && !/^(Abertura|Modelo|Receita|Projeto) /.test(m.nome) ? m.nome : L.titulo) + '</b>' +
+      '<span>' + esc(L.titulo.replace(/^Bônus \d · /, '')) + ' · página ' + pg + ' de ' + L.paginas + '</span><div class="prog"><i style="width:' + Math.round(100 * pg / L.paginas) + '%"></i></div></div>' +
+      '<span class="play">' + ico('play') + '</span></a>';
+  } else if (pastaDe('principal')) {
+    s = '<a class="seguir" href="#ler/principal"><img src="/assets/capas/principal-480.webp" alt="" width="480" height="360"><div class="t"><small>Comece por aqui</small><b>Abra seus 100 modelos</b>' +
+      '<span>' + 'Escolha a guia e siga o esquema das contas.' + '</span></div><span class="play">' + ico('play') + '</span></a>';
+  }
+  $('seguir').innerHTML = s;
+
+  // minha coleção: principal em destaque + extras que a pessoa tem
+  var p0 = produto('principal'), e0 = estado(p0), pg0 = paginaSalva('principal');
+  $('principal').innerHTML = e0.liberado ? '<article class="principal"><div class="foto">' +
+    '<img src="/assets/capas/principal-800.webp" srcset="/assets/capas/principal-800.webp 800w, /assets/capas/principal-1200.webp 1200w" sizes="(max-width:640px) 100vw, 560px" alt="Guias de contas da coleção" width="1200" height="900">' +
+    '<span class="selo">Principal</span></div><div class="corpo"><span class="status ok">Liberado</span><h3>' + esc(p0.titulo) + '</h3><p>' + esc(p0.desc) + '</p>' +
+    '<div class="etiquetas"><span>100 modelos</span><span>201 páginas</span><span>5 coleções</span></div>' +
+    '<div class="acoes"><a class="btn" href="#ler/principal">' + ico('livro') + (pg0 > 1 ? 'Continuar · pág. ' + pg0 : 'Abrir modelos') + '</a>' +
+    '<button class="btn claro" type="button" data-indice="principal">' + ico('lista') + 'Modelos</button><button class="btn claro" type="button" data-pdf="principal">' + ico('pdf') + 'PDF</button></div></div></article>' : '';
+  var meus = CATALOGO.filter(function (p) { return p.tipo === 'extra' && estado(p).pasta; });
+  var prep = CATALOGO.filter(function (p) { return p.tipo === 'extra' && estado(p).liberado && !estado(p).pasta; });
+  $('prep').innerHTML = prep.map(function (p) {
+    return '<div class="breve-item"><img src="/assets/capas/' + p.id + '-480.webp" alt="" width="480" height="360" loading="lazy"><div><b>' + esc(p.titulo.replace(/^\+/, '')) + '</b><span class="status breve">' + ico('relogio') + 'Acesso garantido</span></div></div>';
+  }).join('');
+  $('s-prep').hidden = !prep.length;
+  $('c-prep').textContent = prep.length ? prep.length + (prep.length === 1 ? ' produto' : ' produtos') : '';
+  $('meus').innerHTML = meus.map(function (p) {
+    var pg = paginaSalva(p.id), L = LIVROS[p.id];
+    return '<article class="meu"><a class="capa" href="#ler/' + p.id + '" aria-label="Abrir ' + esc(p.titulo) + '">' + capaImg(p.id, '112px') + '</a><div class="t"><span class="status ok">Liberado</span><h3>' + esc(p.titulo) + '</h3>' +
+      '<span class="meta">' + esc(p.meta || '') + (pg > 1 ? ' · pág. ' + pg : '') + '</span>' + (pg > 1 && L ? '<div class="mini-prog"><i style="width:' + Math.round(100 * pg / L.paginas) + '%"></i></div>' : '') +
+      '<div class="bts"><a class="btn" href="#ler/' + p.id + '">' + (pg > 1 ? 'Continuar' : 'Abrir') + '</a>' + (L && L.pdf && L.pdf.length ? '<button class="btn claro" type="button" data-pdf="' + p.id + '">PDF</button>' : '') + '</div></div></article>';
+  }).join('');
+  var nCol = (e0.liberado ? 1 : 0) + meus.length + prep.length;
+  $('c-colecao').textContent = nCol + (nCol === 1 ? ' produto' : ' produtos');
+  $('s-colecao').hidden = !nCol;
+
+  // bônus
+  var bon = CATALOGO.filter(function (p) { return p.tipo === 'bonus'; }), temBonus = tem('bonus');
+  $('bonus').innerHTML = bon.map(function (p, i) {
+    var e = estado(p);
+    if (e.pasta && p.aulas) return '<a class="card feito" href="#aulas"><div class="foto">' + capaImg(p.id, '220px') + '</div><div class="corpo"><h3>' + esc(p.titulo) + '</h3><span class="sub">Bônus ' + (i + 1) + ' · ' + esc(p.sub) + '</span><div class="pe"><span class="acao">Ver aulas →</span></div></div></a>';
+    if (e.pasta && p.texto) return '<button class="card feito" type="button" data-texto="' + p.id + '"><div class="foto">' + capaImg(p.id, '220px') + '</div><div class="corpo"><h3>' + esc(p.titulo) + '</h3><span class="sub">Bônus ' + (i + 1) + ' · ' + esc(p.sub) + '</span><div class="pe"><span class="acao">Abrir →</span></div></div></button>';
+    if (e.pasta && p.embreve) return '<button class="card bloq" type="button" data-produto="' + p.id + '"><div class="foto">' + capaImg(p.id, '220px') + '</div><div class="corpo"><h3>' + esc(p.titulo) + '</h3><span class="sub">Bônus ' + (i + 1) + '</span><div class="pe"><span class="acao">Em breve</span></div></div></button>';
+    if (e.pasta) return '<a class="card feito" href="#ler/' + p.id + '"><div class="foto">' + capaImg(p.id, '220px') + '</div><div class="corpo"><h3>' + esc(p.titulo) + '</h3><span class="sub">Bônus ' + (i + 1) + ' · ' + (LIVROS[p.id] ? LIVROS[p.id].paginas - 1 : '') + ' páginas</span><div class="pe"><span class="acao">Abrir →</span></div></div></a>';
+    return '<button class="card bloq" type="button" data-produto="' + p.id + '"><div class="foto">' + capaImg(p.id, '220px') + '<span class="tranca">' + ico('cadeado') + '</span></div><div class="corpo"><h3>' + esc(p.titulo) + '</h3><span class="sub">Bônus ' + (i + 1) + '</span><div class="pe"><span class="acao">Em breve</span></div></div></button>';
+  }).join('');
+  $('c-bonus').textContent = temBonus ? '4 liberados' : '4 bônus';
+
+  // complete sua coleção: tudo o que a pessoa ainda não tem (os prontos primeiro; os em produção entram na fila de espera ao comprar)
+  var mais = CATALOGO.filter(function (p) { return !estado(p).liberado && (p.tipo === 'aulas' || p.tipo === 'principal' || p.tipo === 'extra'); });
+  mais = mais.filter(function (p) { return p.tipo !== 'extra' || p.pronto; }).concat(mais.filter(function (p) { return p.tipo === 'extra' && !p.pronto; }));
+  var tr = produto('trancadas'), comBanner = !!(tr && tr.venda && !estado(tr).liberado);
+  $('s-trancadas').hidden = !comBanner;
+  if (comBanner) { $('tr-cta').href = tr.venda; mais = mais.filter(function (p) { return p.id !== 'trancadas'; }); }
+  $('mais').innerHTML = mais.map(function (p) {
+    var fita = p.tipo === 'aulas' ? '<span class="fita">Videoaulas</span>' : p.novo ? '<span class="fita verde">Novo</span>' : '';
+    var sub = p.meta || (p.tipo === 'extra' && !p.pronto ? 'Garanta o seu' : '');
+    return '<button class="card" type="button" data-produto="' + p.id + '"><div class="foto">' + capaImg(p.id, '240px') + fita + '<span class="tranca">' + ico('cadeado') + '</span></div>' +
+      '<div class="corpo"><h3>' + esc(p.titulo.replace(/^\+/, '')) + '</h3><span class="sub">' + esc(sub) + '</span><div class="pe">' + (p.venda ? '<b>R$ ' + esc(p.preco) + '</b>' : '<b class="breve-tx">Em breve</b>') + '<span class="acao">Ver</span></div></div></button>';
+  }).join('');
+  $('s-mais').hidden = !mais.length;
+}
+
+/* busca de modelos (só nos materiais liberados) */
+var BUSCA = (function () {
+  var lista = [], sel = -1;
+  function montar() {
+    lista = [];
+    Object.keys(LIVROS).forEach(function (id) {
+      var L = LIVROS[id]; if (!pastaDe(id)) return;
+      (L.indice || []).forEach(function (x) {
+        if (x.nome === 'Abertura') return;
+        lista.push({ id: id, n: x.n, nome: x.nome, pag: x.pag, livro: L.titulo.replace(/^Bônus \d · /, 'Bônus · '), chave: norm(x.nome + ' ' + x.n + ' ' + dois(x.n) + ' ' + L.titulo + ' ' + (x.col && L.colecoes ? L.colecoes[x.col - 1] : '')) });
+      });
+    });
+  }
+  function desenhar() {
+    var q = norm($('busca-in').value.trim()), box = $('busca-res');
+    $('busca-limpar').hidden = !q;
+    if (!q) { box.hidden = true; return; }
+    // aceita variações: "cristal" acha "cristais", "caboclos" acha "caboclo"
+    var termos = q.split(/\s+/).map(function (t) { var r = t.length >= 4 ? t.replace(/(inh[ao]s?|[aeiou]+s?)$/, '') : t; return r.length >= 3 ? r : t; });
+    var achou = lista.filter(function (x) { return termos.every(function (t) { return x.chave.indexOf(t) >= 0; }); }).slice(0, 12);
+    sel = -1;
+    box.innerHTML = achou.length ? achou.map(function (x) {
+      return '<a class="res" role="option" href="#ler/' + x.id + '/' + x.pag + '"><span class="nn">' + dois(x.n) + '</span><div><b>' + esc(x.nome) + '</b><span>' + esc(x.livro) + ' · pág. ' + x.pag + '</span></div><span class="ir">Abrir</span></a>';
+    }).join('') : '<div class="vazio" style="border:0">Nenhuma guia com esse nome nos seus materiais.</div>';
+    box.hidden = false;
+  }
+  function fechar() { $('busca-res').hidden = true; }
+  $('busca-in').addEventListener('input', desenhar);
+  $('busca-in').addEventListener('focus', function () { if ($('busca-in').value.trim()) desenhar(); });
+  $('busca-in').addEventListener('keydown', function (e) {
+    var itens = $('busca-res').querySelectorAll('.res'); if (!itens.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + itens.length) % itens.length; [].forEach.call(itens, function (a, i) { a.classList.toggle('sel', i === sel); }); itens[sel].scrollIntoView({ block: 'nearest' }); }
+    if (e.key === 'Enter') { e.preventDefault(); (itens[sel] || itens[0]).click(); }
+    if (e.key === 'Escape') fechar();
+  });
+  $('busca-limpar').addEventListener('click', function () { $('busca-in').value = ''; desenhar(); $('busca-in').focus(); });
+  $('busca-res').addEventListener('click', function (e) { if (e.target.closest('.res')) { fechar(); $('busca-in').blur(); } });
+  document.addEventListener('click', function (e) { if (!$('busca').contains(e.target)) fechar(); });
+  return { montar: montar };
+})();
+
+/* ═══════════ FICHA DE PRODUTO (folha que sobe) ═══════════ */
+var FOLHA = { tipo: '', porClique: false };
+function abrirFolha(html, tipo) {
+  var f = $('folha');
+  f.innerHTML = '<div class="folha" role="dialog" aria-modal="true"><span class="alca"></span><button class="x" type="button" aria-label="Fechar">×</button>' + html + '</div>';
+  f.hidden = false; FOLHA.tipo = tipo || ''; document.body.style.overflow = 'hidden';
+  f.querySelector('.x').onclick = function () { fecharFolha(); };
+  f.onclick = function (e) { if (e.target === f) fecharFolha(); };
+}
+function fecharFolha(semHistorico) {
+  var f = $('folha'); if (f.hidden) return;
+  var v = f.querySelector('video'); if (v) v.pause();
+  f.hidden = true; f.innerHTML = ''; document.body.style.overflow = LEITOR.aberto() ? 'hidden' : '';
+  if (!semHistorico && FOLHA.tipo === 'produto' && /^#produto\//.test(location.hash)) {
+    if (FOLHA.porClique && history.length > 1) history.back(); else history.replaceState(null, '', '#' + TELA);
+  }
+  FOLHA.tipo = ''; FOLHA.porClique = false;
+}
+function abrirProduto(id) {
+  var p = produto(id); if (!p || !DADOS) { history.replaceState(null, '', '#' + TELA); return; }
+  var e = estado(p);
+  if (p.tipo === 'aulas') { history.replaceState(null, '', '#aulas'); irTela('aulas'); return; }
+  if (e.liberado) {
+    history.replaceState(null, '', '#' + TELA);
+    if (pastaDe(id)) location.hash = '#ler/' + id;
+    else if (p.embreve) abrirFolha('<div class="foto"><img src="/assets/capas/' + p.id + '-800.webp" alt="" width="800" height="600"><span class="fita">Em breve</span></div>' +
+      '<div class="corpo"><h3>' + esc(p.titulo) + '</h3><p class="desc">' + esc(p.desc) + '</p>' +
+      '<div class="sem-venda">' + ico('relogio') + '<span><b>Em preparação.</b>Seu acesso já está garantido: o material entra aqui no app assim que ficar pronto, e a gente avisa no sininho.</span></div></div>', 'breve');
+    else toast('Esse material está em preparação. Seu acesso já está garantido.');
+    return;
+  }
+  var bonus = p.tipo === 'bonus', d = bonus ? BONUS_PACOTE : p, pronto = bonus || p.tipo === 'principal' || p.pronto;
+  var inclui = d.inclui || ['Fila de espera: você garante o seu agora, pelo preço de lançamento', 'Entra aqui no app assim que ficar pronto, e você recebe o aviso'];
+  var capa = bonus ? id : p.id;
+  abrirFolha('<div class="foto"><img src="/assets/capas/' + capa + '-800.webp" alt="" width="800" height="600"><span class="fita">' + (!d.venda ? 'Em breve' : pronto ? 'Oferta de membro' : 'Fila de espera') + '</span></div>' +
+    '<div class="corpo"><h3>' + esc(d.titulo) + '</h3><p class="desc">' + esc(d.desc) + '</p><ul class="inclui">' + inclui.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
+    (d.venda ? '<div class="compra-linha"><span class="valor"><small>pagamento único</small>' + (d.de ? '<s>R$ ' + esc(d.de) + '</s>' : '') + '<b>R$ ' + esc(d.preco) + '</b></span>' +
+    '<a class="btn compra" href="' + esc(d.venda) + '" target="_blank" rel="noopener">' + esc(pronto ? 'Liberar agora' : 'Garantir o meu') + '</a></div>' +
+    '<div class="seguro">' + ico('escudo') + 'Compra segura · ' + (pronto ? 'liberado aqui no app em instantes' : 'seu lugar na fila fica garantido') + '</div>'
+      : '<div class="sem-venda">' + ico('cadeado') + '<span><b>Ainda não está à venda aqui no app.</b>Quando abrir, a gente avisa por aqui.</span></div>') + '</div>', 'produto');
+}
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('[data-produto]');
+  if (b) { e.preventDefault(); FOLHA.porClique = true; location.hash = '#produto/' + b.getAttribute('data-produto'); return; }
+  var ix = e.target.closest('[data-indice]');
+  if (ix) { e.preventDefault(); var id = ix.getAttribute('data-indice'); cliqueNaArea = true; location.hash = '#ler/' + id; setTimeout(function () { if (LEITOR.aberto()) LEITOR.indice(); }, 60); }
+});
+
+/* ═══════════ BÔNUS DE LEITURA ═══════════ */
+function abrirTexto(id) {
+  var p = produto(id), s = TEXTOS[id];
+  if (!p || !s || !tem('bonus')) return;
+  abrirFolha('<div class="corpo texto-bonus"><small class="tag-bonus">Bônus do Kit Completo</small><h3>' + esc(p.titulo) + '</h3>' +
+    s.map(function (x, i) { return '<details' + (i ? '' : ' open') + '><summary>' + esc(x.t) + '</summary><div class="sec-texto">' + x.html + '</div></details>'; }).join('') + '</div>', 'texto');
+}
+document.addEventListener('click', function (e) { var b = e.target.closest('[data-texto]'); if (b) { e.preventDefault(); abrirTexto(b.getAttribute('data-texto')); } });
+
+/* ═══════════ SUPORTE ═══════════ */
+var TEMAS = [
+  { k: 'acesso', e: '🔓', t: 'Não consigo abrir um produto', r: 'No Início, toque em "Abrir" no produto. Se aparecer "Em preparação", o material ainda está sendo finalizado e entra aqui assim que ficar pronto.', ph: 'Qual produto não abre e o que aparece na tela?' },
+  { k: 'compra', e: '🧾', t: 'Comprei e não liberou', r: 'No Pix a liberação leva 1 ou 2 minutos. Toque abaixo pra atualizar. Confira também se entrou com o mesmo e-mail da compra.', atualizar: true, ph: 'O que você comprou e quando? Se puder, diga o e-mail usado na compra.' },
+  { k: 'download', e: '📄', t: 'Problema com o PDF', r: 'O PDF é um arquivo só, com todas as páginas. No iPhone ele vai pro app "Arquivos"; no Android, pra pasta Downloads. Se travar, tente no Wi-Fi.', ph: 'Qual PDF e o que acontece quando tenta baixar?' },
+  { k: 'receita', e: '📿', t: 'Dúvida num modelo', r: 'Diga o número do modelo e a etapa onde travou. Assim a gente responde certinho.', ph: 'Ex.: Modelo 09, Guia de Oxum, etapa 7: o nó não fica firme.' },
+  { k: 'medidas', e: '📏', t: 'Comprimento e medidas', r: 'Cada modelo traz o comprimento final e a medida de um módulo. Pra aumentar ou diminuir, some ou tire módulos inteiros.', ph: 'Qual modelo e qual comprimento você quer?' },
+  { k: 'reembolso', e: '↩️', t: 'Quero reembolso', r: 'Você tem 7 dias de garantia. Mande o pedido que a gente devolve 100% do valor.', ph: 'Se quiser, conte o motivo. Ajuda a gente a melhorar.' },
+  { k: 'sugestao', e: '💡', t: 'Sugerir um modelo', ph: 'Qual guia (orixá, linha ou entidade) você quer ver aqui?' },
+  { k: 'outro', e: '💬', t: 'Outro assunto', ph: 'Conte o que precisa.' }
+];
+var SUP = { tema: null };
+function desenharTemas() {
+  $('temas').innerHTML = TEMAS.map(function (t) { return '<button class="tema" type="button" data-tema="' + t.k + '"><span class="e">' + t.e + '</span><b>' + esc(t.t) + '</b></button>'; }).join('');
+}
+function escolherTema(k) {
+  var t = TEMAS.filter(function (x) { return x.k === k; })[0]; if (!t) return;
+  SUP.tema = t;
+  $('sup-e').textContent = t.e; $('sup-tit').textContent = t.t;
+  var r = $('sup-rapida');
+  r.hidden = !t.r;
+  r.innerHTML = t.r ? '<b>Resposta rápida</b>' + esc(t.r) + (t.atualizar ? '<br><button class="btn claro" type="button" id="sup-atualizar">' + ico('atualizar') + 'Atualizar meus produtos</button>' : '') : '';
+  var donos = [];
+  var ops = CATALOGO.filter(function (p) { if (!estado(p).liberado) return false; var d = p.dono || p.id; if (donos.indexOf(d) >= 0) return false; donos.push(d); return true; })
+    .map(function (p) { return p.dono === 'bonus' ? 'Bônus da coleção' : p.titulo; });
+  $('sup-produto').innerHTML = ops.concat(['Outro / geral']).map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('');
+  $('sup-msg').placeholder = t.ph || '';
+  $('sup-erro').hidden = true;
+  $('sup-passo1').hidden = true; $('sup-passo2').hidden = false;
+  var at = $('sup-atualizar'); if (at) at.onclick = atualizarProdutos;
+  $('sup-passo2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function voltarTemas() { SUP.tema = null; $('sup-passo2').hidden = true; $('sup-passo1').hidden = false; }
+document.addEventListener('click', function (e) { var b = e.target.closest('[data-tema]'); if (b) escolherTema(b.getAttribute('data-tema')); });
+$('sup-voltar').addEventListener('click', voltarTemas);
+
+/* ═══════════ APP: instalar e notificações ═══════════ */
+var UA = navigator.userAgent;
+var AMB = {
+  ios: /iphone|ipad|ipod/i.test(UA) || (/Macintosh/.test(UA) && navigator.maxTouchPoints > 1),
+  android: /android/i.test(UA),
+  dentroDeApp: /FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|WhatsApp/i.test(UA),
+  safari: /Safari/i.test(UA) && !/CriOS|FxiOS|EdgiOS|OPiOS|Chrome|Android/i.test(UA),
+  instalado: function () { return window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches; }
+};
+var pedidoInstalar = null;
+window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); pedidoInstalar = e; if (TELA === 'app') desenharApp(); });
+window.addEventListener('appinstalled', function () { pedidoInstalar = null; toast('App instalado! Procure o ícone na tela inicial.'); if (TELA === 'app') desenharApp(); });
+
+var PUSH = {
+  suporta: 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window,
+  ok: false,
+  reg: function () { return navigator.serviceWorker.ready; },
+  atual: function () { return PUSH.suporta ? PUSH.reg().then(function (r) { return r.pushManager.getSubscription(); }).catch(function () { return null; }) : Promise.resolve(null); },
+  chave: function (b64) { var p = '='.repeat((4 - b64.length % 4) % 4), s = atob((b64 + p).replace(/-/g, '+').replace(/_/g, '/')), a = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; },
+  enviarInscricao: function (s) {
+    return fetch('/api/push', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sub: s.toJSON() }) })
+      .then(function (r) { if (!r.ok) throw new Error('servidor'); return s; });
+  },
+  ativar: function () {
+    if (!DADOS || !DADOS.vapid) return Promise.reject(new Error('chave'));
+    var pedir = Notification.requestPermission();
+    return Promise.resolve(pedir).then(function (p) {
+      if (p !== 'granted') throw new Error('negado');
+      return PUSH.reg();
+    }).then(function (r) {
+      return r.pushManager.getSubscription().then(function (s) { return s || r.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: PUSH.chave(DADOS.vapid) }); });
+    }).then(PUSH.enviarInscricao).then(function (s) { PUSH.ok = true; return s; });
+  },
+  desativar: function () {
+    return PUSH.atual().then(function (s) {
+      if (!s) return;
+      var ep = s.endpoint;
+      return s.unsubscribe().then(function () { return fetch('/api/push', { method: 'DELETE', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ endpoint: ep }) }); });
+    }).then(function () { PUSH.ok = false; });
+  },
+  teste: function () { return fetch('/api/push', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ teste: true }) }).then(function (r) { return r.json(); }); },
+  // a inscrição é renovada a cada visita (mantém o aparelho ligado ao e-mail certo)
+  sincronizar: function () {
+    if (!PUSH.suporta || Notification.permission !== 'granted') { PUSH.ok = false; return Promise.resolve(); }
+    return PUSH.atual().then(function (s) { PUSH.ok = !!s; if (s) return PUSH.enviarInscricao(s).catch(function () {}); });
+  }
+};
+function convitePush() {
+  var k = 'cc:prepush:' + chaveUsuario();
+  if (ler(k)) return;
+  var ios = iosPrecisaInstalar();
+  if (!ios && (!PUSH.suporta || Notification.permission !== 'default' || PUSH.ok)) return;
+  var m = $('pesquisa');
+  if (!m.hidden || LEITOR.aberto() || !$('folha').hidden) { setTimeout(convitePush, 30000); return; }
+  m.innerHTML = '<div class="modal pre-push" role="dialog" aria-modal="true" aria-labelledby="pp-tit"><button class="x" aria-label="Fechar">×</button>' +
+    '<div class="pp-ico">🔔</div><h3 id="pp-tit">Quer receber avisos de materiais novos e respostas do suporte?</h3>' +
+    (ios ? '<p class="sub">No iPhone, os avisos só chegam com o app instalado na tela inicial. Leva 10 segundos.</p><button class="btn full" id="pp-sim">Como instalar</button>'
+         : '<p class="sub">A gente só avisa o que importa: bônus liberado, material novo e a resposta das suas mensagens.</p><button class="btn full" id="pp-sim">Ativar avisos</button>') +
+    '<button class="btn claro full" id="pp-nao" style="margin-top:10px">Agora não</button></div>';
+  m.hidden = false; document.body.style.overflow = 'hidden'; guardar(k, String(Date.now()));
+  m.querySelector('.x').onclick = fecharModal; $('pp-nao').onclick = fecharModal;
+  m.onclick = function (e) { if (e.target === m) fecharModal(); };
+  $('pp-sim').onclick = function () {
+    fecharModal();
+    if (ios) { location.hash = '#app'; return; }
+    PUSH.ativar().then(function () { toast('Avisos ativados!'); if (TELA === 'app') desenharApp(); })
+      .catch(function (e) { toast(String(e && e.message) === 'negado' ? 'Tudo bem. Dá pra ativar depois na aba App.' : 'Não deu pra ativar agora. Tente pela aba App.'); });
+  };
+}
+function iosPrecisaInstalar() { return AMB.ios && !AMB.instalado(); }
+function desenharApp() {
+  var b = $('bloco-instalar'), h = '<h3>Instalar o app</h3>';
+  if (AMB.instalado()) {
+    h += '<p class="sub">Tudo certo por aqui.</p><div class="estado ok"><span class="e">✅</span><span><b>App instalado neste aparelho.</b><br>Abra sempre pelo ícone Guias de Contas.</span></div>';
+  } else if (pedidoInstalar) {
+    h += '<p class="sub">Um toque e o ícone aparece na sua tela inicial.</p><button class="btn full" type="button" id="instalar-agora">' + ico('baixar') + 'Instalar agora</button>';
+  } else if (AMB.ios && (!AMB.safari || AMB.dentroDeApp)) {
+    h += '<p class="sub">No iPhone, a instalação é feita pelo Safari.</p><div class="estado neutro"><span class="e">🧭</span><span>Abra este endereço no <b>Safari</b> e volte nesta aba: <b>guiasdecontas.vercel.app</b></span></div>' +
+      '<div class="linha-bts"><button class="btn claro" type="button" id="copiar-link">Copiar o link</button></div>';
+  } else if (AMB.ios) {
+    h += '<p class="sub">Leva 30 segundos, sem baixar nada da loja.</p><ol class="passos"><li>Toque em <span class="chip">' + ico('compartilhar') + 'Compartilhar</span> na barra do Safari</li>' +
+      '<li>Role e toque em <span class="chip">' + ico('mais') + 'Adicionar à Tela de Início</span></li><li>Toque em <b>Adicionar</b>. Pronto: o ícone do Guias de Contas aparece na tela inicial.</li></ol>';
+  } else if (AMB.dentroDeApp) {
+    h += '<p class="sub">Você abriu o link dentro de outro app.</p><div class="estado neutro"><span class="e">🧭</span><span>Toque nos <b>três pontinhos</b> e escolha <b>Abrir no navegador</b> (Chrome). Depois volte nesta aba.</span></div>' +
+      '<div class="linha-bts"><button class="btn claro" type="button" id="copiar-link">Copiar o link</button></div>';
+  } else if (AMB.android) {
+    h += '<p class="sub">Leva 30 segundos, sem baixar nada da loja.</p><ol class="passos"><li>No Chrome, toque nos <span class="chip">⋮ três pontinhos</span> lá em cima</li>' +
+      '<li>Toque em <span class="chip">Instalar app</span> ou <span class="chip">Adicionar à tela inicial</span></li><li>Confirme. O ícone do Guias de Contas aparece na tela inicial.</li></ol>';
+  } else {
+    h += '<p class="sub">No computador também dá pra instalar.</p><ol class="passos"><li>Use o <b>Chrome</b> ou o <b>Edge</b></li><li>Clique no ícone de <span class="chip">' + ico('baixar') + 'instalar</span> no fim da barra de endereço</li><li>Confirme em <b>Instalar</b>.</li></ol>';
+  }
+  b.innerHTML = h;
+  var ia = $('instalar-agora');
+  if (ia) ia.onclick = function () { if (!pedidoInstalar) return; pedidoInstalar.prompt(); pedidoInstalar.userChoice.finally(function () { pedidoInstalar = null; desenharApp(); }); };
+  var cl = $('copiar-link');
+  if (cl) cl.onclick = function () { var u = location.origin + '/'; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function () { toast('Link copiado!'); }, function () { prompt('Copie o link:', u); }); };
+
+  var p = $('bloco-push'), q = '<h3>Notificações</h3><p class="sub">Respostas do suporte, produtos liberados e novidades. Poucas e úteis, prometido.</p>';
+  if (!PUSH.suporta) {
+    q += iosPrecisaInstalar() ? '<div class="estado neutro"><span class="e">📲</span><span>No iPhone, as notificações funcionam com o <b>app instalado</b>. Instale (passo ao lado), abra pelo ícone e ative aqui.</span></div>'
+      : '<div class="estado neutro"><span class="e">🔕</span><span>Este navegador não aceita notificações. Abra o Guias de Contas no <b>Chrome</b> pra ativar.</span></div>';
+    p.innerHTML = q; return;
+  }
+  if (Notification.permission === 'denied') {
+    p.innerHTML = q + '<div class="estado erro"><span class="e">🔕</span><span><b>Notificações bloqueadas.</b> Toque no cadeado ao lado do endereço → Permissões → Notificações → Permitir. Depois volte aqui.</span></div>'; return;
+  }
+  PUSH.atual().then(function (s) {
+    PUSH.ok = !!s && Notification.permission === 'granted';
+    if (PUSH.ok) {
+      p.innerHTML = q + '<div class="estado ok"><span class="e">🔔</span><span><b>Ativadas neste aparelho.</b><br>Você recebe os avisos mesmo com o app fechado.</span></div>' +
+        '<div class="linha-bts"><button class="btn claro" type="button" id="push-teste">Enviar um teste</button><button class="btn claro" type="button" id="push-off">Desativar</button></div>';
+      $('push-teste').onclick = function () { var bt = this; bt.disabled = true; PUSH.teste().then(function (j) { toast(j.enviados ? 'Teste enviado! Confira a notificação.' : 'Não foi possível enviar agora.'); }).catch(function () { toast('Sem conexão.'); }).then(function () { bt.disabled = false; }); };
+      $('push-off').onclick = function () { PUSH.desativar().then(function () { toast('Notificações desativadas.'); desenharApp(); }); };
+    } else {
+      p.innerHTML = q + '<button class="btn full" type="button" id="push-on">' + ico('sino') + 'Ativar notificações</button>';
+      $('push-on').onclick = function () {
+        var bt = this; bt.disabled = true; bt.textContent = 'Ativando…';
+        PUSH.ativar().then(function () { toast('Notificações ativadas!'); NV.marcarLida('ativar-push'); return PUSH.teste(); })
+          .catch(function (err) { toast(err && err.message === 'negado' ? 'Você não permitiu as notificações.' : 'Não foi possível ativar agora. Tente de novo.'); })
+          .then(function () { desenharApp(); });
+      };
+    }
+  });
+}
+
+/* ═══════════ PERFIL ═══════════ */
+var NIVEL_TXT = { iniciante: 'Iniciante nas guias', intermediaria: 'Nível intermediário', avancada: 'Nível avançado' };
+function desenharPerfil() {
+  $('perfil-nome').textContent = PERFIL.nome || 'Seu nome';
+  $('perfil-mail').textContent = (PERFIL.nivel ? NIVEL_TXT[PERFIL.nivel] + ' · ' : '') + (DADOS ? DADOS.email : '');
+  $('p-mail').value = DADOS ? DADOS.email : '';
+  if (document.activeElement !== $('p-nome')) $('p-nome').value = PERFIL.nome || '';
+  [].forEach.call($('p-nivel').children, function (b) { b.classList.toggle('on', b.getAttribute('data-n') === PERFIL.nivel); });
+  $('tira-foto').hidden = !PERFIL.foto;
+  var donos = ['principal', 'bonus'].concat(CATALOGO.filter(function (p) { return p.tipo === 'extra'; }).map(function (p) { return p.id; }));
+  var lib = donos.filter(tem).length;
+  $('p-lib').innerHTML = lib + '<small>/' + donos.length + '</small>';
+  $('p-lib-txt').textContent = lib === donos.length ? 'Coleção completa! 🎉' : (donos.length - lib) + ' pra completar a coleção';
+  $('p-barra').style.width = Math.round(100 * lib / donos.length) + '%';
+}
+function salvarPerfil(dados) {
+  return fetch('/api/perfil', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dados) })
+    .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw new Error(j.erro || 'falha'); return j; }); })
+    .then(function (j) { PERFIL = j.perfil; if (DADOS) DADOS.perfil = PERFIL; pintarAvatares(); desenharPerfil(); desenharInicio(); });
+}
+$('p-nivel').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; var on = !b.classList.contains('on'); [].forEach.call(this.children, function (x) { x.classList.remove('on'); }); if (on) b.classList.add('on'); });
+$('form-perfil').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var bt = $('p-salvar'), on = $('p-nivel').querySelector('.on');
+  bt.disabled = true; bt.textContent = 'Salvando…';
+  salvarPerfil({ nome: $('p-nome').value.trim(), nivel: on ? on.getAttribute('data-n') : '' })
+    .then(function () { toast('Perfil salvo!'); }, function () { toast('Não foi possível salvar. Tente de novo.'); })
+    .then(function () { bt.disabled = false; bt.textContent = 'Salvar'; });
+});
+// foto: corta no centro em quadrado de 320 px e manda em JPEG (fica leve, ~30 KB)
+$('foto-in').addEventListener('change', function () {
+  var f = this.files && this.files[0]; this.value = '';
+  if (!f || !/^image\//.test(f.type)) return;
+  var url = URL.createObjectURL(f), im = new Image();
+  im.onload = function () {
+    var lado = Math.min(im.naturalWidth, im.naturalHeight), c = document.createElement('canvas'); c.width = c.height = 320;
+    c.getContext('2d').drawImage(im, (im.naturalWidth - lado) / 2, (im.naturalHeight - lado) / 2, lado, lado, 0, 0, 320, 320);
+    URL.revokeObjectURL(url);
+    var q = 0.86, d = c.toDataURL('image/jpeg', q);
+    while (d.length > 140000 && q > 0.4) { q -= 0.12; d = c.toDataURL('image/jpeg', q); }
+    toast('Enviando foto…');
+    salvarPerfil({ foto: d }).then(function () { toast('Foto atualizada!'); }, function () { toast('Não foi possível enviar a foto.'); });
+  };
+  im.onerror = function () { URL.revokeObjectURL(url); toast('Não consegui abrir essa imagem. Tente outra.'); };
+  im.src = url;
+});
+$('tira-foto').addEventListener('click', function () { salvarPerfil({ foto: '' }).then(function () { toast('Foto removida.'); }); });
+function atualizarProdutos() { toast('Atualizando…'); return carregar('Produtos atualizados.'); }
+$('m-atualizar').addEventListener('click', atualizarProdutos);
+$('m-sair').addEventListener('click', function () {
+  fetch('/api/sair', { method: 'POST', credentials: 'same-origin' }).then(function () { DADOS = null; mostrar('v-login'); var e = ler('email-membro'); if (e) $('email').value = e; });
+});
+$('m-pesquisa').addEventListener('click', function () { NV.abrirPesquisa(); });
+
+/* ═══════════ DESENHAR TUDO ═══════════ */
+function desenhar(d) {
+  DADOS = d; PERFIL = d.perfil || PERFIL;
+  pintarAvatares();
+  desenharInicio(); BUSCA.montar(); desenharPerfil(); desenharTemas();
+  if (TELA === 'app') desenharApp();
+  if ($('v-area').hidden) mostrar('v-area');
+  NV.iniciar(d);
+}
+function carregar(aviso) {
+  return fetch('/api/me', { credentials: 'same-origin', cache: 'no-store' }).then(function (r) {
+    if (r.status === 401) { DADOS = null; LEITOR.fechar(true); mostrar('v-login'); var e = ler('email-membro'); if (e) $('email').value = e; return; }
+    if (!r.ok) throw new Error('falha');
+    return r.json().then(function (d) { var primeira = !DADOS; desenhar(d); rota(); if (primeira) { PUSH.sincronizar(); setTimeout(convitePush, 4000); } if (aviso) toast(aviso); });
+  }).catch(function () { if (DADOS) { toast('Sem conexão. Tente de novo em instantes.'); return; } mostrar('v-login'); erro('<b>Não foi possível conectar.</b>Confira sua internet e tente de novo.'); });
+}
+function erro(html) { var el = $('erro-login'); el.innerHTML = html; el.hidden = !html; }
+
+$('form-login').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  var email = $('email').value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { erro('<b>E-mail inválido.</b>Confira se digitou certinho.'); return; }
+  erro(''); var b = $('btn-entrar'); b.disabled = true; b.textContent = 'Conferindo sua compra…';
+  fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ email: email }) })
+    .then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
+    .then(function (x) {
+      if (x.j.ok) { guardar('email-membro', email); history.replaceState(null, '', '#inicio'); return carregar('Boas-vindas! Seus 100 modelos estão liberados.'); }
+      if (x.j.erro === 'naocomprou') erro('<b>Não encontramos compra com esse e-mail.</b>Use o mesmo e-mail da compra. Se pagou no Pix agora há pouco, espere 1 ou 2 minutos e tente de novo.');
+      else erro('<b>E-mail inválido.</b>Confira se digitou certinho.');
+    })
+    .catch(function () { erro('<b>Não foi possível conectar.</b>Confira sua internet e tente de novo.'); })
+    .then(function () { b.disabled = false; b.textContent = 'Entrar'; });
+});
+
+/* ═══════════ PDFs (janela com as partes para baixar) ═══════════ */
+function abrirPdfs(id) {
+  var L = LIVROS[id], pasta = pastaDe(id); if (!L || !pasta) return;
+  var m = $('pesquisa');
+  m.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pdf-tit"><button class="x" aria-label="Fechar">×</button>' +
+    '<h3 id="pdf-tit">Baixar em PDF</h3><p class="sub">' + esc(L.titulo) + (L.pdf.length > 1 ? ' em ' + L.pdf.length + ' partes, pra baixar rápido até no celular.' : ': o PDF completo, pronto pra imprimir ou guardar no celular. É um arquivo grande: no celular, prefira baixar no Wi-Fi.') + '</p><div class="pdfs">' +
+    L.pdf.map(function (f) {
+      return '<a class="pdf" href="' + esc(f[0].charAt(0) === '/' ? f[0] : pasta + f[0]) + '" download target="_blank" rel="noopener"><span class="ic"><svg aria-hidden="true"><use href="#i-pdf"/></svg></span>' +
+        '<div><b>' + esc(f[1]) + '</b><span>PDF · ' + String(f[2]).replace('.', ',') + ' MB</span></div><span class="baixar">Baixar</span></a>';
+    }).join('') + '</div><p class="dica-pdf">Pra imprimir: papel A4, escala 100% ("tamanho real"). No celular, o arquivo vai pra pasta Downloads (ou "Arquivos", no iPhone).</p></div>';
+  m.hidden = false; document.body.style.overflow = 'hidden';
+  m.querySelector('.x').onclick = fecharModal;
+  m.onclick = function (e) { if (e.target === m) fecharModal(); };
+}
+function fecharModal() { $('pesquisa').hidden = true; if (!LEITOR.aberto()) document.body.style.overflow = ''; }
+document.addEventListener('click', function (e) { var b = e.target.closest('[data-pdf]'); if (b) { e.preventDefault(); abrirPdfs(b.getAttribute('data-pdf')); } });
+
+/* ═══════════ LEITOR ═══════════
+   #ler/<id>/<página>: todas as páginas uma embaixo da outra (carregam conforme rola).
+   Guarda a página onde a pessoa parou (por e-mail, no aparelho). */
+var LEITOR = (function () {
+  var id = null, atual = 1, obs = null, pelaArea = false;
+  function aberto() { return !$('v-leitor').hidden; }
+  function chave() { return 'cc:pag:' + (DADOS ? DADOS.email : '') + ':' + id; }
+  function mostrarPag() {
+    var L = LIVROS[id]; $('l-pag').textContent = 'Página ' + atual + ' de ' + L.paginas;
+    var m = modeloDa(atual); $('l-indice-t').textContent = m ? m.nome.length > 22 ? L.rotulo : m.nome : L.rotulo;
+  }
+  function modeloDa(p) { var L = LIVROS[id], m = null; (L.indice || []).forEach(function (x) { if (x.pag <= p) m = x; }); return m; }
+  function abrir(novoId, pag, daArea) {
+    var L = LIVROS[novoId], pasta = pastaDe(novoId); if (!L || !pasta) return false;
+    if (id !== novoId) {
+      id = novoId;
+      $('l-titulo').textContent = L.titulo;
+      var h = '';
+      for (var i = 1; i <= L.paginas; i++) {
+        var n3 = (i < 10 ? '00' : i < 100 ? '0' : '') + i;
+        h += '<figure class="pg" id="pg-' + i + '" data-p="' + i + '" style="aspect-ratio:' + L.w + '/' + L.h + '"><img src="' + esc(pasta) + 'pag-' + n3 + '.webp" alt="Página ' + i + '" width="' + L.w + '" height="' + L.h + '"' + (i > 2 ? ' loading="lazy"' : '') + ' decoding="async"></figure>';
+      }
+      h += '<div class="l-fim">Fim do material 📿' + (L.pdf && L.pdf.length ? '<br><button class="btn claro" type="button" data-pdf="' + novoId + '"><svg aria-hidden="true"><use href="#i-pdf"/></svg>Baixar em PDF</button>' : '') + '</div>';
+      $('l-pdf').hidden = !(L.pdf && L.pdf.length);
+      $('l-paginas').innerHTML = h;
+      if (obs) obs.disconnect();
+      if ('IntersectionObserver' in window) {
+        obs = new IntersectionObserver(function (ents) {
+          ents.forEach(function (en) { if (en.isIntersecting) { atual = +en.target.getAttribute('data-p'); mostrarPag(); guardar(chave(), String(atual)); } });
+        }, { root: $('l-rolagem'), rootMargin: '-45% 0px -54% 0px' });
+        [].forEach.call($('l-paginas').querySelectorAll('.pg'), function (f) { obs.observe(f); });
+      }
+    }
+    pelaArea = pelaArea || !!daArea;
+    guardar('cc:ultimo:' + chaveUsuario(), novoId);
+    $('v-leitor').hidden = false; document.body.style.overflow = 'hidden';
+    atual = Math.min(Math.max(pag || parseInt(ler(chave()), 10) || 1, 1), L.paginas);
+    mostrarPag();
+    irPara(atual);
+    return true;
+  }
+  function irPara(p) {
+    var el = $('pg-' + p), r = $('l-rolagem'); if (!el) return;
+    // a página p e as vizinhas começam a carregar já (sem esperar a rolagem)
+    for (var i = Math.max(1, p - 1); i <= p + 2; i++) { var im = $('pg-' + i); if (im) im.firstChild.loading = 'eager'; }
+    r.scrollTop = el.offsetTop - 10;
+  }
+  function fechar(semHistorico) {
+    if (!aberto()) return;
+    $('v-leitor').hidden = true; $('gaveta').hidden = true; document.body.style.overflow = '';
+    if (DADOS) desenhar(DADOS); // o botão "Continuar" e a página salva aparecem na hora
+    if (!semHistorico && /^#ler\//.test(location.hash)) {
+      if (pelaArea && history.length > 1) history.back();
+      else history.replaceState(null, '', '#' + TELA);
+    }
+    pelaArea = false;
+  }
+  function indice() {
+    var L = LIVROS[id]; if (!L) return;
+    var g = $('gaveta'), m = modeloDa(atual);
+    g.innerHTML = '<div class="caixa" role="dialog" aria-modal="true" aria-label="Índice"><div class="cab"><b>' + esc(L.rotulo) + '</b><button aria-label="Fechar">×</button></div>' +
+      (L.indice.length > 12 ? '<div class="busca"><input type="search" placeholder="Procurar pelo nome ou número" aria-label="Procurar"></div>' : '') +
+      '<ol>' + L.indice.map(function (x, i) {
+        var cab = L.colecoes && x.col && (i === 0 || L.indice[i - 1].col !== x.col) ? '<li class="grupo">Coleção ' + x.col + ' · ' + esc(L.colecoes[x.col - 1]) + '</li>' : '';
+        return cab + '<li data-busca="' + esc((x.nome + ' ' + x.n).toLowerCase()) + '"><button type="button" data-ir="' + x.pag + '" class="' + (m && m.pag === x.pag ? 'atual' : '') + '"><span class="nn">' + dois(x.n) + '</span>' + esc(x.nome) + '<small>pág. ' + x.pag + '</small></button></li>';
+      }).join('') + '</ol></div>';
+    g.hidden = false;
+    var at = g.querySelector('.atual'); if (at) at.scrollIntoView({ block: 'center' });
+    g.querySelector('.cab button').onclick = function () { g.hidden = true; };
+    g.onclick = function (e) {
+      if (e.target === g) { g.hidden = true; return; }
+      var b = e.target.closest('[data-ir]'); if (!b) return;
+      g.hidden = true; atual = +b.getAttribute('data-ir'); mostrarPag(); irPara(atual);
+    };
+    var busca = g.querySelector('input');
+    if (busca) busca.oninput = function () {
+      var t = busca.value.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+      [].forEach.call(g.querySelectorAll('li.grupo'), function (li) { li.hidden = !!t; });
+      [].forEach.call(g.querySelectorAll('li[data-busca]'), function (li) { li.hidden = !!t && li.getAttribute('data-busca').normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(t) < 0; });
+    };
+  }
+  $('l-voltar').addEventListener('click', function () { fechar(); });
+  $('l-indice').addEventListener('click', indice);
+  $('l-pdf').addEventListener('click', function () { abrirPdfs(id); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !aberto()) return;
+    if (!$('pesquisa').hidden) return fecharModal();
+    if (!$('gaveta').hidden) { $('gaveta').hidden = true; return; }
+    fechar();
+  });
+  return { abrir: abrir, fechar: fechar, aberto: aberto, indice: indice };
+})();
+
+/* ═══════════ NAVEGAÇÃO ═══════════
+   #inicio #suporte #app #perfil = abas · #produto/<id> = ficha · #ler/<id>/<pág> = leitor · #pesquisa */
+var TELAS = { inicio: 'Início', suporte: 'Suporte', app: 'App', perfil: 'Perfil' };
+function irTela(t) {
+  if (!TELAS[t]) t = 'inicio';
+  var mudou = t !== TELA; TELA = t;
+  Object.keys(TELAS).forEach(function (k) { $('t-' + k).hidden = k !== t; });
+  [].forEach.call(document.querySelectorAll('.nav a[data-tela]'), function (a) { var on = a.getAttribute('data-tela') === t; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('titulo-tela').textContent = TELAS[t];
+  document.title = (t === 'inicio' ? 'Guias de Contas' : TELAS[t] + ' · Guias de Contas');
+  if (t === 'app') desenharApp();
+  if (t === 'suporte') NV.vistoSuporte();
+  if (t !== 'suporte' && SUP.tema && !$('sup-msg').value.trim()) voltarTemas();
+  if (mudou) window.scrollTo(0, 0);
+}
+var cliqueNaArea = false;
+document.addEventListener('click', function (e) { var a = e.target.closest('a[href^="#ler/"]'); if (a) cliqueNaArea = true; }, true);
+function rota() {
+  var h = location.hash.replace(/^#/, '');
+  var m = h.match(/^ler\/([a-z0-9]+)(?:\/(\d+))?$/);
+  if (m) {
+    if (!DADOS) return;
+    fecharFolha(true);
+    if (!LEITOR.abrir(m[1], m[2] ? +m[2] : 0, cliqueNaArea)) { history.replaceState(null, '', '#' + TELA); toast('Esse material ainda não está liberado pra você.'); }
+    cliqueNaArea = false;
+    return;
+  }
+  if (LEITOR.aberto()) LEITOR.fechar(true);
+  var pr = h.match(/^produto\/([a-z0-9]+)$/);
+  if (pr) { if (!DADOS) return; if (TELA !== 'inicio') irTela('inicio'); abrirProduto(pr[1]); return; }
+  if (FOLHA.tipo === 'produto') fecharFolha(true);
+  if (h === 'pesquisa') { history.replaceState(null, '', '#' + TELA); if (DADOS) NV.abrirPesquisa(); return; }
+  if (h === 'guia' || h === 'aulas') { history.replaceState(null, '', '#inicio'); irTela('inicio'); setTimeout(function () { $('guia').scrollIntoView({ behavior: 'smooth' }); }, 80); return; }
+  irTela(TELAS[h] ? h : 'inicio');
+}
+window.addEventListener('hashchange', rota);
+
+/* app instalável (PWA) + toque nas notificações com o app aberto */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  navigator.serviceWorker.addEventListener('message', function (e) {
+    if (e.data && e.data.tipo === 'abrir') { try { var u = new URL(e.data.url); if (u.hash && u.hash !== location.hash) location.hash = u.hash; } catch (x) {} }
+  });
+}
+
+/* ═══════════ NOTIFICAÇÕES, OFERTAS E PESQUISA ═══════════
+   Sininho: boas-vindas, uma oferta por produto que a pessoa ainda não tem (e uma nova a cada dia), respostas do suporte,
+   aulas novas e os convites pra instalar o app e ativar as notificações.
+   Cartão de oferta: no máximo 2 por dia, 4 h entre um e outro, só no Início, nunca logo na entrada (60 s),
+   nunca com leitor, ficha ou sininho abertos. Estado por e-mail no aparelho (localStorage). */
+var OF = {
+  trancadas: { tit: '30 Projetos de Guias Trançadas', txt: 'Una as cores de mais de um orixá numa guia só, com a trança passo a passo.', capa: 'trancadas' },
+  orixas: { tit: 'Guia dos Orixás e Entidades Ilustrado', txt: 'Uma página ilustrada por orixá e por linha, com a guia nas cores de cada um.', capa: 'orixas' },
+  oracoes: { tit: '50 Orações e Preces de Umbanda', txt: 'Orações de abertura, preces da gira e preces a cada orixá e linha.', capa: 'oracoes' },
+  fundamentos: { tit: 'Fundamentos e Consagração das Guias', txt: 'O que é a guia, quem pode usar e os cuidados, com respeito a cada casa.', capa: 'fundamentos' },
+  dicionario: { tit: 'Dicionário da Umbanda – 100 Termos', txt: 'De abebé a zelador: os termos que você ouve no terreiro, explicados.', capa: 'dicionario' }
+};
+var OFERTA_MAX_DIA = 2, OFERTA_INTERVALO = 4 * 3600e3, OFERTA_ESPERA = 60e3;
+
+var NV = (function () {
+  var dados = null, est = null, chave = '', timer = null, entrouEm = 0;
+  function agora() { return Date.now(); }
+  function hojeStr() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  function salvar() { guardar(chave, JSON.stringify(est)); }
+  function carregarEst(email) {
+    chave = 'cc:' + email;
+    try { est = JSON.parse(ler(chave) || 'null'); } catch (e) { est = null; }
+    est = est || { primeira: agora() };
+    est.dia = est.dia || ''; est.n = est.n || 0; est.ultimo = est.ultimo || 0; est.giro = est.giro || 0; est.diaFeed = est.diaFeed || '';
+    est.notifs = est.notifs || []; est.respostas = est.respostas || {}; est.pesquisa = est.pesquisa || { feita: false, vista: 0 }; est.vistoSup = est.vistoSup || '';
+  }
+  function quando(t) {
+    var s = Math.round((agora() - t) / 1000);
+    if (s < 60) return 'agora';
+    if (s < 3600) return 'há ' + Math.floor(s / 60) + ' min';
+    if (s < 86400) return 'há ' + Math.floor(s / 3600) + ' h';
+    if (s < 172800) return 'ontem';
+    var d = new Date(t); return d.getDate() + '/' + (d.getMonth() + 1);
+  }
+  function addNotif(n, silencio) {
+    if (n.id && est.notifs.some(function (x) { return x.id === n.id; })) return false;
+    n.t = n.t || agora(); n.lida = false;
+    est.notifs.push(n); est.notifs.sort(function (a, b) { return b.t - a.t; }); est.notifs = est.notifs.slice(0, 30); salvar();
+    if (!silencio) desenharSino(true);
+    return true;
+  }
+  function marcarLida(id) { var mud = false; est && est.notifs.forEach(function (n) { if (n.id === id && !n.lida) { n.lida = true; mud = true; } }); if (mud) { salvar(); desenharSino(false); } }
+  function desenharSino(tocar) {
+    var novas = est.notifs.filter(function (n) { return !n.lida; }).length;
+    var b = $('bolinha'); b.hidden = !novas; b.textContent = novas > 9 ? '9+' : novas;
+    if (tocar && novas) { var s = $('sino'); s.classList.remove('toca'); void s.offsetWidth; s.classList.add('toca'); }
+    var l = $('lista-notif');
+    var convite = PUSH.suporta && !iosPrecisaInstalar() && Notification.permission === 'default' && !PUSH.ok
+      ? '<div class="convite-push"><span>🔔</span><div><b>Receba os avisos no celular</b>Respostas e novidades, mesmo com o app fechado.</div><a class="btn" href="#app">Ativar</a></div>' : '';
+    if (!est.notifs.length) { l.innerHTML = convite + '<div class="vazio">Nenhuma notificação por enquanto.</div>'; return; }
+    l.innerHTML = convite + est.notifs.map(function (n, i) {
+      var mini = n.capa ? '<img class="mini" src="/assets/capas/' + esc(n.capa) + '-480.webp" alt="" loading="lazy">' : '<span class="mini">' + (n.emoji || '🔔') + '</span>';
+      return '<a class="notif' + (n.lida ? '' : ' nova') + '" data-i="' + i + '" href="' + esc(n.href || '#inicio') + '">' + mini +
+        '<div class="txt"><span class="tag' + (n.tipo === 'resposta' || n.tipo === 'aula' ? ' verde' : '') + '">' + esc(n.tag || '') + '</span><b>' + esc(n.tit) + '</b><p>' + esc(n.txt) + '</p><time>' + quando(n.t) + '</time></div></a>';
+    }).join('');
+  }
+  function abrirPainel(abrir) {
+    var p = $('painel-notif'); p.hidden = !abrir; $('fundo-notif').hidden = !abrir; $('sino').setAttribute('aria-expanded', String(abrir));
+    if (abrir) desenharSino(false);
+  }
+
+  /* ---------- ofertas ---------- */
+  function precoDe(id) { var o = OF[id], p = produto(id); return o.preco || (p && p.preco) || ''; }
+  function candidatos() {
+    var prod = (dados && dados.produtos) || {};
+    return Object.keys(OF).filter(function (id) {
+      if (prod[id] && prod[id].liberado) return false;
+      if (id === 'bonus') return !!(prod.principal && prod.principal.liberado);
+      return true;
+    });
+  }
+  function notifOferta(id, sufixo, t) {
+    var o = OF[id];
+    return { id: 'of-' + id + (sufixo || ''), tipo: 'oferta', tag: 'Oferta de membro', tit: o.tit, txt: o.txt + ' Libere por R$ ' + precoDe(id) + '.', capa: o.capa, href: '#produto/' + (o.produto || id), t: t };
+  }
+  function semearOfertas() {
+    var c = candidatos();
+    // a primeira leva: uma notificação por produto que falta (espaçadas no tempo, sem tocar o sino de uma vez)
+    c.forEach(function (id, i) { addNotif(notifOferta(id, '', est.primeira - 120e3 - i * 11 * 60e3), true); });
+    // depois, uma oferta nova por dia (girando entre os produtos que faltam)
+    if (est.diaFeed !== hojeStr()) {
+      if (est.diaFeed && c.length) addNotif(notifOferta(c[est.giro % c.length], '-' + hojeStr()), true);
+      est.diaFeed = hojeStr(); salvar();
+    }
+    // ofertas de produtos que a pessoa já comprou somem do sininho
+    var antes = est.notifs.length;
+    est.notifs = est.notifs.filter(function (n) { if (n.tipo !== 'oferta') return true; var id = n.id.replace(/^of-/, '').split('-')[0]; return c.indexOf(id) >= 0; });
+    if (est.notifs.length !== antes) salvar();
+  }
+  function podeOferta() {
+    if (est.dia !== hojeStr()) { est.dia = hojeStr(); est.n = 0; salvar(); }
+    if (est.n >= OFERTA_MAX_DIA || agora() - est.ultimo < OFERTA_INTERVALO || agora() - entrouEm < OFERTA_ESPERA) return false;
+    if (TELA !== 'inicio' || document.hidden || LEITOR.aberto() || !$('folha').hidden || !$('pesquisa').hidden || !$('oferta-pop').hidden || !$('painel-notif').hidden) return false;
+    var a = document.activeElement; if (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) return false;
+    return candidatos().length > 0;
+  }
+  function mostrarOferta() {
+    var c = candidatos(); if (!c.length) return;
+    var id = c[est.giro % c.length]; est.giro++;
+    var o = OF[id];
+    est.n++; est.ultimo = agora(); salvar();
+    var pop = $('oferta-pop');
+    pop.innerHTML = '<img src="/assets/capas/' + o.capa + '-480.webp" alt="" width="480" height="360"><div class="t"><small>Oferta de membro</small><b>' + esc(o.tit) + '</b>' +
+      '<div class="bts"><a class="btn compra" href="#produto/' + (o.produto || id) + '" data-produto="' + (o.produto || id) + '">Ver · R$ ' + esc(precoDe(id)) + '</a><button class="depois" type="button">Agora não</button></div></div><button class="x" type="button" aria-label="Fechar">×</button>';
+    pop.hidden = false;
+    function fechar() { pop.hidden = true; }
+    pop.querySelector('.x').onclick = fechar; pop.querySelector('.depois').onclick = fechar;
+    pop.querySelector('.btn').addEventListener('click', function () { setTimeout(fechar, 50); });
+    addNotif(notifOferta(id, '-' + hojeStr() + '-' + est.n));
+  }
+
+  /* ---------- pesquisa ---------- */
+  var resp = { nota: null, gostou: [] };
+  function abrirPesquisa() {
+    resp = { nota: null, gostou: [] };
+    var m = $('pesquisa');
+    var nps = ''; for (var i = 0; i <= 10; i++) nps += '<button type="button" data-n="' + i + '">' + i + '</button>';
+    var chips = ['Variedade de modelos', 'Esquemas fáceis de seguir', 'Fotos do passo a passo', 'Bônus', 'O app', 'Preço', 'Atendimento'].map(function (c) { return '<button type="button">' + c + '</button>'; }).join('');
+    m.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pq-tit"><button class="x" aria-label="Fechar">×</button>' +
+      '<h3 id="pq-tit">Como está sendo sua experiência?</h3><p class="sub">Leva 30 segundos e ajuda a gente a escolher os próximos modelos.</p>' +
+      '<div class="pergunta">De 0 a 10, quanto você recomendaria o Guias de Contas pra uma amiga?</div><div class="nps">' + nps + '</div><div class="nps-leg"><span>Nada provável</span><span>Com certeza</span></div>' +
+      '<div class="pergunta">O que você mais gostou? <span style="font-weight:400;color:var(--texto-3)">(pode marcar vários)</span></div><div class="chips">' + chips + '</div>' +
+      '<div class="pergunta">Que tipo de modelo você quer ver a seguir?</div><select class="sel" id="pq-tema"><option value="">Escolha um tema</option><option>Mais orixás e qualidades</option><option>Mais linhas e entidades</option><option>Guias com cristais e pedras</option><option>Sementes, búzios e madeira</option><option>Guias de vários fios</option><option>Fechamentos e acabamentos</option><option>Outro</option></select>' +
+      '<div class="pergunta">O que podemos melhorar?</div><textarea id="pq-melhorar" maxlength="1500" placeholder="Opcional"></textarea>' +
+      '<button class="btn full" id="pq-enviar">Enviar respostas</button><div class="aviso" id="pq-erro" hidden></div></div>';
+    m.hidden = false; document.body.style.overflow = 'hidden';
+    est.pesquisa.vista = agora(); salvar();
+    m.querySelector('.x').onclick = fecharModal;
+    m.onclick = function (e) { if (e.target === m) fecharModal(); };
+    [].forEach.call(m.querySelectorAll('.nps button'), function (b) {
+      b.onclick = function () { [].forEach.call(m.querySelectorAll('.nps button'), function (x) { x.classList.remove('on'); }); b.classList.add('on'); resp.nota = +b.dataset.n; };
+    });
+    [].forEach.call(m.querySelectorAll('.chips button'), function (b) { b.onclick = function () { b.classList.toggle('on'); }; });
+    $('pq-enviar').onclick = function () {
+      if (resp.nota === null) { var e = $('pq-erro'); e.innerHTML = '<b>Falta a nota.</b>Escolha de 0 a 10 na primeira pergunta.'; e.hidden = false; return; }
+      resp.gostou = [].map.call(m.querySelectorAll('.chips button.on'), function (b) { return b.textContent; });
+      var bt = $('pq-enviar'); bt.disabled = true; bt.textContent = 'Enviando…';
+      fetch('/api/feedback', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nota: resp.nota, gostou: resp.gostou, tema: $('pq-tema').value, melhorar: $('pq-melhorar').value }) })
+        .then(function (r) { if (!r.ok) throw 0;
+          est.pesquisa.feita = true; salvar(); marcarLida('pesquisa');
+          m.querySelector('.modal').innerHTML = '<div class="obrigado"><div class="ok">✓</div><h3 style="padding:0">Obrigado pela resposta!</h3><p class="sub">Sua opinião já chegou pra gente e ajuda a decidir os próximos modelos.</p><button class="btn full" id="pq-ok">Fechar</button></div>';
+          $('pq-ok').onclick = fecharModal; })
+        .catch(function () { bt.disabled = false; bt.textContent = 'Enviar respostas'; var e = $('pq-erro'); e.innerHTML = '<b>Não foi possível enviar.</b>Confira sua internet e tente de novo.'; e.hidden = false; });
+    };
+  }
+
+  /* ---------- suporte ---------- */
+  var ROTULO = { acesso: 'Acesso', download: 'PDF', receita: 'Modelo', medidas: 'Medidas', compra: 'Liberação', reembolso: 'Reembolso', sugestao: 'Sugestão', outro: 'Outro' };
+  var ESTADO = { aberto: 'Aguardando', respondido: 'Respondido', resolvido: 'Resolvido' };
+  var ultimaResposta = '';
+  function carregarChamados() {
+    return fetch('/api/suporte', { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : { chamados: [] }; }).then(function (j) {
+      var ch = j.chamados || [];
+      $('c-chamados').textContent = ch.length ? ch.length + (ch.length === 1 ? ' mensagem' : ' mensagens') : '';
+      $('chamados').innerHTML = ch.length ? ch.map(function (c) {
+        return '<div class="chamado"><div class="l1"><b>' + esc(ROTULO[c.assunto] || 'Mensagem') + '</b><span>' + esc(c.protocolo) + ' · ' + quando(Date.parse(c.criado)) + '</span><span class="est ' + esc(c.status) + '">' + esc(ESTADO[c.status] || c.status) + '</span></div>' +
+          '<div class="msg">' + esc(c.mensagem) + '</div>' + (c.resposta ? '<div class="resp"><small>Resposta do suporte</small>' + esc(c.resposta) + '</div>' : '') + '</div>';
+      }).join('') : '<div class="vazio">Você ainda não mandou nenhuma mensagem.</div>';
+      ultimaResposta = '';
+      ch.forEach(function (c) {
+        if (c.respondido && c.respondido > ultimaResposta) ultimaResposta = c.respondido;
+        if (c.resposta && est.respostas[c.protocolo] !== c.respondido) {
+          est.respostas[c.protocolo] = c.respondido; salvar();
+          addNotif({ id: 'resp-' + c.protocolo + '-' + c.respondido, tipo: 'resposta', tag: 'Suporte', emoji: '💬', tit: 'Sua mensagem foi respondida', txt: 'Protocolo ' + c.protocolo + '. Toque pra ler a resposta.', href: '#suporte' });
+        }
+      });
+      pontoSuporte();
+    }).catch(function () {});
+  }
+  function pontoSuporte() { $('ponto-suporte').hidden = !(ultimaResposta && ultimaResposta > est.vistoSup) || TELA === 'suporte'; }
+  function vistoSuporte() {
+    if (!est) return;
+    if (ultimaResposta && ultimaResposta > est.vistoSup) { est.vistoSup = ultimaResposta; salvar(); }
+    est.notifs.forEach(function (n) { if (n.tipo === 'resposta') n.lida = true; }); salvar(); desenharSino(false); pontoSuporte();
+  }
+  function enviarChamado(ev) {
+    ev.preventDefault();
+    var msg = $('sup-msg').value.trim(), e = $('sup-erro'), b = $('sup-enviar');
+    if (msg.length < 10) { e.innerHTML = '<b>Mensagem muito curta.</b>Conte com um pouco mais de detalhe pra gente te ajudar.'; e.hidden = false; return; }
+    e.hidden = true; b.disabled = true; b.textContent = 'Enviando…';
+    fetch('/api/suporte', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assunto: SUP.tema ? SUP.tema.k : 'outro', mensagem: msg, produto: $('sup-produto').value }) })
+      .then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
+      .then(function (x) {
+        if (x.j.ok) { $('sup-msg').value = ''; voltarTemas(); toast('Mensagem enviada! Protocolo ' + x.j.protocolo); return carregarChamados().then(function () { $('chamados').scrollIntoView({ behavior: 'smooth', block: 'start' }); }); }
+        e.innerHTML = x.j.erro === 'limite' ? '<b>Você já mandou várias mensagens hoje.</b>Aguarde a resposta das anteriores que a gente já vai te atender.' : '<b>Não foi possível enviar.</b>Tente de novo em instantes.';
+        e.hidden = false;
+      })
+      .catch(function () { e.innerHTML = '<b>Não foi possível conectar.</b>Confira sua internet e tente de novo.'; e.hidden = false; })
+      .then(function () { b.disabled = false; b.textContent = 'Enviar mensagem'; });
+  }
+
+  /* ---------- ciclo ---------- */
+  function tique() {
+    if (!dados) return;
+    if (podeOferta()) { mostrarOferta(); return; }
+    // pesquisa: 1 dia depois do primeiro acesso, no máximo a cada 3 dias, nunca junto com uma oferta nem durante a leitura
+    if (!est.pesquisa.feita && agora() - est.primeira > 20 * 3600e3 && agora() - est.pesquisa.vista > 3 * 86400e3 && agora() - entrouEm > 90e3 &&
+        TELA === 'inicio' && $('oferta-pop').hidden && $('painel-notif').hidden && $('pesquisa').hidden && $('folha').hidden && !LEITOR.aberto() && !document.hidden) {
+      addNotif({ id: 'pesquisa', tipo: 'pesquisa', tag: 'Pesquisa', emoji: '⭐', tit: 'Conta pra gente: 3 perguntas rápidas', txt: 'Sua opinião escolhe os próximos modelos.', href: '#pesquisa' });
+      abrirPesquisa();
+    }
+  }
+  function iniciar(d) {
+    var primeiraVez = !dados;
+    dados = d; carregarEst(d.email || 'anon');
+    addNotif({ id: 'boas-vindas', tipo: 'aviso', tag: 'Boas-vindas', emoji: '📿', tit: 'Boas-vindas! Seus 100 modelos estão liberados', txt: 'Antes da primeira conta, veja o guia rápido no Início.', href: '#guia', t: est.primeira }, true);
+    if (!AMB.instalado()) addNotif({ id: 'instalar-app', tipo: 'aviso', tag: 'Dica', emoji: '📲', tit: 'Instale o Guias de Contas na tela inicial', txt: 'Abre direto do ícone, em tela cheia. Leva 30 segundos.', href: '#app', t: est.primeira - 30e3 }, true);
+    if (PUSH.suporta || iosPrecisaInstalar()) addNotif({ id: 'ativar-push', tipo: 'aviso', tag: 'Dica', emoji: '🔔', tit: 'Receba os avisos no celular', txt: 'Respostas do suporte, liberações e novidades, mesmo com o app fechado.', href: '#app', t: est.primeira - 60e3 }, true);
+    semearOfertas();
+    if (AMB.instalado() || PUSH.ok) { if (AMB.instalado()) marcarLida('instalar-app'); if (PUSH.ok) marcarLida('ativar-push'); }
+    desenharSino(primeiraVez);
+    if (primeiraVez) {
+      carregarChamados();
+      fetch('/api/feedback', { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (j) { if (j.respondeu && !est.pesquisa.feita) { est.pesquisa.feita = true; salvar(); } }).catch(function () {});
+      entrouEm = agora(); clearInterval(timer); timer = setInterval(tique, 15000);
+    }
+  }
+
+  /* ---------- eventos ---------- */
+  $('sino').addEventListener('click', function (e) { e.stopPropagation(); abrirPainel($('painel-notif').hidden); });
+  $('fundo-notif').addEventListener('click', function () { abrirPainel(false); });
+  $('fechar-notif').addEventListener('click', function () { abrirPainel(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || LEITOR.aberto()) return;
+    if (!$('painel-notif').hidden) return abrirPainel(false);
+    if (!$('pesquisa').hidden) return fecharModal();
+    if (!$('folha').hidden) fecharFolha();
+  });
+  $('ler-todas').addEventListener('click', function () { est.notifs.forEach(function (n) { n.lida = true; }); salvar(); desenharSino(false); });
+  $('lista-notif').addEventListener('click', function (e) {
+    var a = e.target.closest('.notif'); if (!a) { if (e.target.closest('.convite-push a')) abrirPainel(false); return; }
+    var n = est.notifs[+a.dataset.i]; if (n) { n.lida = true; salvar(); }
+    abrirPainel(false); desenharSino(false);
+    if (n && /^#produto\//.test(n.href)) FOLHA.porClique = true;
+  });
+  $('form-sup').addEventListener('submit', enviarChamado);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && dados) carregarChamados(); });
+
+  return { iniciar: iniciar, abrirPesquisa: abrirPesquisa, marcarLida: marcarLida, vistoSuporte: vistoSuporte };
+})();
+
+carregar();
+
+</script>
+</body>
+</html>
