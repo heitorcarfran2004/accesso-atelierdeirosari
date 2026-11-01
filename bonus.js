@@ -13,7 +13,7 @@ var BONUS = (function () {
     { n: 6, tit: 'Catalogo per WhatsApp', sub: 'Crea il tuo catalogo da inviare' },
     { n: 7, tit: 'Piano di 7 giorni per vendere sui social', sub: 'Cosa pubblicare ogni giorno' },
     { n: 8, tit: 'Confezioni, kit ed etichette', sub: 'Etichette e biglietti da stampare' },
-    { n: 9, tit: 'Le 4 tecniche in video', sub: 'In arrivo', inArrivo: true },
+    { n: 9, tit: 'Dove trovare i materiali', sub: 'La lista della spesa e dove comprare' },
     { n: 10, tit: 'Foto che vendono', sub: 'Foto belle con il telefono' }
   ];
   function M() { return (window.BDATI && window.BDATI.modelli) || []; }
@@ -475,10 +475,116 @@ var BONUS = (function () {
     } };
   }
 
-  /* ═══ 9. Le 4 tecniche in video: in arrivo ═══ */
+  /* ═══ 9. Dove trovare i materiali (troca de 01/11: era "Le 4 tecniche in video") ═══
+     A lista sai das 100 fichas (bonus-dati.js): cada material cai num grupo pelo nome e conta quantos modelos usam. */
+  var GRUPPI = [
+    ['Crocifissi e croci', /^(Crocifisso|Croce)/],
+    ['Crociere e medaglie', /^(Crociera|Medaglia|Medaglietta|Sacra|Sacro)/],
+    ['Filo', /^(Nylon|Acciaio 0|Cavetto|Elastico|Cordoncino|Cuoio|Filo|Paracord|Seta|Sisal|Catena)/],
+    ['Schiaccini', /schiaccini/i],
+    ['Distanziatori', /^Distanziatori/],
+    ['Attrezzi', /^(Pinza|Pinzetta|Tronchesino|Forbic|Ago|Accendino|Vassoio|Ciotoline|Nastro di carta|Panno)/],
+    ['Colla', /^Colla/],
+    ['Ganci, anellini e chiusure', /^(Gancio|Moschettone|Anellin|Portachiavi|Portaprofumo|Piastrina|Infinito)/],
+    ['Lettere e targhette', /^(Lettere|Targhetta)/],
+    ['Confezione', /^(Scatolina|Sacchetto|Astuccio|Nastro di raso|Biglietto|Cartoncino)/]
+  ];
+  function gruppoDi(nome) {
+    for (var i = 0; i < GRUPPI.length; i++) if (GRUPPI[i][1].test(nome)) return GRUPPI[i][0];
+    return /\d+(,\d+)?\s*mm$|^(Grano|Perla|Grani)/.test(nome) ? 'Grani' : 'Altro';
+  }
+  function contaMateriali() {
+    var g = {};
+    M().forEach(function (m) {
+      var visti = {};
+      m.mats.forEach(function (x) {
+        var nome = x[0], gr = gruppoDi(nome);
+        g[gr] = g[gr] || { modelli: {}, voci: {} };
+        g[gr].modelli[m.n] = 1;
+        if (!visti[nome]) { visti[nome] = 1; g[gr].voci[nome] = (g[gr].voci[nome] || 0) + 1; }
+        if (gr === 'Filo' && /schiaccini/i.test(nome)) { g.Schiaccini = g.Schiaccini || { modelli: {}, voci: {} }; g.Schiaccini.modelli[m.n] = 1; }
+      });
+    });
+    return g;
+  }
+  function quanti(re) { return M().filter(function (m) { return m.mats.some(function (x) { return re.test(x[0]); }); }).length; }
   function b9() {
-    return { html: sez('In arrivo', '<div class="sem-venda">' + ico('relogio') + '<span><b>Le video-lezioni sono in preparazione.</b>Compariranno qui, nell’app, appena pronte. Intanto ogni modello del manuale ha il montaggio passo passo in 6 fasi, con le foto.</span></div>' +
-      '<p class="b-nota" style="margin-top:12px">Le tecniche del manuale: rosario su nylon con gli schiaccini, decina ad anello, bracciale su elastico e rosario con i nodi.</p>' + mods([78, 21, 1, 60])) };
+    var g = contaMateriali(), ordine = ['Crocifissi e croci', 'Crociere e medaglie', 'Attrezzi', 'Filo', 'Schiaccini', 'Grani', 'Colla', 'Distanziatori', 'Ganci, anellini e chiusure', 'Lettere e targhette', 'Confezione'];
+    // misure dei grani: quante volte compare ogni misura nelle schede
+    var misure = {};
+    M().forEach(function (m) { m.mats.forEach(function (x) { if (gruppoDi(x[0]) !== 'Grani') return; var r = /(\d+)\s*mm$/.exec(x[0]); if (r) misure[r[1]] = (misure[r[1]] || 0) + 1; }); });
+    var mis = Object.keys(misure).sort(function (a, b) { return misure[b] - misure[a]; }).slice(0, 5);
+    var KIT = [
+      ['Filo di nylon 0,50 mm', 'un rocchetto: 60 cm per il giro e 30 cm per il pendente', quanti(/^Nylon 0,5/)],
+      ['Schiaccini da 2 mm', 'dorati e argentati: 4 per rosario, 2 per decina', quanti(/schiaccini/i)],
+      ['Pinza a becchi piatti', 'per stringere gli schiaccini e chiudere gli anellini', quanti(/^Pinza/)],
+      ['Forbicina', 'per tagliare il filo a filo del grano', quanti(/^Forbic/)],
+      ['Grani da 6 e 8 mm', 'perle, cristallo, legno: 53 + 6 per un rosario, 10 + 1 per decina e bracciale', quanti(/(6|8) mm$/)],
+      ['Crociere', 'medaglie con 3 anellini (rosario) o 2 anellini (bracciale)', quanti(/^Crociera/)],
+      ['Crocifissi', 'da 2,5 a 5 cm, con l’anellino in alto', quanti(/^Crocifisso/)],
+      ['Elastico di silicone 0,7 mm', 'per i bracciali-rosario', quanti(/^Elastico/)],
+      ['Colla per bigiotteria', 'a punta sottile, una goccia sui nodi', quanti(/^Colla/)]
+    ];
+    var fatti = leggi('kit', []);
+    var html =
+      sez('La lista della spesa del manuale', '<div class="b-lista">' + ordine.filter(function (k) { return g[k]; }).map(function (k) {
+        var v = g[k], nm = Object.keys(v.modelli).length;
+        var voci = Object.keys(v.voci).sort(function (a, b) { return v.voci[b] - v.voci[a]; }).slice(0, 6);
+        return '<div class="b-item"><span class="e">' + nm + '</span><div><b>' + esc(k) + '</b><p>' + (nm === 100 ? 'in tutti i modelli' : 'in ' + nm + ' modelli su 100') + '</p>' +
+          '<div class="b-mods">' + voci.map(function (x) { return '<span class="b-mod"><span>' + v.voci[x] + '</span>' + esc(x) + '</span>'; }).join('') + '</div></div></div>';
+      }).join('') + '</div>' +
+      '<p class="b-nota">Misure dei grani più usate: ' + mis.map(function (x) { return '<b>' + x + ' mm</b> (' + misure[x] + ')'; }).join(' · ') + '. Il numero accanto a ogni materiale è quante schede lo usano.</p>',
+      'Abbiamo contato i materiali delle 100 schede del manuale: ecco cosa serve davvero e quanto spesso.') +
+      sez('Il kit base per iniziare', '<div id="c9-prog"></div><div class="b-check">' + KIT.map(function (k, i) {
+        return '<label class="b-spunta b-kit"><input type="checkbox" class="c9" data-i="' + i + '"' + (fatti.indexOf(i) >= 0 ? ' checked' : '') + '><span><b>' + esc(k[0]) + '</b><small>' + esc(k[1]) + ' · in ' + k[2] + ' modelli</small></span></label>';
+      }).join('') + '</div><div class="b-azioni">' + copia('Lista della spesa · L’Atelier del Rosario\n' + KIT.map(function (k) { return '- ' + k[0] + ' (' + k[1] + ')'; }).join('\n')).replace('>Copia<', '>Copia la lista<') + '</div>',
+        'Con questo fai la maggior parte dei modelli. Spunta quello che hai già: la lista resta salvata.') +
+      sez('Quanti grani comprare', '<label class="b-campo">Quanti rosari vuoi fare<input id="c9-n" inputmode="numeric" value="' + esc(leggi('kitN', '5')) + '"></label><div id="c9-ris"></div>',
+        'Un rosario completo ha 53 Ave Maria e 6 Padre Nostro; una decina o un bracciale 10 + 1.') +
+      sez('Dove comprare in Italia', '<div class="b-lista">' + [
+        ['🧵', 'Merceria e negozio di perline o bigiotteria', 'Grani, filo di nylon, schiaccini, elastico e colla. Puoi vedere i colori e provare i fori sul filo. Chiedi se fanno un prezzo a chi compra in quantità.'],
+        ['⛪', 'Negozio di articoli religiosi', 'Crociere, crocifissi e medaglie dei santi. Chiedi se vendono i componenti sfusi, non solo i rosari finiti.'],
+        ['🔧', 'Ferramenta o negozio di bricolage', 'Pinza a becchi piatti e tronchesino. Meglio la pinza piccola con i becchi lisci, senza denti: non graffia il metallo.'],
+        ['🛒', 'Marketplace online', 'Per le quantità e i colori che non trovi in zona. Controlla la misura in mm, il materiale e le recensioni con le foto; prima della scorta ordina poco, per prova.'],
+        ['📦', 'Ingrosso di bigiotteria', 'Per le bomboniere e per produrre tanti pezzi. Molti grossisti chiedono un ordine minimo e alcuni vendono solo a chi ha la partita IVA: chiedi prima.']
+      ].map(function (s) { return '<div class="b-item"><span class="e">' + s[0] + '</span><div><b>' + esc(s[1]) + '</b><p>' + esc(s[2]) + '</p></div></div>'; }).join('') + '</div>') +
+      sez('Cosa chiedere in negozio', '<div class="b-tab b-tab2"><div class="b-tr b-th"><span>Ti serve</span><span>Chiedi così</span></div>' + [
+        ['Il filo del rosario', '“filo di nylon da 0,50 mm”'],
+        ['I tubetti da stringere', '“schiaccini da 2 mm” (online anche “crimp 2 mm”)'],
+        ['La pinza', '“pinza a becchi piatti per bigiotteria”'],
+        ['La medaglia centrale', '“crociera per rosario a 3 anellini”'],
+        ['La croce', '“crocifisso per rosario con anellino”, da 2,5 a 5 cm'],
+        ['I grani di vetro sfaccettati', '“mezzi cristalli da 6 mm”'],
+        ['Le perle', '“perle di vetro cerate da 8 mm”'],
+        ['L’elastico', '“filo elastico di silicone trasparente 0,7 mm”'],
+        ['La colla', '“colla per bigiotteria a punta sottile”'],
+        ['Gli anellini', '“anellini apribili da 5 mm”'],
+        ['I separatori', '“distanziatori in metallo da 4 mm”']
+      ].map(function (r) { return '<div class="b-tr"><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('') + '</div>') +
+      sez('Risparmiare e controllare la qualità', '<div class="b-lista">' + [
+        ['✨', 'Il metallo che non annerisce', 'Per crociere, crocifissi e schiaccini chiedi finiture che non si scuriscono, come l’acciaio inox o le placcature di qualità, e anallergiche (senza nichel) per i bracciali.'],
+        ['🕳️', 'Il foro dei grani', 'Nei rosari il nylon torna indietro dentro gli ultimi grani: il foro deve far passare il filo due volte. Porta un pezzo di nylon in negozio e prova.'],
+        ['🔍', 'Grani tutti uguali', 'Stessa misura e stesso colore, senza bolle né scheggiature. Un cristallo con lo spigolo tagliente può rovinare il filo.'],
+        ['📏', 'La misura giusta degli schiaccini', 'Per il nylon 0,50 usa schiaccini da 2 mm, come nelle schede: con uno più grande il filo scivola.'],
+        ['💶', 'Il prezzo per pezzo', 'Dividi il prezzo della bustina per il numero di grani e confronta così, non il prezzo della bustina.'],
+        ['🧪', 'Prima la prova, poi la scorta', 'Compra poco, fai un rosario completo e solo dopo compra in quantità.']
+      ].map(function (s) { return '<div class="b-item"><span class="e">' + s[0] + '</span><div><b>' + esc(s[1]) + '</b><p>' + esc(s[2]) + '</p></div></div>'; }).join('') + '</div>');
+    function prog() { var n = fatti.length; $('c9-prog').innerHTML = '<div class="b-prog"><div class="mini-prog"><i style="width:' + Math.round(100 * n / KIT.length) + '%"></i></div><span>' + n + ' di ' + KIT.length + ' già pronti</span></div>'; }
+    function grani() {
+      var N = Math.max(1, Math.round(num($('c9-n').value)) || 1); salva('kitN', String(N));
+      $('c9-ris').innerHTML = '<div class="b-righe"><span>Ave Maria (53 × ' + N + ')</span><b>' + 53 * N + '</b><span>Padre Nostro (6 × ' + N + ')</span><b>' + 6 * N + '</b><span>Con il 10% di scorta</span><b>' + Math.ceil(53 * N * 1.1) + ' + ' + Math.ceil(6 * N * 1.1) + '</b>' +
+        '<span>Schiaccini da 2 mm (4 a rosario)</span><b>' + 4 * N + '</b><span>Nylon 0,50 (90 cm a rosario)</span><b>' + (Math.round(0.9 * N * 10) / 10).toLocaleString('it-IT') + ' m</b><span>Crociere e crocifissi</span><b>' + N + ' + ' + N + '</b></div>' +
+        '<p class="b-nota">Misure della maggior parte dei rosari del manuale (60 + 30 cm di nylon). Per il modello preciso usa la lista del bonus 4.</p>';
+    }
+    return { html: html, init: function () {
+      prog(); grani();
+      $('bonus-corpo').addEventListener('change', function (e) {
+        if (!e.target.matches('.c9')) return;
+        var i = +e.target.getAttribute('data-i'); fatti = fatti.filter(function (x) { return x !== i; }); if (e.target.checked) fatti.push(i);
+        salva('kit', fatti); prog();
+      });
+      $('bonus-corpo').addEventListener('input', function (e) { if (e.target.id === 'c9-n') grani(); });
+    } };
   }
 
   /* ═══ 10. Foto che vendono ═══ */

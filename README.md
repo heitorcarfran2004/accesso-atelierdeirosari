@@ -75,16 +75,14 @@ localStorage por e-mail (`ar:b:<email>:...`). O montador também confere o portu
 | 6 | Catalogo per WhatsApp | exemplo pronto (ChatGPT) + editor: 6 modelos ou fotos dela, nome, preço → JPG 1080x1350 para baixar ou compartilhar |
 | 7 | Piano di 7 giorni | 7 dias com checklist salva e o texto de cada post para copiar |
 | 8 | Confezioni, kit ed etichette | folha de ideias (ChatGPT) + ideias tiradas das páginas + 4 kits + folha A4 de 12 etiquetas (ChatGPT) + editor de etiquetas A4 + biglietti A4 com a oração exata (Ave Maria, Padre Nostro, Gloria, Angelo di Dio) e dedica |
-| 9 | Le 4 tecniche in video | **In arrivo**: o B-roll de Downloads/Rosarios/Videos não mostra as técnicas do manual |
+| 9 | Dove trovare i materiali | (troca de 01/11, era "Le 4 tecniche in video"; os vídeos entram depois, fora do app) lista de compras contada nas 100 fichas por grupo de material, kit base com checklist salva e botão Copia, quantos grãos para N terços, onde comprar na Itália por tipo de loja (sem marcas), como pedir cada item na loja, economia e qualidade |
 | 10 | Foto che vendono | 7 regras + checklist antes de publicar |
 
 Imagens do ChatGPT (01/11, conta logada no Chrome 9222, 13 imagens em ~5 min com 3 abas): prompts e originais em
 `entregaveis/tercos-artesanais/bonus/` (`prompts.cjs`, `fila.cjs`, `gpt/`): 10 capas 3:4 em italiano, `etichette`,
 `confezioni` e `catalogo` (exemplo). No app: `assets/bonus/` e `assets/capas/b01…b10-480/800.webp`.
 
-Para o bônus 9 sair do "In arrivo" faltam clipes (sem rosto, sem marca d'água, sem texto) de: 1) schiaccino fechado
-com a pinza a becchi piatti no nylon; 2) decina ad anello fechando na crociera; 3) bracciale: elástico esticado, nó
-cirúrgico, gota de cola e nó escondido no grano; 4) nós entre os grani (cordão/paracord).
+Bônus 9: a lista é calculada no próprio app (bonus.js, GRUPPI) a partir de bonus-dati.js; capa nova gerada em 01/11 (a antiga, de vídeo, ficou em gpt/capa-09-video-antiga.png).
 
 ## Suporte e push
 
