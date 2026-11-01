@@ -868,6 +868,23 @@
   .b-kit b{display:block;font-size:14.5px}
   .b-kit small{display:block;font-size:12.5px;color:var(--texto-3);line-height:1.4}
   .b-item .e{font-weight:800;color:var(--roxo-esc)}
+  /* bônus 9: videoaulas */
+  .v9-player{margin:-4px -4px 10px;border-radius:14px;overflow:hidden;background:#111;aspect-ratio:16/9}
+  .v9-player video{display:block;width:100%;height:100%;background:#111}
+  .v9-vel{display:flex;align-items:center;gap:6px;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--texto-2)}
+  .v9-vel span{margin-right:4px}
+  .b-chip.on{background:var(--roxo-nevoa);border-color:var(--roxo)}
+  .v9 h3{font-family:var(--titulo);font-weight:700;font-size:23px;color:var(--roxo-esc);line-height:1.15}
+  .v9-txt{font-size:14.5px;color:var(--texto-2);line-height:1.5;margin-top:4px}
+  .v9-lista{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(max-width:640px){.v9-lista{grid-template-columns:1fr}}
+  .v9-lez{display:flex;gap:12px;align-items:center;text-align:left;background:var(--fundo);border:1.5px solid transparent;border-radius:14px;padding:8px;font:inherit;color:inherit;cursor:pointer}
+  .v9-lez.on{border-color:var(--roxo);background:var(--roxo-nevoa)}
+  .v9-lez img{width:128px;height:72px;object-fit:cover;border-radius:10px;flex:none;background:#ddd}
+  .v9-lez .t{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
+  .v9-lez small{font-size:12px;font-weight:700;color:var(--ouro-esc)}
+  .v9-lez b{font-size:15px;line-height:1.25}
+  .v9-lez .mini-prog{height:4px}
 </style>
 </head>
 <body>
@@ -980,7 +997,7 @@
         <div id="preferiti"></div>
       </section>
       <section class="sec" id="s-bonus">
-        <div class="sec-tit"><h2>I tuoi 10 bonus</h2><span class="cont">inclusi</span></div>
+        <div class="sec-tit"><h2>I tuoi 11 bonus</h2><span class="cont">inclusi</span></div>
         <div class="prateleira cinco" id="bonus-lista"></div>
       </section>
       <section class="sec" id="s-cat">
@@ -1022,7 +1039,7 @@
           <details><summary>Quanti grani ha un rosario?</summary><p>Il rosario completo ha 53 Ave Maria e 6 Padre Nostro. La decina (come quelle per l’auto, il cellulare e le bomboniere) e il bracciale-rosario ne hanno 10 + 1. Il numero di ogni modello è nella casella GRANI della scheda.</p></details>
           <details><summary>Posso usare l’app su più dispositivi?</summary><p>Sì: entra con la stessa e-mail su telefono, tablet e computer. I preferiti e la pagina dove eri rimasta sono salvati su ogni dispositivo.</p></details>
           <details><summary>Ho cambiato telefono e non vedo i miei preferiti</summary><p>I preferiti e i progressi restano sul dispositivo dove li hai salvati. Sul nuovo telefono entra con la stessa e-mail e segna di nuovo i tuoi modelli con la stellina.</p></details>
-          <details><summary>Dove trovo i bonus?</summary><p>Nella Home, nella sezione “I tuoi 10 bonus”. La calcolatrice, il calendario, i messaggi pronti, il catalogo e le etichette funzionano qui nell’app: quello che scrivi resta salvato su questo dispositivo.</p></details>
+          <details><summary>Dove trovo i bonus?</summary><p>Nella Home, nella sezione “I tuoi 11 bonus”. Le videolezioni, la calcolatrice, il calendario, i messaggi pronti, il catalogo e le etichette funzionano qui nell’app: quello che scrivi resta salvato su questo dispositivo.</p></details>
           <details><summary>Come installo l’app sul telefono?</summary><p>Nella scheda App trovi il passo a passo per il tuo dispositivo. Una volta installata, L’Atelier del Rosario si apre dalla schermata Home, a schermo intero.</p></details>
         </div>
       </section>
@@ -1816,7 +1833,7 @@ var NV = (function () {
   function iniciar(d) {
     carregarEst(d.email || 'anon');
     addNotif({ id: 'benvenuta', tag: 'Benvenuta', emoji: '📿', tit: 'I tuoi 100 modelli sono pronti', txt: 'Prima di iniziare, leggi i 5 consigli nella Home.', href: '#guida', t: est.primeira });
-    addNotif({ id: 'bonus', tag: 'Bonus', emoji: '🎁', tit: 'I tuoi 10 bonus', txt: 'Calcolatrice dei prezzi, calendario, messaggi pronti, catalogo ed etichette da stampare.', href: '#bonus', t: est.primeira - 15e3 });
+    addNotif({ id: 'bonus', tag: 'Bonus', emoji: '🎁', tit: 'I tuoi 11 bonus', txt: 'Videolezioni, calcolatrice dei prezzi, calendario, messaggi pronti, catalogo ed etichette da stampare.', href: '#bonus', t: est.primeira - 15e3 });
     addNotif({ id: 'preferiti', tag: 'Consiglio', emoji: '⭐', tit: 'Salva i tuoi modelli preferiti', txt: 'Tocca la stellina ☆ accanto a un modello: lo ritrovi subito nella Home.', href: '#preferiti', t: est.primeira - 30e3 });
     if (!AMB.instalado()) addNotif({ id: 'installa', tag: 'Consiglio', emoji: '📲', tit: 'Installa L’Atelier del Rosario nella schermata Home', txt: 'Si apre dall’icona, a schermo intero. Ci vogliono 30 secondi.', href: '#app', t: est.primeira - 60e3 });
     else marcarLida('installa');

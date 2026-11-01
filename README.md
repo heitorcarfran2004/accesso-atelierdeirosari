@@ -44,7 +44,7 @@ O `index.html` **não se edita à mão**: ele é gerado.
   **impressa** nas páginas (página do app − 3); as 3 primeiras aparecem como "Copertina" e "Indice".
 - O PDF inteiro (`Downloads/Rosarios/Entregável/L-Atelier-del-Rosario.pdf`, 56 MB) não vai para o app: passa dos
   50 MB que o GitHub aceita sem aviso. As 2 partes somam 40 MB.
-- **Sem** aba Aulas, **sem** upsell e **sem** order bumps (não existem neste produto). Os 10 bônus: seção abaixo.
+- **Sem** aba Aulas (as 4 videoaulas ficam no bônus 9), **sem** upsell e **sem** order bumps (não existem neste produto). Os 11 bônus: seção abaixo.
 
 ## O que o app faz
 
@@ -58,7 +58,7 @@ O `index.html` **não se edita à mão**: ele é gerado.
 - Perfil, favoritos, página onde parou e sininho ficam no `localStorage`, **separados por e-mail** e por aparelho
   (outro celular começa sem favoritos; isso está dito nas FAQ).
 
-## Os 10 bônus (01/11/2026)
+## Os 11 bônus (01/11/2026)
 
 Seção "I tuoi 10 bonus" na Home; cada um abre em `#bonus/N`. A lógica está em **`bonus.js` (escrito à mão,
 edite direto)**; `bonus-dati.js` é gerado por `scripts/ros-app-bonus.cjs` com nome, categoria, tempo, materiais e as
@@ -75,14 +75,23 @@ localStorage por e-mail (`ar:b:<email>:...`). O montador também confere o portu
 | 6 | Catalogo per WhatsApp | exemplo pronto (ChatGPT) + editor: 6 modelos ou fotos dela, nome, preço → JPG 1080x1350 para baixar ou compartilhar |
 | 7 | Piano di 7 giorni | 7 dias com checklist salva e o texto de cada post para copiar |
 | 8 | Confezioni, kit ed etichette | folha de ideias (ChatGPT) + ideias tiradas das páginas + 4 kits + folha A4 de 12 etiquetas (ChatGPT) + editor de etiquetas A4 + biglietti A4 com a oração exata (Ave Maria, Padre Nostro, Gloria, Angelo di Dio) e dedica |
-| 9 | Dove trovare i materiali | (troca de 01/11, era "Le 4 tecniche in video"; os vídeos entram depois, fora do app) lista de compras contada nas 100 fichas por grupo de material, kit base com checklist salva e botão Copia, quantos grãos para N terços, onde comprar na Itália por tipo de loja (sem marcas), como pedir cada item na loja, economia e qualidade |
+| 9 | Le videolezioni | as 4 aulas do Heitor (Downloads/Aula 1–4.mp4), em HLS dentro do repo: player com pôster, velocidade 0,5x/1x/1,5x, "continua da dove eri rimasta" por aula (salvo por e-mail) e o modelo do manual com aspecto parecido |
 | 10 | Foto che vendono | 7 regras + checklist antes de publicar |
+| 11 | Dove trovare i materiali | lista de compras contada nas 100 fichas por grupo de material, kit base com checklist salva e botão Copia, quantos grãos para N terços, onde comprar na Itália por tipo de loja (sem marcas), como pedir cada item, economia e qualidade |
 
 Imagens do ChatGPT (01/11, conta logada no Chrome 9222, 13 imagens em ~5 min com 3 abas): prompts e originais em
 `entregaveis/tercos-artesanais/bonus/` (`prompts.cjs`, `fila.cjs`, `gpt/`): 10 capas 3:4 em italiano, `etichette`,
 `confezioni` e `catalogo` (exemplo). No app: `assets/bonus/` e `assets/capas/b01…b10-480/800.webp`.
 
-Bônus 9: a lista é calculada no próprio app (bonus.js, GRUPPI) a partir de bonus-dati.js; capa nova gerada em 01/11 (a antiga, de vídeo, ficou em gpt/capa-09-video-antiga.png).
+Bônus 11: a lista é calculada no próprio app (bonus.js, GRUPPI) a partir de bonus-dati.js. Capas: `gpt/capa-09.png` (videoaulas) e `gpt/capa-11.png` (materiais, selo corrigido para BONUS #11); a de "Le 4 tecniche in video" ficou em `gpt/capa-09-video-antiga.png`.
+
+### Videoaulas (bônus 9)
+- Originais: 1280x720 HEVC, ~10–15 min, filmados de cima, só mãos. **Áudio mudo** (-91 dB nas 4): sem narração e sem texto na tela, então não há legenda; o áudio foi tirado.
+- Reencode: H.264 High 720p, CRF 26, preset slow, maxrate 3 Mb/s, keyframe a cada 6 s, HLS VOD com segmentos de 6 s em `video/lezione-N/index.m3u8` + `seg-NNN.ts` (todos bem abaixo de 100 MB). Comando no fim desta seção.
+- Toca com HLS nativo (Safari/iPhone) ou hls.js 1.5.20 do cdnjs, carregado só ao abrir o bônus. Pôsteres em `assets/video/poster-N.webp` (gerados pelo `ros-app-bonus.cjs`, quadro 8 s antes do fim).
+- `vercel.json`: `.m3u8` com Content-Type HLS e cache de 1 dia; `.ts` como video/mp2t, cache imutável. O `servidor.cjs` local também serve esses tipos.
+
+    ffmpeg -i "Aula N.mp4" -an -c:v libx264 -preset slow -crf 26 -profile:v high -level 4.0 -pix_fmt yuv420p \n      -force_key_frames "expr:gte(t,n_forced*6)" -sc_threshold 0 -maxrate 3000k -bufsize 6000k \n      -f hls -hls_time 6 -hls_playlist_type vod -hls_segment_filename "seg-%03d.ts" index.m3u8
 
 ## Suporte e push
 
@@ -107,7 +116,7 @@ Nada foi publicado: sem repositório, sem push, sem Vercel. Para subir:
 3. Antes: preencher `CONTATTO`, confirmar o nome final do produto e, se quiser login só para quem comprou,
    seguir o modelo do `apps/guias-membros` (Edge Function `membros-acesso` + webhook).
 
-Tamanho do deploy: ~85 MB (páginas 40 MB + PDFs 40 MB + bônus 3,9 MB + resto < 1 MB). `capturas/` (12 MB) fica fora do deploy.
+Tamanho do deploy: ~464 MB (vídeos HLS 379 MB + páginas 40 MB + PDFs 40 MB + bônus 3,5 MB + resto < 1 MB; 558 segmentos .ts de no máximo 1,3 MB). `capturas/` fica fora do deploy. Atenção à banda da Vercel: assistir às 4 aulas inteiras baixa ~380 MB.
 
 ## Capturas
 

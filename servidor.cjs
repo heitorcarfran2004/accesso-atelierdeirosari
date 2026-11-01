@@ -3,7 +3,7 @@
 const http = require('http'), fs = require('fs'), path = require('path');
 const PORTA = 4261;
 const TIPOS = { '.html':'text/html; charset=utf-8', '.webp':'image/webp', '.png':'image/png',
-  '.jpg':'image/jpeg', '.css':'text/css', '.json':'application/json', '.js':'text/javascript', '.svg':'image/svg+xml', '.pdf':'application/pdf', '.woff2':'font/woff2' };
+  '.jpg':'image/jpeg', '.css':'text/css', '.json':'application/json', '.js':'text/javascript', '.svg':'image/svg+xml', '.pdf':'application/pdf', '.woff2':'font/woff2', '.m3u8':'application/vnd.apple.mpegurl', '.ts':'video/mp2t' };
 http.createServer((req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]);
   // imita o cleanUrls da Vercel: /promo serve promo.html
