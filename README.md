@@ -18,6 +18,7 @@ O `index.html` **não se edita à mão**: ele é gerado.
     node scripts/ros-app-arquivos.cjs capas    # só capa, login e ícones
     node scripts/ros-app-arquivos.cjs paginas  # só as 203 páginas webp
     node scripts/ros-app-arquivos.cjs pdf 72   # só os PDFs (72 = qualidade do JPEG)
+    node scripts/ros-app-bonus.cjs             # bonus-dati.js (dados do manual) + capas e folhas dos bônus
     node scripts/ros-app-montar.cjs            # referencia/guias.html -> index.html (e confere sobras de português)
 
 (os `scripts/` ficam no repo de trabalho "Visual St - Claude")
@@ -43,7 +44,7 @@ O `index.html` **não se edita à mão**: ele é gerado.
   **impressa** nas páginas (página do app − 3); as 3 primeiras aparecem como "Copertina" e "Indice".
 - O PDF inteiro (`Downloads/Rosarios/Entregável/L-Atelier-del-Rosario.pdf`, 56 MB) não vai para o app: passa dos
   50 MB que o GitHub aceita sem aviso. As 2 partes somam 40 MB.
-- **Sem** aba Aulas, **sem** bônus, **sem** upsell e **sem** order bumps (não existem neste produto).
+- **Sem** aba Aulas, **sem** upsell e **sem** order bumps (não existem neste produto). Os 10 bônus: seção abaixo.
 
 ## O que o app faz
 
@@ -56,6 +57,34 @@ O `index.html` **não se edita à mão**: ele é gerado.
 - Sininho só com avisos locais (boas-vindas, dica dos preferiti e de instalar o app).
 - Perfil, favoritos, página onde parou e sininho ficam no `localStorage`, **separados por e-mail** e por aparelho
   (outro celular começa sem favoritos; isso está dito nas FAQ).
+
+## Os 10 bônus (01/11/2026)
+
+Seção "I tuoi 10 bonus" na Home; cada um abre em `#bonus/N`. A lógica está em **`bonus.js` (escrito à mão,
+edite direto)**; `bonus-dati.js` é gerado por `scripts/ros-app-bonus.cjs` com nome, categoria, tempo, materiais e as
+notas finais ("La consegna"…) de cada modelo, lidos de `conteudo-it/NNN.json`. O que a cliente digita fica no
+localStorage por e-mail (`ar:b:<email>:...`). O montador também confere o português que sobrou no `bonus.js`.
+
+| # | bônus | o que tem |
+|---|---|---|
+| 1 | Guida per vendere + messaggi pronti | 7 canais na Itália (parrocchia, catechismo, negozi in conto vendita, mercatini, WhatsApp, Instagram, Etsy) + 8 mensagens com botão Copia |
+| 2 | Prezzi + Calcolatrice | escolhe o modelo → materiais e tempo da scheda; ela digita os custos; €/hora, confezione e margem → preço arredondado a 0,50 € |
+| 3 | Calendario religioso | 22 datas italianas com contagem e "inizia a preparare entro" (Pasqua e Pentecoste calculadas, Festa della Mamma, Pompei 8/5 e 1ª dom. de outubro, Santa Rita, Padre Pio, Ognissanti, Immacolata, Natale…) + 5 períodos; links para os modelos |
+| 4 | Prima Comunione e Battesimo | bomboniere: lista de compras × N pezzi (+10% de scorta), horas totais, como fazer em série, orçamento com sconto e acconto 30% para copiar |
+| 5 | Il significato dei colori | 8 cores (litúrgicas e tradição) + 8 paletas, cada uma um modelo do manual |
+| 6 | Catalogo per WhatsApp | exemplo pronto (ChatGPT) + editor: 6 modelos ou fotos dela, nome, preço → JPG 1080x1350 para baixar ou compartilhar |
+| 7 | Piano di 7 giorni | 7 dias com checklist salva e o texto de cada post para copiar |
+| 8 | Confezioni, kit ed etichette | folha de ideias (ChatGPT) + ideias tiradas das páginas + 4 kits + folha A4 de 12 etiquetas (ChatGPT) + editor de etiquetas A4 + biglietti A4 com a oração exata (Ave Maria, Padre Nostro, Gloria, Angelo di Dio) e dedica |
+| 9 | Le 4 tecniche in video | **In arrivo**: o B-roll de Downloads/Rosarios/Videos não mostra as técnicas do manual |
+| 10 | Foto che vendono | 7 regras + checklist antes de publicar |
+
+Imagens do ChatGPT (01/11, conta logada no Chrome 9222, 13 imagens em ~5 min com 3 abas): prompts e originais em
+`entregaveis/tercos-artesanais/bonus/` (`prompts.cjs`, `fila.cjs`, `gpt/`): 10 capas 3:4 em italiano, `etichette`,
+`confezioni` e `catalogo` (exemplo). No app: `assets/bonus/` e `assets/capas/b01…b10-480/800.webp`.
+
+Para o bônus 9 sair do "In arrivo" faltam clipes (sem rosto, sem marca d'água, sem texto) de: 1) schiaccino fechado
+com a pinza a becchi piatti no nylon; 2) decina ad anello fechando na crociera; 3) bracciale: elástico esticado, nó
+cirúrgico, gota de cola e nó escondido no grano; 4) nós entre os grani (cordão/paracord).
 
 ## Suporte e push
 
@@ -80,7 +109,7 @@ Nada foi publicado: sem repositório, sem push, sem Vercel. Para subir:
 3. Antes: preencher `CONTATTO`, confirmar o nome final do produto e, se quiser login só para quem comprou,
    seguir o modelo do `apps/guias-membros` (Edge Function `membros-acesso` + webhook).
 
-Tamanho do deploy: ~81 MB (páginas 40 MB + PDFs 40 MB + resto < 1 MB). `capturas/` (12 MB) fica fora do deploy.
+Tamanho do deploy: ~85 MB (páginas 40 MB + PDFs 40 MB + bônus 3,9 MB + resto < 1 MB). `capturas/` (12 MB) fica fora do deploy.
 
 ## Capturas
 

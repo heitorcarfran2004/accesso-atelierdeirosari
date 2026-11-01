@@ -767,6 +767,101 @@
   .l-paginas.z2 .pg{cursor:zoom-out}
   .campo-nome{width:100%;border:1.5px solid var(--linha-2);border-radius:12px;padding:12px 14px;font:inherit;font-size:16px;outline:0;text-align:center}
   .campo-nome:focus{border-color:var(--roxo)}
+  /* ── os 10 bônus (bonus.js) ── */
+  #t-bonus{max-width:860px}
+  .b-voltar{display:inline-flex;align-items:center;gap:6px;color:var(--roxo-esc);font-weight:700;font-size:14px;text-decoration:none;margin:2px 0 12px}
+  .b-voltar svg{width:17px;height:17px;transform:rotate(90deg)}
+  .b-cab{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+  .b-cab img{width:96px;height:auto;border-radius:10px;box-shadow:var(--sombra-2);flex:none}
+  .b-cab small{font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ouro-esc)}
+  .b-cab h1{font-family:var(--titulo);font-weight:700;font-size:clamp(25px,4.2vw,34px);line-height:1.05;color:var(--roxo-esc);margin:3px 0 4px}
+  .b-cab p{color:var(--texto-2);font-size:14.5px}
+  .b-sez{margin-bottom:14px}
+  .b-sez > h3{margin-bottom:4px}
+  .b-sez > .sub{margin-bottom:14px}
+  .b-lista{display:flex;flex-direction:column;gap:10px}
+  .b-item{display:flex;gap:12px;align-items:flex-start;background:var(--fundo);border-radius:14px;padding:12px}
+  .b-item .e{width:38px;height:38px;border-radius:12px;background:var(--branco);display:grid;place-items:center;font-size:19px;flex:none;box-shadow:var(--sombra-1)}
+  .b-item b{display:block;font-size:15px;margin-bottom:2px}
+  .b-item p{font-size:14px;color:var(--texto-2);line-height:1.5}
+  .b-msg{border:1.5px dashed var(--linha-2);border-radius:14px;padding:12px 14px;margin-top:10px;background:var(--fundo)}
+  .b-msg-cab{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .b-msg-cab b{font-size:14px;color:var(--roxo-esc)}
+  .b-msg p{font-size:14px;color:var(--tinta);line-height:1.55}
+  .b-copia{margin-left:auto;padding:7px 12px;font-size:13px;border-radius:10px}
+  .b-nota{font-size:13px;color:var(--texto-3);line-height:1.5;margin-top:10px}
+  .b-passi{margin:0 0 0 20px;display:flex;flex-direction:column;gap:7px;font-size:14px;color:var(--texto-2);line-height:1.5}
+  .b-passi b{color:var(--tinta)}
+  .b-campo{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;color:var(--texto-2);margin-bottom:10px}
+  .b-campo input,.b-voce input{width:100%;border:1.5px solid var(--linha-2);border-radius:11px;padding:10px 12px;font:inherit;font-size:15px;font-weight:400;color:var(--tinta);background:var(--branco);outline:0}
+  .b-campo input:focus,.b-voce input:focus,.b-mat input:focus{border-color:var(--roxo)}
+  .b-griglia{display:grid;grid-template-columns:repeat(2,1fr);gap:0 12px}
+  @media(max-width:520px){.b-griglia{grid-template-columns:1fr}}
+  .b-mats{display:flex;flex-direction:column;gap:6px;margin:4px 0 6px}
+  .b-mat{display:flex;align-items:center;gap:10px;background:var(--fundo);border-radius:12px;padding:8px 10px}
+  .b-mat > div{flex:1;min-width:0}
+  .b-mat b{display:block;font-size:14px}
+  .b-mat small{font-size:12.5px;color:var(--texto-3)}
+  .b-mat input{width:92px;flex:none;border:1.5px solid var(--linha-2);border-radius:10px;padding:8px 10px;font:inherit;font-size:15px;text-align:right;outline:0}
+  .b-ris{margin-top:8px}
+  .b-righe{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:14px;color:var(--texto-2);padding:12px 14px;background:var(--fundo);border-radius:14px}
+  .b-righe b{color:var(--tinta);text-align:right}
+  .b-prezzo{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;background:var(--degrade);color:#fff;border-radius:16px;padding:14px 16px;margin-top:10px}
+  .b-prezzo small{width:100%;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;opacity:.85}
+  .b-prezzo b{font-family:var(--titulo);font-size:32px;line-height:1}
+  .b-prezzo span{font-size:13px;opacity:.9}
+  .b-mods{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .b-mod{display:inline-flex;align-items:center;gap:6px;background:var(--branco);border:1px solid var(--linha-2);border-radius:99px;padding:4px 10px 4px 4px;font-size:12.5px;font-weight:700;color:var(--roxo-esc);text-decoration:none}
+  .b-mod span{background:var(--roxo-nevoa);border-radius:99px;padding:2px 7px;font-size:11.5px}
+  .b-cal{display:flex;flex-direction:column;gap:10px}
+  .b-data{display:flex;gap:12px;align-items:flex-start;background:var(--fundo);border-radius:14px;padding:12px}
+  .b-data.vicina{background:var(--ouro-nevoa);box-shadow:inset 0 0 0 1.5px var(--ouro)}
+  .b-giorno{width:52px;flex:none;text-align:center;background:var(--branco);border-radius:12px;padding:6px 0;box-shadow:var(--sombra-1)}
+  .b-giorno b{display:block;font-family:var(--titulo);font-size:23px;line-height:1;color:var(--roxo-esc)}
+  .b-giorno span{font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--ouro-esc)}
+  .b-dt{min-width:0}
+  .b-dt b{display:block;font-size:15px}
+  .b-dt small{font-size:12.5px;color:var(--texto-3)}
+  .b-dt p{font-size:14px;color:var(--texto-2);margin-top:3px;line-height:1.45}
+  .b-dt .b-prep{font-size:12.5px;font-weight:700;color:var(--roxo)}
+  .b-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+  .b-chip{border:1.5px solid var(--linha-2);background:var(--branco);border-radius:99px;padding:6px 14px;font:inherit;font-size:13.5px;font-weight:700;color:var(--roxo-esc);cursor:pointer}
+  .b-tab{border:1px solid var(--linha);border-radius:14px;overflow:hidden;font-size:13px}
+  .b-tr{display:grid;grid-template-columns:1.3fr 1fr 1fr .8fr;gap:8px;padding:8px 10px;border-top:1px solid var(--linha)}
+  .b-tr:first-child{border-top:0}
+  .b-th{background:var(--roxo-nevoa);font-weight:800;color:var(--roxo-esc);font-size:12px}
+  .b-tr span{color:var(--texto-2);min-width:0;overflow-wrap:anywhere}
+  .b-tr b{color:var(--tinta);overflow-wrap:anywhere}
+  .b-colori{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(max-width:640px){.b-colori{grid-template-columns:1fr}}
+  .b-colore{display:flex;gap:12px;align-items:flex-start;background:var(--fundo);border-radius:14px;padding:12px}
+  .b-colore .sw{width:40px;height:40px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.12)}
+  .b-colore b{display:block;font-size:15px}
+  .b-colore p{font-size:13.5px;color:var(--texto-2);line-height:1.45}
+  .b-palette{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(max-width:520px){.b-palette{grid-template-columns:1fr}}
+  .b-pal{display:block;background:var(--fundo);border-radius:14px;padding:12px;text-decoration:none;color:inherit;border:1px solid var(--linha)}
+  .b-pal .sws{display:flex;margin-bottom:8px}
+  .b-pal i{width:30px;height:30px;border-radius:50%;margin-right:-6px;box-shadow:0 0 0 2px #fff,inset 0 0 0 1px rgba(0,0,0,.12)}
+  .b-pal b{display:block;font-size:14.5px}
+  .b-pal small{font-size:12.5px;color:var(--roxo)}
+  .b-img{width:100%;max-width:520px;margin:0 auto 6px;border-radius:12px;box-shadow:var(--sombra-2)}
+  .b-voci{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:6px 0 14px}
+  @media(max-width:640px){.b-voci{grid-template-columns:1fr}}
+  .b-voce{display:flex;flex-direction:column;gap:6px;background:var(--fundo);border-radius:14px;padding:10px}
+  .b-voce b{font-size:13px;color:var(--ouro-esc);text-transform:uppercase;letter-spacing:.8px}
+  .b-file{cursor:pointer;padding:9px 12px;font-size:13.5px}
+  .b-anteprima{background:var(--fundo);border-radius:14px;padding:10px;margin-top:4px}
+  .b-anteprima canvas{display:block;width:100%;max-width:440px;height:auto;margin:0 auto;border-radius:6px;box-shadow:var(--sombra-2);background:#fff}
+  .b-azioni{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .b-azioni .btn{flex:1;min-width:150px}
+  .b-prog{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--texto-2)}
+  .b-prog .mini-prog{flex:1;height:8px}
+  .b-giorno7.fatto{background:var(--verde-nevoa)}
+  .b-spunta{display:flex;align-items:center;gap:10px;font-size:15px;cursor:pointer;margin-bottom:6px}
+  .b-spunta input{width:22px;height:22px;accent-color:var(--roxo);flex:none}
+  .b-giorno7 > p{font-size:14px;color:var(--texto-2);line-height:1.5}
+  .b-check{display:flex;flex-direction:column;gap:4px}
 </style>
 </head>
 <body>
@@ -878,6 +973,10 @@
         <div class="sec-tit"><h2>I tuoi preferiti</h2><span class="cont" id="c-fav"></span></div>
         <div id="preferiti"></div>
       </section>
+      <section class="sec" id="s-bonus">
+        <div class="sec-tit"><h2>I tuoi 10 bonus</h2><span class="cont">inclusi</span></div>
+        <div class="prateleira cinco" id="bonus-lista"></div>
+      </section>
       <section class="sec" id="s-cat">
         <div class="sec-tit"><h2>Sfoglia per categoria</h2><span class="cont">11 categorie</span></div>
         <div class="cat-chips" id="categorie"></div>
@@ -917,6 +1016,7 @@
           <details><summary>Quanti grani ha un rosario?</summary><p>Il rosario completo ha 53 Ave Maria e 6 Padre Nostro. La decina (come quelle per l’auto, il cellulare e le bomboniere) e il bracciale-rosario ne hanno 10 + 1. Il numero di ogni modello è nella casella GRANI della scheda.</p></details>
           <details><summary>Posso usare l’app su più dispositivi?</summary><p>Sì: entra con la stessa e-mail su telefono, tablet e computer. I preferiti e la pagina dove eri rimasta sono salvati su ogni dispositivo.</p></details>
           <details><summary>Ho cambiato telefono e non vedo i miei preferiti</summary><p>I preferiti e i progressi restano sul dispositivo dove li hai salvati. Sul nuovo telefono entra con la stessa e-mail e segna di nuovo i tuoi modelli con la stellina.</p></details>
+          <details><summary>Dove trovo i bonus?</summary><p>Nella Home, nella sezione “I tuoi 10 bonus”. La calcolatrice, il calendario, i messaggi pronti, il catalogo e le etichette funzionano qui nell’app: quello che scrivi resta salvato su questo dispositivo.</p></details>
           <details><summary>Come installo l’app sul telefono?</summary><p>Nella scheda App trovi il passo a passo per il tuo dispositivo. Una volta installata, L’Atelier del Rosario si apre dalla schermata Home, a schermo intero.</p></details>
         </div>
       </section>
@@ -977,6 +1077,11 @@
       <footer>L’Atelier del Rosario · Fatto a mano, pregato con amore</footer>
     </section>
 
+    <!-- BONUS (#bonus/N): o conteúdo vem do bonus.js -->
+    <section class="tela" id="t-bonus" data-titulo="Bonus" hidden>
+      <div id="bonus-corpo"></div>
+    </section>
+
   </main></div>
 </div>
 
@@ -1001,6 +1106,9 @@
 <div class="fundo-modal" id="modale" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<!-- os 10 bônus: dados do manual (gerado) e a lógica (escrita à mão); carregam antes do script principal -->
+<script src="/bonus-dati.js"></script>
+<script src="/bonus.js"></script>
 <script>
 /* ═══════════ ACESSO (no lugar do backend /api) ═══════════
    Pedido do Heitor (01/11/2026): QUALQUER e-mail com formato válido entra, sem consultar o Supabase e sem
@@ -1053,7 +1161,7 @@
 })();
 
 /* ═══════════ CATÁLOGO ═══════════
-   Só a apostila: sem bônus, sem upsell e sem order bumps (não existem neste produto).
+   Só a apostila (os 10 bônus ficam no bonus.js): sem upsell e sem order bumps (não existem neste produto).
    CONTATTO: canal do suporte. Vazio = a aba Assistenza mostra só as respostas rápidas e um aviso
    "il contatto diretto sarà disponibile qui a breve". Preencha UM dos dois antes de publicar:
      email: 'assistenza@...'        (o botão abre o app de e-mail com a mensagem pronta)
@@ -1179,6 +1287,7 @@ function desenharInicio() {
 
   desenharPreferiti();
   desenharCategorie();
+  $('bonus-lista').innerHTML = BONUS.cards();
 }
 function desenharPreferiti() {
   if (!DADOS) return;
@@ -1613,7 +1722,7 @@ var LEITOR = (function () {
 
 /* ═══════════ NAVEGAÇÃO ═══════════
    #home #assistenza #app #profilo = abas · #leggi/<id>/<pág> = leitor · #guida e #preferiti = seções da Home */
-var TELAS = { home: 'Home', assistenza: 'Assistenza', app: 'App', profilo: 'Profilo' };
+var TELAS = { home: 'Home', assistenza: 'Assistenza', app: 'App', profilo: 'Profilo', bonus: 'Bonus' };  // "bonus" não tem botão na barra
 function irTela(t) {
   if (!TELAS[t]) t = 'home';
   var mudou = t !== TELA; TELA = t;
@@ -1638,9 +1747,11 @@ function rota() {
     return;
   }
   if (LEITOR.aberto()) LEITOR.fechar(true);
-  if (h === 'guida' || h === 'preferiti') {
+  var bn = h.match(/^bonus\/(\d+)$/);
+  if (bn) { if (!DADOS) return; irTela('bonus'); BONUS.apri(+bn[1]); return; }
+  if (h === 'guida' || h === 'preferiti' || h === 'bonus') {
     history.replaceState(null, '', '#home'); irTela('home');
-    setTimeout(function () { $(h === 'guida' ? 'guida' : 's-fav').scrollIntoView({ behavior: 'smooth' }); }, 80); return;
+    setTimeout(function () { $(h === 'guida' ? 'guida' : h === 'bonus' ? 's-bonus' : 's-fav').scrollIntoView({ behavior: 'smooth' }); }, 80); return;
   }
   irTela(TELAS[h] ? h : 'home');
 }
@@ -1699,6 +1810,7 @@ var NV = (function () {
   function iniciar(d) {
     carregarEst(d.email || 'anon');
     addNotif({ id: 'benvenuta', tag: 'Benvenuta', emoji: '📿', tit: 'I tuoi 100 modelli sono pronti', txt: 'Prima di iniziare, leggi i 5 consigli nella Home.', href: '#guida', t: est.primeira });
+    addNotif({ id: 'bonus', tag: 'Bonus', emoji: '🎁', tit: 'I tuoi 10 bonus', txt: 'Calcolatrice dei prezzi, calendario, messaggi pronti, catalogo ed etichette da stampare.', href: '#bonus', t: est.primeira - 15e3 });
     addNotif({ id: 'preferiti', tag: 'Consiglio', emoji: '⭐', tit: 'Salva i tuoi modelli preferiti', txt: 'Tocca la stellina ☆ accanto a un modello: lo ritrovi subito nella Home.', href: '#preferiti', t: est.primeira - 30e3 });
     if (!AMB.instalado()) addNotif({ id: 'installa', tag: 'Consiglio', emoji: '📲', tit: 'Installa L’Atelier del Rosario nella schermata Home', txt: 'Si apre dall’icona, a schermo intero. Ci vogliono 30 secondi.', href: '#app', t: est.primeira - 60e3 });
     else marcarLida('installa');
