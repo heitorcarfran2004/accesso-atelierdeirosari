@@ -13,9 +13,8 @@ var BONUS = (function () {
     { n: 6, tit: 'Catalogo per WhatsApp', sub: 'Crea il tuo catalogo da inviare' },
     { n: 7, tit: 'Piano di 7 giorni per vendere sui social', sub: 'Cosa pubblicare ogni giorno' },
     { n: 8, tit: 'Confezioni, kit ed etichette', sub: 'Etichette e biglietti da stampare' },
-    { n: 9, tit: 'Le videolezioni', sub: '4 rosari montati passo passo' },
-    { n: 10, tit: 'Foto che vendono', sub: 'Foto belle con il telefono' },
-    { n: 11, tit: 'Dove trovare i materiali', sub: 'La lista della spesa e dove comprare' }
+    { n: 9, tit: 'Foto che vendono', sub: 'Foto belle con il telefono' },
+    { n: 10, tit: 'Dove trovare i materiali', sub: 'La lista della spesa e dove comprare' }
   ];
   function M() { return (window.BDATI && window.BDATI.modelli) || []; }
   function mod(n) { return M()[(+n) - 1]; }
@@ -57,8 +56,7 @@ var BONUS = (function () {
     if (!b || !box) { location.hash = '#home'; return; }
     // contêiner novo a cada abertura: os ouvintes do bônus anterior vão embora junto
     var novo = box.cloneNode(false); box.parentNode.replaceChild(novo, box); box = novo;
-    VIDEO.ferma();
-    var corpo = { 1: b1, 2: b2, 3: b3, 4: b4, 5: b5, 6: b6, 7: b7, 8: b8, 9: b9, 10: b10, 11: b11 }[b.n]();
+    var corpo = { 1: b1, 2: b2, 3: b3, 4: b4, 5: b5, 6: b6, 7: b7, 8: b8, 9: b9, 10: b10 }[b.n]();
     box.innerHTML = '<a class="b-voltar" href="#bonus">' + ico('baixo') + 'Tutti i bonus</a>' +
       '<div class="b-cab"><img src="' + capa(b.n) + '" alt="" width="240" height="320" onerror="this.remove()"><div><small>Bonus ' + b.n + ' di ' + LISTA.length + '</small><h1>' + esc(b.tit) + '</h1><p>' + esc(b.sub) + '</p></div></div>' + corpo.html;
     if (corpo.init) corpo.init();
@@ -73,7 +71,7 @@ var BONUS = (function () {
       ['🏪', 'Negozi di articoli religiosi e di bomboniere', 'Proponi qualche pezzo in conto vendita: lasci i rosari e ti pagano quelli venduti. Porta il catalogo (bonus 6).'],
       ['🎪', 'Mercatini', 'Mercatini dell’artigianato, di Natale e delle feste di paese: una tovaglia di lino, i rosari appesi e un cartellino con il prezzo.'],
       ['💬', 'WhatsApp', 'Una foto al giorno negli stati, il catalogo alle amiche e un messaggio personale a chi conosci.'],
-      ['📷', 'Instagram', 'Foto curate (bonus 10) e il piano di 7 giorni (bonus 7). Rispondi sempre ai messaggi in giornata.'],
+      ['📷', 'Instagram', 'Foto curate (bonus 9) e il piano di 7 giorni (bonus 7). Rispondi sempre ai messaggi in giornata.'],
       ['🛒', 'Etsy', 'La vetrina online di chi cerca oggetti fatti a mano: servono buone foto, una descrizione chiara e i tempi di spedizione.']
     ];
     var M1 = [
@@ -310,7 +308,7 @@ var BONUS = (function () {
         }).join('') + '</div>' +
         '<div class="b-anteprima"><canvas id="c6-cv" width="1080" height="1350"></canvas></div>' +
         '<div class="b-azioni"><button class="btn" type="button" id="c6-giu">' + ico('baixar') + 'Scarica l’immagine</button><button class="btn claro" type="button" id="c6-cond">' + ico('compartilhar') + 'Condividi</button></div>',
-        'Scegli i modelli, scrivi i prezzi e, se vuoi, metti le TUE foto. Le foto del manuale servono come esempio: per vendere usa le foto dei rosari che hai fatto tu (bonus 10).');
+        'Scegli i modelli, scrivi i prezzi e, se vuoi, metti le TUE foto. Le foto del manuale servono come esempio: per vendere usa le foto dei rosari che hai fatto tu (bonus 9).');
     var timer = null;
     function leggiForm() {
       st.tit = $('c6-tit').value; st.contatto = $('c6-cont').value;
@@ -374,7 +372,7 @@ var BONUS = (function () {
   function b7() {
     var G = [
       ['Presentati', 'Una foto delle tue mani mentre monti un rosario (il viso non serve). Racconta perché hai iniziato.', 'Ciao! Sono [il tuo nome] e faccio rosari a mano, grano dopo grano. 📿 Ho iniziato per [il tuo motivo] e adesso voglio condividerli con voi. Seguimi per vedere i nuovi modelli!'],
-      ['Il primo rosario', 'La foto più bella di un rosario finito, su lino o legno chiaro, con la luce della finestra (bonus 10).', 'Il primo rosario della collezione: [Nome del modello]. 📿 Fatto a mano, pronto da regalare. Ti piace questo colore?'],
+      ['Il primo rosario', 'La foto più bella di un rosario finito, su lino o legno chiaro, con la luce della finestra (bonus 9).', 'Il primo rosario della collezione: [Nome del modello]. 📿 Fatto a mano, pronto da regalare. Ti piace questo colore?'],
       ['Dietro le quinte', 'Un video di 10–15 secondi delle mani che infilano i grani o chiudono la decina.', 'Così nasce un rosario: un grano alla volta. 🙏 Quanto tempo pensi che ci voglia? Te lo dico nei commenti!'],
       ['Il significato', 'Un post su un colore e su cosa trasmette (bonus 5), con il rosario di quel colore.', 'Lo sapevi che [colore] significa [significato]? Per questo l’ho scelto per questo rosario. 📿'],
       ['Per chi è', 'Un’idea regalo per la prossima data del calendario (bonus 3): Prima Comunione, Festa della Mamma, Natale…', 'Cerchi un regalo per [occasione]? Un rosario fatto a mano resta per sempre. 💛 Scrivimi e lo preparo nei colori che vuoi.'],
@@ -477,7 +475,7 @@ var BONUS = (function () {
     } };
   }
 
-  /* ═══ 11. Dove trovare i materiali (era o bônus 9 por algumas horas em 01/11; virou o 11 quando as videoaulas chegaram) ═══
+  /* ═══ 10. Dove trovare i materiali (foi o 9 e o 11 em 01/11; é o 10 desde 02/11, quando as videoaulas viraram a aba Lezioni) ═══
      A lista sai das 100 fichas (bonus-dati.js): cada material cai num grupo pelo nome e conta quantos modelos usam. */
   var GRUPPI = [
     ['Crocifissi e croci', /^(Crocifisso|Croce)/],
@@ -510,7 +508,7 @@ var BONUS = (function () {
     return g;
   }
   function quanti(re) { return M().filter(function (m) { return m.mats.some(function (x) { return re.test(x[0]); }); }).length; }
-  function b11() {
+  function b10() {
     var g = contaMateriali(), ordine = ['Crocifissi e croci', 'Crociere e medaglie', 'Attrezzi', 'Filo', 'Schiaccini', 'Grani', 'Colla', 'Distanziatori', 'Ganci, anellini e chiusure', 'Lettere e targhette', 'Confezione'];
     // misure dei grani: quante volte compare ogni misura nelle schede
     var misure = {};
@@ -589,94 +587,8 @@ var BONUS = (function () {
     } };
   }
 
-  /* ═══ 9. Le videolezioni (as 4 aulas do Heitor, 01/11/2026) ═══
-     HLS em /video/lezione-N/index.m3u8 (H.264 720p, sem áudio: os originais são mudos). Toca com HLS nativo
-     (Safari/iPhone) ou com hls.js (cdnjs, versão fixa), carregado só quando o bônus abre.
-     A posição de cada aula fica salva por e-mail ("continua da dove eri rimasta"). */
-  var LEZIONI = [
-    { n: 1, tit: 'Il rosario di perle verdi', dur: '10:51', txt: 'Perle verdi e grani bianchi infilati sul filo, con la chiusura a nodo e le punte sigillate con l’accendino. Bastano forbici e accendino.', m: [12, 20] },
-    { n: 2, tit: 'Il rosario a catenella', dur: '15:15', txt: 'Perle bianche con le coppette dorate, montate su perni: ogni grano si chiude ad anello con le pinze e si aggancia al successivo.', m: [90, 85], nota: 'È una tecnica diversa da quella del manuale (nylon e schiaccini): il risultato assomiglia a questi modelli.' },
-    { n: 3, tit: 'Il rosario di perle bianche', dur: '14:46', txt: 'Perle bianche con i Padre Nostro rosa e azzurri, crociera e crocifisso dorati, tutto su filo.', m: [20, 85, 12] },
-    { n: 4, tit: 'Il rosario con i nodi', dur: '14:47', txt: 'Perle fucsia su cordoncino nero, con un nodo tra un grano e l’altro.', m: [57, 14] }
-  ];
-  var HLS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.20/hls.min.js';
-  function mmss(s) { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + ('0' + s % 60).slice(-2); }
-  var VIDEO = (function () {
-    var hls = null, el = null, n = 0, ult = 0;
-    function stato(i) { return leggi('video:' + i, { t: 0, dur: 0, fatto: false }); }
-    function salvaPos() {
-      if (!el || !n || !isFinite(el.duration) || !el.duration) return;
-      var st = stato(n); st.t = el.currentTime; st.dur = el.duration; if (el.currentTime > el.duration * 0.95) st.fatto = true; salva('video:' + n, st);
-    }
-    function ferma() { if (el) { salvaPos(); try { el.pause(); } catch (e) {} } if (hls) { hls.destroy(); hls = null; } el = null; n = 0; }
-    function caricaHls() {
-      if (window.Hls) return Promise.resolve(window.Hls);
-      return new Promise(function (ok, ko) { var s = document.createElement('script'); s.src = HLS_URL; s.crossOrigin = 'anonymous'; s.onload = function () { ok(window.Hls); }; s.onerror = ko; document.head.appendChild(s); });
-    }
-    function apri(video, i, play) {
-      ferma(); el = video; n = i;
-      var src = '/video/lezione-' + i + '/index.m3u8', st = stato(i);
-      video.poster = '/assets/video/poster-' + i + '.webp';
-      video.addEventListener('loadedmetadata', function () {
-        if (n !== i || el !== video) return;   // sobra de uma aula anterior que não chegou a carregar
-        if (st.t > 5 && !(st.dur && st.t > st.dur - 10)) { video.currentTime = st.t; toast('Continua da dove eri rimasta: ' + mmss(st.t)); }
-      }, { once: true });
-      video.ontimeupdate = function () { var a = Date.now(); if (a - ult > 4000) { ult = a; salvaPos(); } };
-      video.onpause = salvaPos;
-      video.onended = function () { salvaPos(); toast('Lezione completata ✓'); disegnaLista(); };
-      function vai() { if (play) { var p = video.play(); if (p && p.catch) p.catch(function () {}); } }
-      if (video.canPlayType('application/vnd.apple.mpegurl')) { video.src = src; vai(); return; }
-      caricaHls().then(function (Hls) {
-        if (el !== video) return;
-        if (!Hls.isSupported()) { video.src = src; vai(); return; }
-        hls = new Hls({ maxBufferLength: 30 });
-        hls.on(Hls.Events.ERROR, function (e, d) { if (d && d.fatal) toast('Il video non si carica. Controlla la connessione e riprova.'); });
-        hls.loadSource(src); hls.attachMedia(video); vai();
-      }, function () { toast('Il video non si carica. Controlla la connessione e riprova.'); });
-    }
-    window.addEventListener('hashchange', function () { if (location.hash !== '#bonus/9') ferma(); });
-    window.addEventListener('pagehide', salvaPos);
-    return { apri: apri, ferma: ferma, stato: stato, attuale: function () { return n; } };
-  })();
-  function disegnaLista() {
-    var box = $('v9-lista'); if (!box) return;
-    box.innerHTML = LEZIONI.map(function (l) {
-      var st = VIDEO.stato(l.n), pct = st.dur ? Math.min(100, Math.round(100 * st.t / st.dur)) : 0, on = VIDEO.attuale() === l.n;
-      return '<button type="button" class="v9-lez' + (on ? ' on' : '') + '" data-lez="' + l.n + '"><img src="/assets/video/poster-' + l.n + '.webp" alt="" width="320" height="180" loading="lazy">' +
-        '<span class="t"><small>Lezione ' + l.n + ' · ' + l.dur + (st.fatto ? ' · vista ✓' : pct > 2 ? ' · ' + pct + '%' : '') + '</small><b>' + esc(l.tit) + '</b>' +
-        '<span class="mini-prog"><i style="width:' + (st.fatto ? 100 : pct) + '%"></i></span></span></button>';
-    }).join('');
-  }
+  /* ═══ 9. Foto che vendono (era o 10 até 02/11, quando as videoaulas viraram a aba Lezioni) ═══ */
   function b9() {
-    var ultima = +leggi('video:ultima', 1) || 1;
-    function info(l) { return '<h3 id="v9-tit">' + esc(l.tit) + '</h3><p class="v9-txt">' + esc(l.txt) + '</p>' + (l.nota ? '<p class="b-nota">' + esc(l.nota) + '</p>' : '') + '<p class="b-nota">Nel manuale, con un aspetto simile:</p>' + mods(l.m); }
-    var l0 = LEZIONI[ultima - 1] || LEZIONI[0];
-    var html = '<section class="bloco b-sez v9">' +
-      '<div class="v9-player"><video id="v9-video" controls playsinline preload="none" poster="/assets/video/poster-' + l0.n + '.webp"></video></div>' +
-      '<div class="v9-vel" role="group" aria-label="Velocità"><span>Velocità</span>' + [0.5, 1, 1.5].map(function (v) { return '<button type="button" class="b-chip' + (v === 1 ? ' on' : '') + '" data-vel="' + v + '">' + String(v).replace('.', ',') + 'x</button>'; }).join('') + '</div>' +
-      '<div id="v9-info">' + info(l0) + '</div></section>' +
-      sez('Le 4 lezioni', '<div class="v9-lista" id="v9-lista"></div>', 'Tocca una lezione per guardarla. L’app ricorda il punto in cui eri rimasta in ognuna.') +
-      '<p class="b-nota">Le videolezioni sono senza audio: guarda le mani e metti in pausa quando ti serve. Per i passaggi più veloci usa 0,5x.</p>';
-    return { html: html, init: function () {
-      var video = $('v9-video'), vel = 1;
-      VIDEO.apri(video, l0.n, false); disegnaLista();
-      $('bonus-corpo').addEventListener('click', function (e) {
-        var b = e.target.closest('[data-lez]');
-        if (b) {
-          var l = LEZIONI[+b.getAttribute('data-lez') - 1]; salva('video:ultima', l.n);
-          $('v9-info').innerHTML = info(l); VIDEO.apri(video, l.n, true); disegnaLista();
-          $('v9-video').scrollIntoView({ behavior: 'smooth', block: 'start' }); return;
-        }
-        var v = e.target.closest('[data-vel]');
-        if (v) { vel = +v.getAttribute('data-vel'); video.defaultPlaybackRate = vel; video.playbackRate = vel; [].forEach.call(document.querySelectorAll('[data-vel]'), function (x) { x.classList.toggle('on', x === v); }); }
-      });
-      // a troca de aula recarrega a fonte e o navegador volta a 1x: reaplica a velocidade escolhida
-      video.addEventListener('loadedmetadata', function () { video.playbackRate = vel; });
-    } };
-  }
-
-  /* ═══ 10. Foto che vendono ═══ */
-  function b10() {
     var S = [
       ['☀️', 'La luce', 'Fotografa di giorno, vicino a una finestra, senza sole diretto. Spegni il flash e le luci gialle della stanza.'],
       ['🧺', 'Lo sfondo', 'Lino, legno chiaro o un cartoncino bianco: sempre lo stesso, così le foto sembrano una collezione (come le pagine del manuale).'],

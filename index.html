@@ -868,23 +868,42 @@
   .b-kit b{display:block;font-size:14.5px}
   .b-kit small{display:block;font-size:12.5px;color:var(--texto-3);line-height:1.4}
   .b-item .e{font-weight:800;color:var(--roxo-esc)}
-  /* bônus 9: videoaulas */
-  .v9-player{margin:-4px -4px 10px;border-radius:14px;overflow:hidden;background:#111;aspect-ratio:16/9}
-  .v9-player video{display:block;width:100%;height:100%;background:#111}
-  .v9-vel{display:flex;align-items:center;gap:6px;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--texto-2)}
-  .v9-vel span{margin-right:4px}
-  .b-chip.on{background:var(--roxo-nevoa);border-color:var(--roxo)}
-  .v9 h3{font-family:var(--titulo);font-weight:700;font-size:23px;color:var(--roxo-esc);line-height:1.15}
-  .v9-txt{font-size:14.5px;color:var(--texto-2);line-height:1.5;margin-top:4px}
-  .v9-lista{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-  @media(max-width:640px){.v9-lista{grid-template-columns:1fr}}
-  .v9-lez{display:flex;gap:12px;align-items:center;text-align:left;background:var(--fundo);border:1.5px solid transparent;border-radius:14px;padding:8px;font:inherit;color:inherit;cursor:pointer}
-  .v9-lez.on{border-color:var(--roxo);background:var(--roxo-nevoa)}
-  .v9-lez img{width:128px;height:72px;object-fit:cover;border-radius:10px;flex:none;background:#ddd}
-  .v9-lez .t{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
-  .v9-lez small{font-size:12px;font-weight:700;color:var(--ouro-esc)}
-  .v9-lez b{font-size:15px;line-height:1.25}
-  .v9-lez .mini-prog{height:4px}
+  /* aba Lezioni (lezioni.js): 5 abas na barra de baixo */
+  .nav{grid-template-columns:repeat(5,1fr)}
+  .nav a .ic{width:48px}
+  #t-lezioni{max-width:980px}
+  .lz-player{border-radius:16px;overflow:hidden;background:#111;aspect-ratio:16/9;box-shadow:0 14px 30px -22px rgba(21,34,27,.6)}
+  .lz-player video{display:block;width:100%;height:100%;background:#111}
+  .lz-info{margin:12px 2px 6px}
+  .lz-info small{font-size:12.5px;font-weight:800;color:var(--ouro-esc);letter-spacing:.02em}
+  .lz-info h2{font-family:var(--titulo);font-weight:700;font-size:clamp(22px,3.4vw,27px);color:var(--roxo-esc);line-height:1.12;margin-top:2px}
+  .lz-barra{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 2px 4px;font-size:13px;font-weight:700;color:var(--texto-2)}
+  .lz-barra .esp{flex:1}
+  .lz-vel{display:flex;align-items:center;gap:6px}
+  .lz-vel>span{margin-right:2px}
+  .lz-chip{font:inherit;font-size:13px;font-weight:700;padding:6px 11px;border-radius:99px;border:1.5px solid var(--linha-2);background:var(--branco);color:var(--texto);cursor:pointer}
+  .lz-chip.on{background:var(--roxo-nevoa);border-color:var(--roxo);color:var(--roxo-esc)}
+  .lz-chip:disabled{opacity:.4;cursor:default}
+  .lz-resumo{font-size:13.5px;color:var(--texto-2);margin:2px 2px 0}
+  .lz-mods{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+  .lz-mod{background:var(--branco);border:1px solid var(--linha);border-radius:18px;padding:12px}
+  .lz-mod-cab{display:flex;gap:12px;align-items:center}
+  .lz-mod-cab img{width:84px;height:84px;border-radius:12px;object-fit:cover;flex:none;background:#ddd}
+  .lz-mod-cab h3{font-family:var(--titulo);font-weight:700;font-size:20px;line-height:1.12;color:var(--roxo-esc)}
+  .lz-mod-cab p{font-size:13px;color:var(--texto-2);line-height:1.4;margin-top:3px}
+  .lz-mod-cab small{display:block;font-size:12px;font-weight:800;color:var(--ouro-esc);margin-top:4px}
+  .lz-lista{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+  @media(max-width:640px){.lz-lista{grid-template-columns:1fr}}
+  .lz-lez{display:flex;gap:11px;align-items:center;text-align:left;background:var(--fundo);border:1.5px solid transparent;border-radius:13px;padding:7px;font:inherit;color:inherit;cursor:pointer;min-width:0}
+  .lz-lez.on{border-color:var(--roxo);background:var(--roxo-nevoa)}
+  .lz-lez .th{position:relative;flex:none;width:112px;height:63px;border-radius:9px;overflow:hidden;background:#ddd}
+  .lz-lez .th img{width:100%;height:100%;object-fit:cover;display:block}
+  .lz-lez .th .dur{position:absolute;right:4px;bottom:4px;background:rgba(0,0,0,.72);color:#fff;font-size:11px;font-weight:700;padding:1px 5px;border-radius:5px}
+  .lz-lez .th .ok{position:absolute;left:4px;top:4px;background:var(--roxo);color:#fff;font-size:11px;font-weight:800;width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
+  .lz-lez .t{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}
+  .lz-lez small{font-size:12px;font-weight:800;color:var(--ouro-esc)}
+  .lz-lez b{font-size:14.5px;line-height:1.25}
+  .lz-lez .mini-prog{height:4px}
 </style>
 </head>
 <body>
@@ -957,6 +976,7 @@
   <nav class="nav" aria-label="Navigazione">
     <a class="marca nav-marca" href="#home"><img src="/assets/logo-ar-192.webp" alt="" width="192" height="192"><span>L’Atelier del Rosario</span></a>
     <a href="#home" data-tela="home"><span class="ic"><svg aria-hidden="true"><use href="#i-casa"/></svg></span>Home</a>
+    <a href="#lezioni" data-tela="lezioni"><span class="ic"><svg aria-hidden="true"><use href="#i-play"/></svg></span>Lezioni</a>
     <a href="#assistenza" data-tela="assistenza"><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span>Assistenza</a>
     <a href="#app" data-tela="app"><span class="ic"><svg aria-hidden="true"><use href="#i-cel"/></svg></span>App</a>
     <a href="#profilo" data-tela="profilo"><span class="ic"><svg aria-hidden="true"><use href="#i-user"/></svg></span>Profilo</a>
@@ -997,7 +1017,7 @@
         <div id="preferiti"></div>
       </section>
       <section class="sec" id="s-bonus">
-        <div class="sec-tit"><h2>I tuoi 11 bonus</h2><span class="cont">inclusi</span></div>
+        <div class="sec-tit"><h2>I tuoi 10 bonus</h2><span class="cont">inclusi</span></div>
         <div class="prateleira cinco" id="bonus-lista"></div>
       </section>
       <section class="sec" id="s-cat">
@@ -1039,7 +1059,8 @@
           <details><summary>Quanti grani ha un rosario?</summary><p>Il rosario completo ha 53 Ave Maria e 6 Padre Nostro. La decina (come quelle per l’auto, il cellulare e le bomboniere) e il bracciale-rosario ne hanno 10 + 1. Il numero di ogni modello è nella casella GRANI della scheda.</p></details>
           <details><summary>Posso usare l’app su più dispositivi?</summary><p>Sì: entra con la stessa e-mail su telefono, tablet e computer. I preferiti e la pagina dove eri rimasta sono salvati su ogni dispositivo.</p></details>
           <details><summary>Ho cambiato telefono e non vedo i miei preferiti</summary><p>I preferiti e i progressi restano sul dispositivo dove li hai salvati. Sul nuovo telefono entra con la stessa e-mail e segna di nuovo i tuoi modelli con la stellina.</p></details>
-          <details><summary>Dove trovo i bonus?</summary><p>Nella Home, nella sezione “I tuoi 11 bonus”. Le videolezioni, la calcolatrice, il calendario, i messaggi pronti, il catalogo e le etichette funzionano qui nell’app: quello che scrivi resta salvato su questo dispositivo.</p></details>
+          <details><summary>Dove sono le videolezioni?</summary><p>Nella scheda Lezioni, nella barra in basso: 28 videolezioni in italiano, divise per modello, dai materiali alla rifinitura. L’app ricorda il punto in cui eri rimasta in ogni lezione.</p></details>
+          <details><summary>Dove trovo i bonus?</summary><p>Nella Home, nella sezione “I tuoi 10 bonus”. La calcolatrice, il calendario, i messaggi pronti, il catalogo e le etichette funzionano qui nell’app: quello che scrivi resta salvato su questo dispositivo.</p></details>
           <details><summary>Come installo l’app sul telefono?</summary><p>Nella scheda App trovi il passo a passo per il tuo dispositivo. Una volta installata, L’Atelier del Rosario si apre dalla schermata Home, a schermo intero.</p></details>
         </div>
       </section>
@@ -1100,6 +1121,12 @@
       <footer>L’Atelier del Rosario · Fatto a mano, pregato con amore</footer>
     </section>
 
+    <!-- LEZIONI (#lezioni): o conteúdo vem do lezioni.js -->
+    <section class="tela" id="t-lezioni" data-titulo="Videolezioni" hidden>
+      <div class="tela-cab"><h1>Le videolezioni</h1><p>9 rosari spiegati passo passo, in italiano: dai materiali alla rifinitura.</p></div>
+      <div id="lezioni-corpo"></div>
+    </section>
+
     <!-- BONUS (#bonus/N): o conteúdo vem do bonus.js -->
     <section class="tela" id="t-bonus" data-titulo="Bonus" hidden>
       <div id="bonus-corpo"></div>
@@ -1132,6 +1159,9 @@
 <!-- os 10 bônus: dados do manual (gerado) e a lógica (escrita à mão); carregam antes do script principal -->
 <script src="/bonus-dati.js"></script>
 <script src="/bonus.js"></script>
+<!-- as videolezioni: dados e pôsteres (gerado) e o player (escrito à mão) -->
+<script src="/lezioni-dati.js"></script>
+<script src="/lezioni.js"></script>
 <script>
 /* ═══════════ ACESSO (no lugar do backend /api) ═══════════
    Pedido do Heitor (01/11/2026): QUALQUER e-mail com formato válido entra, sem consultar o Supabase e sem
@@ -1744,8 +1774,8 @@ var LEITOR = (function () {
 })();
 
 /* ═══════════ NAVEGAÇÃO ═══════════
-   #home #assistenza #app #profilo = abas · #leggi/<id>/<pág> = leitor · #guida e #preferiti = seções da Home */
-var TELAS = { home: 'Home', assistenza: 'Assistenza', app: 'App', profilo: 'Profilo', bonus: 'Bonus' };  // "bonus" não tem botão na barra
+   #home #lezioni #assistenza #app #profilo = abas · #leggi/<id>/<pág> = leitor · #guida e #preferiti = seções da Home */
+var TELAS = { home: 'Home', lezioni: 'Videolezioni', assistenza: 'Assistenza', app: 'App', profilo: 'Profilo', bonus: 'Bonus' };  // "bonus" não tem botão na barra
 function irTela(t) {
   if (!TELAS[t]) t = 'home';
   var mudou = t !== TELA; TELA = t;
@@ -1754,6 +1784,7 @@ function irTela(t) {
   $('titulo-tela').textContent = TELAS[t];
   document.title = (t === 'home' ? 'L’Atelier del Rosario' : TELAS[t] + ' · L’Atelier del Rosario');
   if (t === 'app') desenharApp();
+  if (t === 'lezioni') LEZ.mostra(); else LEZ.ferma();
   if (t !== 'assistenza' && SUP.tema) voltarTemas();
   if (mudou) window.scrollTo(0, 0);
 }
@@ -1833,7 +1864,9 @@ var NV = (function () {
   function iniciar(d) {
     carregarEst(d.email || 'anon');
     addNotif({ id: 'benvenuta', tag: 'Benvenuta', emoji: '📿', tit: 'I tuoi 100 modelli sono pronti', txt: 'Prima di iniziare, leggi i 5 consigli nella Home.', href: '#guida', t: est.primeira });
-    addNotif({ id: 'bonus', tag: 'Bonus', emoji: '🎁', tit: 'I tuoi 11 bonus', txt: 'Videolezioni, calcolatrice dei prezzi, calendario, messaggi pronti, catalogo ed etichette da stampare.', href: '#bonus', t: est.primeira - 15e3 });
+    addNotif({ id: 'bonus', tag: 'Bonus', emoji: '🎁', tit: 'I tuoi 10 bonus', txt: 'Calcolatrice dei prezzi, calendario, messaggi pronti, catalogo ed etichette da stampare.', href: '#bonus', t: est.primeira - 15e3 });
+    // as videoaulas chegaram em 02/11: para quem entrou antes, o aviso aparece com essa data (é novidade)
+    addNotif({ id: 'lezioni', tag: 'Novità', emoji: '🎬', tit: '28 videolezioni in italiano', txt: '9 rosari spiegati passo passo, dai materiali alla rifinitura. Le trovi nella scheda Lezioni.', href: '#lezioni', t: Math.max(est.primeira - 7e3, Date.UTC(2026, 10, 2, 12)) });
     addNotif({ id: 'preferiti', tag: 'Consiglio', emoji: '⭐', tit: 'Salva i tuoi modelli preferiti', txt: 'Tocca la stellina ☆ accanto a un modello: lo ritrovi subito nella Home.', href: '#preferiti', t: est.primeira - 30e3 });
     if (!AMB.instalado()) addNotif({ id: 'installa', tag: 'Consiglio', emoji: '📲', tit: 'Installa L’Atelier del Rosario nella schermata Home', txt: 'Si apre dall’icona, a schermo intero. Ci vogliono 30 secondi.', href: '#app', t: est.primeira - 60e3 });
     else marcarLida('installa');
