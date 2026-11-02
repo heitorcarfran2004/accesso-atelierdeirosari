@@ -91,8 +91,11 @@ Renumeração de 02/11: o 9 (videoaulas) saiu, o 10 virou 9 e o 11 virou 10. O s
 
 As 28 videoaulas do Heitor (`Downloads/Video aulas`, português) dubladas para o italiano no HeyGen (tradução só de
 áudio, sem lip-sync) e baixadas em `Downloads/Em Italiano` com o nome original. 9 modelos, ~2 h no total.
-- `lezioni.js` (**escrito à mão**): player no topo, aula atual, Precedente/Successiva, velocidade 0,75–1,5x e os
-  modelos com as aulas (pôster, duração, progresso, ✓ vista). Posição de cada aula e a última vista no localStorage
+- `lezioni.js` (**escrito à mão**), duas telas (2ª versão, pedido do Heitor no mesmo dia: o player NÃO fica no catálogo):
+  `#lezioni` = catálogo (números, "Continua a guardare", 4 dicas "Come guardarle", os 9 modelos com as aulas: pôster,
+  duração, progresso, ✓ vista) e `#lezione/<slug>` = a aula numa tela própria (voltar, player, Precedente/Successiva
+  dentro do modelo e "Prossimo modello" na última, velocidade 0,75–1,5x, as outras aulas do modelo). A barra de baixo
+  continua com "Lezioni" acesa dentro da aula. Posição de cada aula e a última vista no localStorage
   por e-mail (`ar:lez:<email>:...`). HLS nativo (Safari/iPhone) ou hls.js 1.5.20 do cdnjs, carregado ao abrir a aba.
 - `lezioni-dati.js` e `assets/lezioni/` (pôster de cada aula e foto de cada modelo) são gerados por
   `node scripts/ros-app-lezioni.cjs`, que também tem os títulos em italiano e a ordem dos modelos.

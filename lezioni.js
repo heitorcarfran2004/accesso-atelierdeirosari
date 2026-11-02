@@ -1,123 +1,139 @@
-/* ═══════════ LE VIDEOLEZIONI di L'Atelier del Rosario (aba #lezioni, 02/11/2026) ═══════════
+/* ═══════════ LE VIDEOLEZIONI di L'Atelier del Rosario (02/11/2026) ═══════════
    Arquivo escrito à mão (o index.html é gerado pelo scripts/ros-app-montar.cjs; este não).
    As 28 videoaulas dubladas em italiano, em 9 modelos; dados em lezioni-dati.js (scripts/ros-app-lezioni.cjs).
-   HLS em /video/<slug>/index.m3u8: HLS nativo (Safari/iPhone) ou hls.js (cdnjs, versão fixa), carregado só
-   quando a aba abre. Posição de cada aula salva por e-mail ("continua da dove eri rimasta"), velocidade
-   0,75/1/1,25/1,5x e "Lezione successiva" no fim. Usa as funções globais do index: $, esc, toast, guardar, ler,
-   chaveUsuario. Era o bônus 9 (4 aulas mudas) até 02/11. */
+   Duas telas:
+     #lezioni         catálogo: título, números, "continua a guardare", como assistir e os modelos com as aulas
+     #lezione/<slug>  a aula: player, Precedente/Successiva dentro do modelo, velocidade e as outras aulas do modelo
+   HLS em /video/<slug>/index.m3u8: HLS nativo (Safari/iPhone, Chrome novo) ou hls.js (cdnjs, versão fixa).
+   Posição de cada aula salva por e-mail ("continua da dove eri rimasta"). Usa as funções globais do index:
+   $, esc, ico, toast, guardar, ler, chaveUsuario. Era o bônus 9 (4 aulas mudas) até 02/11. */
 var LEZ = (function () {
   var HLS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.20/hls.min.js';
   var VEL = [0.75, 1, 1.25, 1.5];
   function M() { return (window.LDATI && window.LDATI.modelli) || []; }
   var TUTTE = [];   // as aulas em sequência, cada uma com o seu modelo
   M().forEach(function (m) { m.lezioni.forEach(function (l) { TUTTE.push({ l: l, m: m }); }); });
-  function trova(slug) { for (var i = 0; i < TUTTE.length; i++) if (TUTTE[i].l.slug === slug) return i; return -1; }
+  function trova(slug) { for (var i = 0; i < TUTTE.length; i++) if (TUTTE[i].l.slug === slug) return TUTTE[i]; return null; }
   function chiave(k) { return 'ar:lez:' + chaveUsuario() + ':' + k; }
   function salva(k, v) { guardar(chiave(k), JSON.stringify(v)); }
   function leggi(k, def) { try { var v = JSON.parse(ler(chiave(k)) || 'null'); return v == null ? def : v; } catch (e) { return def; } }
   function mmss(s) { s = Math.max(0, Math.floor(s)); var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = ('0' + s % 60).slice(-2); return h ? h + ':' + ('0' + m).slice(-2) + ':' + x : m + ':' + x; }
   function stato(slug) { return leggi('v:' + slug, { t: 0, dur: 0, fatto: false }); }
   function pct(slug) { var st = stato(slug); return st.fatto ? 100 : st.dur ? Math.min(100, Math.round(100 * st.t / st.dur)) : 0; }
+  function minuti(m) { return Math.round(m.lezioni.reduce(function (s, l) { return s + l.dur; }, 0) / 60); }
 
-  var hls = null, el = null, atual = '', ult = 0, vel = 1, pronto = false;
+  /* cartão de uma aula (catálogo e lista do modelo) */
+  function cardLez(l, on) {
+    var p = pct(l.slug), st = stato(l.slug);
+    return '<a class="lz-lez' + (on ? ' on' : '') + '" href="#lezione/' + l.slug + '"' + (on ? ' aria-current="true"' : '') + '>' +
+      '<span class="th"><img src="/assets/lezioni/' + l.slug + '.webp" alt="" width="640" height="360" loading="lazy"><span class="dur">' + mmss(l.dur) + '</span>' +
+      (st.fatto ? '<span class="ok">✓</span>' : '<span class="pl">' + ico('play') + '</span>') + '</span>' +
+      '<span class="t"><small>Lezione ' + l.n + (on ? ' · in visione' : st.fatto ? ' · vista' : p > 2 ? ' · ' + p + '%' : '') + '</small><b>' + esc(l.tit) + '</b>' +
+      '<span class="mini-prog"><i style="width:' + p + '%"></i></span></span></a>';
+  }
+
+  /* ═══ catálogo (#lezioni) ═══ */
+  function catalogo() {
+    var box = $('lezioni-corpo'); if (!box) return;
+    var tot = TUTTE.reduce(function (s, x) { return s + x.l.dur; }, 0);
+    var fatte = TUTTE.filter(function (x) { return stato(x.l.slug).fatto; }).length;
+    var u = trova(leggi('ultima', '')), cont = '';
+    if (u && !stato(u.l.slug).fatto) {
+      var st = stato(u.l.slug);
+      cont = '<a class="lz-cont" href="#lezione/' + u.l.slug + '"><span class="th"><img src="/assets/lezioni/' + u.l.slug + '.webp" alt="" width="640" height="360"><span class="pl">' + ico('play') + '</span></span>' +
+        '<span class="t"><small>Continua a guardare</small><b>' + esc(u.m.nome) + '</b><span>Lezione ' + u.l.n + ' · ' + esc(u.l.tit) + (st.t > 5 ? ' · da ' + mmss(st.t) : '') + '</span>' +
+        '<span class="mini-prog"><i style="width:' + pct(u.l.slug) + '%"></i></span></span><span class="vai">Riprendi</span></a>';
+    }
+    var CONSIGLI = [
+      ['🧺', 'Prepara i materiali', 'La lezione 1 di ogni modello è la lista dei materiali: guardala prima e metti tutto sul tavolo.'],
+      ['⏸️', 'Metti in pausa', 'Ferma il video a ogni passaggio e rifallo con le tue mani prima di andare avanti.'],
+      ['🐢', 'Rallenta', 'Per i nodi e i passaggi più veloci usa la velocità 0,75x.'],
+      ['✅', 'Riprendi quando vuoi', 'L’app ricorda il punto in cui eri rimasta in ogni lezione, su questo dispositivo.']
+    ];
+    box.innerHTML =
+      '<div class="lz-numeri"><div><b>' + M().length + '</b><span>modelli</span></div><div><b>' + TUTTE.length + '</b><span>lezioni</span></div><div><b>' + Math.round(tot / 360) / 10 + ' h</b><span>di video</span></div>' +
+        '<div><b>' + fatte + '</b><span>completate</span></div></div>' +
+      cont +
+      '<section class="bloco lz-come"><h2>Come guardarle</h2><div class="lz-consigli">' + CONSIGLI.map(function (c) {
+        return '<div class="lz-cons"><span class="e">' + c[0] + '</span><div><b>' + esc(c[1]) + '</b><p>' + esc(c[2]) + '</p></div></div>';
+      }).join('') + '</div></section>' +
+      '<div class="sec-tit lz-tit-mod"><h2>I modelli</h2><span class="cont">' + M().length + '</span></div>' +
+      '<div class="lz-mods">' + M().map(function (m) {
+        var f = m.lezioni.filter(function (l) { return stato(l.slug).fatto; }).length;
+        return '<section class="lz-mod" id="lz-' + m.id + '"><div class="lz-mod-cab"><img src="/assets/lezioni/mod-' + m.id + '.webp" alt="" width="240" height="240" loading="lazy">' +
+          '<div><h3>' + esc(m.nome) + '</h3><p>' + esc(m.txt) + '</p><small>' + m.lezioni.length + ' lezioni · ' + minuti(m) + ' min' + (f ? ' · ' + f + ' di ' + m.lezioni.length + ' completate' : '') + '</small></div></div>' +
+          '<div class="lz-lista">' + m.lezioni.map(function (l) { return cardLez(l, false); }).join('') + '</div></section>';
+      }).join('') + '</div>';
+  }
+
+  /* ═══ a aula (#lezione/<slug>) ═══ */
+  var hls = null, el = null, atual = '', ult = 0, vel = 1;
   function salvaPos() {
     if (!el || !atual || !isFinite(el.duration) || !el.duration) return;
     var st = stato(atual); st.t = el.currentTime; st.dur = el.duration; if (el.currentTime > el.duration * 0.95) st.fatto = true; salva('v:' + atual, st);
   }
-  function ferma() { if (el) { salvaPos(); try { el.pause(); } catch (e) {} } }
+  function ferma() {
+    if (el) { salvaPos(); try { el.pause(); } catch (e) {} }
+    if (hls) { hls.destroy(); hls = null; }
+    el = null; atual = '';
+  }
   function caricaHls() {
     if (window.Hls) return Promise.resolve(window.Hls);
     return new Promise(function (ok, ko) { var s = document.createElement('script'); s.src = HLS_URL; s.crossOrigin = 'anonymous'; s.onload = function () { ok(window.Hls); }; s.onerror = ko; document.head.appendChild(s); });
   }
   function erro() { toast('Il video non si carica. Controlla la connessione e riprova.'); }
 
-  function carica(slug, play) {
-    salvaPos();
-    if (hls) { hls.destroy(); hls = null; }
-    var i = trova(slug); if (i < 0) i = 0;
-    var x = TUTTE[i], st = stato(x.l.slug);
-    atual = x.l.slug; salva('ultima', atual);
-    var src = '/video/' + atual + '/index.m3u8';
-    el.poster = '/assets/lezioni/' + atual + '.webp';
-    el.addEventListener('loadedmetadata', function () {
-      if (atual !== x.l.slug) return;   // sobra de uma aula anterior que não chegou a carregar
-      el.playbackRate = vel;
-      if (st.t > 5 && !(st.dur && st.t > st.dur - 10)) { el.currentTime = st.t; toast('Continua da dove eri rimasta: ' + mmss(st.t)); }
+  function apri(slug) {
+    var x = trova(slug), box = $('lezione-corpo');
+    if (!x || !box) { location.hash = '#lezioni'; return false; }
+    ferma();
+    // contêiner novo a cada aula: os ouvintes da aula anterior vão embora junto
+    var novo = box.cloneNode(false); box.parentNode.replaceChild(novo, box); box = novo;
+    var m = x.m, l = x.l, i = m.lezioni.indexOf(l), prec = m.lezioni[i - 1], succ = m.lezioni[i + 1];
+    var proxMod = !succ && M()[M().indexOf(m) + 1];
+    box.innerHTML = '<a class="b-voltar" href="#lezioni">' + ico('baixo') + 'Tutte le videolezioni</a>' +
+      '<div class="lz-cab"><small>' + esc(m.nome) + ' · Lezione ' + l.n + ' di ' + m.lezioni.length + ' · ' + mmss(l.dur) + '</small><h1>' + esc(l.tit) + '</h1></div>' +
+      '<div class="lz-player"><video id="lz-video" controls playsinline preload="metadata" poster="/assets/lezioni/' + l.slug + '.webp"></video></div>' +
+      '<div class="lz-barra">' +
+        (prec ? '<a class="lz-chip" href="#lezione/' + prec.slug + '">← Precedente</a>' : '<span class="lz-chip off">← Precedente</span>') +
+        (succ ? '<a class="lz-chip pieno" href="#lezione/' + succ.slug + '">Successiva →</a>' : proxMod ? '<a class="lz-chip pieno" href="#lezione/' + proxMod.lezioni[0].slug + '">Prossimo modello →</a>' : '<a class="lz-chip pieno" href="#lezioni">Tutte le lezioni</a>') +
+        '<span class="esp"></span><span class="lz-vel" role="group" aria-label="Velocità"><span>Velocità</span>' + VEL.map(function (v) { return '<button type="button" class="lz-chip' + (v === vel ? ' on' : '') + '" data-vel="' + v + '">' + String(v).replace('.', ',') + 'x</button>'; }).join('') + '</span>' +
+      '</div>' +
+      '<section class="bloco lz-mod lz-mod-aula"><div class="lz-mod-cab"><img src="/assets/lezioni/mod-' + m.id + '.webp" alt="" width="240" height="240" loading="lazy">' +
+        '<div><small>Le lezioni di questo modello</small><h3>' + esc(m.nome) + '</h3><p>' + esc(m.txt) + '</p></div></div>' +
+        '<div class="lz-lista">' + m.lezioni.map(function (y) { return cardLez(y, y === l); }).join('') + '</div></section>';
+
+    el = $('lz-video'); atual = l.slug; salva('ultima', atual);
+    var st = stato(atual), src = '/video/' + atual + '/index.m3u8', video = el;
+    video.addEventListener('loadedmetadata', function () {
+      if (el !== video) return;   // sobra de uma aula anterior que não chegou a carregar
+      video.playbackRate = vel;
+      if (st.t > 5 && !(st.dur && st.t > st.dur - 10)) { video.currentTime = st.t; toast('Continua da dove eri rimasta: ' + mmss(st.t)); }
     }, { once: true });
-    function vai() { if (play) { var p = el.play(); if (p && p.catch) p.catch(function () {}); } }
-    if (el.canPlayType('application/vnd.apple.mpegurl')) { el.src = src; vai(); }
-    else caricaHls().then(function (Hls) {
-      if (atual !== x.l.slug) return;
-      if (!Hls.isSupported()) { el.src = src; vai(); return; }
-      hls = new Hls({ maxBufferLength: 30 });
-      hls.on(Hls.Events.ERROR, function (e, d) { if (d && d.fatal) erro(); });
-      hls.loadSource(src); hls.attachMedia(el); vai();
-    }, erro);
-    info(); lista();
-  }
-
-  function info() {
-    var i = trova(atual), x = TUTTE[i], prox = TUTTE[i + 1];
-    $('lz-info').innerHTML = '<small>' + esc(x.m.nome) + ' · Lezione ' + x.l.n + ' di ' + x.m.lezioni.length + ' · ' + mmss(x.l.dur) + '</small><h2>' + esc(x.l.tit) + '</h2>';
-    $('lz-prec').disabled = i <= 0; $('lz-succ').disabled = !prox;
-  }
-  function resumo() {
-    var fatte = TUTTE.filter(function (x) { return stato(x.l.slug).fatto; }).length;
-    var tot = TUTTE.reduce(function (s, x) { return s + x.l.dur; }, 0);
-    $('lz-resumo').textContent = TUTTE.length + ' lezioni · ' + Math.round(tot / 3600 * 10) / 10 + ' ore in tutto' + (fatte ? ' · ne hai completate ' + fatte : '');
-  }
-  function lista() {
-    $('lz-mods').innerHTML = M().map(function (m) {
-      var fatte = m.lezioni.filter(function (l) { return stato(l.slug).fatto; }).length;
-      var min = Math.round(m.lezioni.reduce(function (s, l) { return s + l.dur; }, 0) / 60);
-      return '<section class="lz-mod" id="lz-' + m.id + '"><div class="lz-mod-cab"><img src="/assets/lezioni/mod-' + m.id + '.webp" alt="" width="240" height="240" loading="lazy">' +
-        '<div><h3>' + esc(m.nome) + '</h3><p>' + esc(m.txt) + '</p><small>' + m.lezioni.length + ' lezioni · ' + min + ' min' + (fatte ? ' · ' + fatte + ' completate' : '') + '</small></div></div>' +
-        '<div class="lz-lista">' + m.lezioni.map(function (l) {
-          var p = pct(l.slug), st = stato(l.slug);
-          return '<button type="button" class="lz-lez' + (l.slug === atual ? ' on' : '') + '" data-lez="' + l.slug + '">' +
-            '<span class="th"><img src="/assets/lezioni/' + l.slug + '.webp" alt="" width="640" height="360" loading="lazy"><span class="dur">' + mmss(l.dur) + '</span>' + (st.fatto ? '<span class="ok">✓</span>' : '') + '</span>' +
-            '<span class="t"><small>Lezione ' + l.n + (st.fatto ? ' · vista' : p > 2 ? ' · ' + p + '%' : '') + '</small><b>' + esc(l.tit) + '</b>' +
-            '<span class="mini-prog"><i style="width:' + p + '%"></i></span></span></button>';
-        }).join('') + '</div></section>';
-    }).join('');
-    resumo();
-  }
-
-  function monta() {
-    var box = $('lezioni-corpo'); if (!box || !TUTTE.length) return;
-    box.innerHTML = '<div class="lz-player"><video id="lz-video" controls playsinline preload="none"></video></div>' +
-      '<div class="lz-info" id="lz-info"></div>' +
-      '<div class="lz-barra"><button type="button" class="lz-chip" id="lz-prec">← Precedente</button><button type="button" class="lz-chip" id="lz-succ">Successiva →</button><span class="esp"></span>' +
-      '<span class="lz-vel" role="group" aria-label="Velocità"><span>Velocità</span>' + VEL.map(function (v) { return '<button type="button" class="lz-chip' + (v === vel ? ' on' : '') + '" data-vel="' + v + '">' + String(v).replace('.', ',') + 'x</button>'; }).join('') + '</span></div>' +
-      '<p class="lz-resumo" id="lz-resumo"></p><div class="lz-mods" id="lz-mods"></div>';
-    el = $('lz-video');
-    el.ontimeupdate = function () { var a = Date.now(); if (a - ult > 4000) { ult = a; salvaPos(); } };
-    el.onpause = salvaPos;
-    el.onended = function () {
-      salvaPos(); lista();
-      var prox = TUTTE[trova(atual) + 1];
-      toast(prox ? 'Lezione completata ✓ Tocca “Successiva” per continuare.' : 'Hai completato tutte le videolezioni ✓');
+    video.ontimeupdate = function () { var a = Date.now(); if (a - ult > 4000) { ult = a; salvaPos(); } };
+    video.onpause = salvaPos;
+    video.onended = function () {
+      salvaPos();
+      [].forEach.call(box.querySelectorAll('.lz-lez.on small'), function (s) { s.textContent = 'Lezione ' + l.n + ' · vista'; });
+      toast(succ ? 'Lezione completata ✓ Tocca “Successiva” per continuare.' : 'Hai finito questo modello ✓');
     };
     box.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-lez]');
-      if (b) { carica(b.getAttribute('data-lez'), true); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-      var v = e.target.closest('[data-vel]');
-      if (v) { vel = +v.getAttribute('data-vel'); el.defaultPlaybackRate = vel; el.playbackRate = vel; [].forEach.call(box.querySelectorAll('[data-vel]'), function (x) { x.classList.toggle('on', x === v); }); return; }
-      var i = trova(atual);
-      if (e.target.closest('#lz-prec') && TUTTE[i - 1]) carica(TUTTE[i - 1].l.slug, true);
-      if (e.target.closest('#lz-succ') && TUTTE[i + 1]) carica(TUTTE[i + 1].l.slug, true);
+      var v = e.target.closest('[data-vel]'); if (!v) return;
+      vel = +v.getAttribute('data-vel'); video.defaultPlaybackRate = vel; video.playbackRate = vel;
+      [].forEach.call(box.querySelectorAll('[data-vel]'), function (b) { b.classList.toggle('on', b === v); });
     });
-    pronto = true;
+    if (video.canPlayType('application/vnd.apple.mpegurl')) video.src = src;
+    else caricaHls().then(function (Hls) {
+      if (el !== video) return;
+      if (!Hls.isSupported()) { video.src = src; return; }
+      hls = new Hls({ maxBufferLength: 30 });
+      hls.on(Hls.Events.ERROR, function (e, d) { if (d && d.fatal) erro(); });
+      hls.loadSource(src); hls.attachMedia(video);
+    }, erro);
+    window.scrollTo(0, 0);
+    return true;
   }
 
-  // a cada entrada na aba: monta uma vez e volta para a última aula vista (sem dar play sozinho)
-  function mostra() {
-    if (!pronto) monta();
-    if (!el) return;
-    var u = leggi('ultima', '');
-    if (!atual || (u && u !== atual)) carica(trova(u) >= 0 ? u : TUTTE[0].l.slug, false);
-    else lista();
-  }
   window.addEventListener('pagehide', salvaPos);
-  return { mostra: mostra, ferma: ferma };
+  return { catalogo: catalogo, apri: apri, ferma: ferma };
 })();
