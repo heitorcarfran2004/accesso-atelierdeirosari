@@ -97,8 +97,9 @@ As 28 videoaulas do Heitor (`Downloads/Video aulas`, português) dubladas para o
   dentro do modelo e "Prossimo modello" na última, velocidade 0,75–1,5x, as outras aulas do modelo). A barra de baixo
   continua com "Lezioni" acesa dentro da aula. Posição de cada aula e a última vista no localStorage
   por e-mail (`ar:lez:<email>:...`). HLS nativo (Safari/iPhone) ou hls.js 1.5.20 do cdnjs, carregado ao abrir a aba.
-- `lezioni-dati.js` e `assets/lezioni/` (pôster de cada aula e foto de cada modelo) são gerados por
-  `node scripts/ros-app-lezioni.cjs`, que também tem os títulos em italiano e a ordem dos modelos.
+- `lezioni-dati.js` e `assets/lezioni/` são gerados por `node scripts/ros-app-lezioni.cjs` a partir do próprio HLS do app
+  (as pastas de Downloads já não existem): títulos em italiano, ordem dos modelos (= numeração das fotos do Heitor),
+  pôster de cada aula e a foto de estúdio de cada modelo (`entregaveis/tercos-artesanais/lezioni/capas/mod-N-*.jpg`).
 - Vídeos: `video/<modelo>-<N>/index.m3u8` + `seg-NNN.ts` (segmentos de 6 s). Encode com a GPU (a CPU desta máquina
   vive ocupada), ~760 kb/s no total:
 
